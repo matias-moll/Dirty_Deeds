@@ -1,0 +1,5 @@
+C:\Workspace\Dirty_Deeds\FrbaCommerce\Dal\bin\Debug\Dal.dll
+C:\Workspace\Dirty_Deeds\FrbaCommerce\Dal\bin\Debug\Dal.pdb
+C:\Workspace\Dirty_Deeds\FrbaCommerce\Dal\obj\Debug\ResolveAssemblyReference.cache
+C:\Workspace\Dirty_Deeds\FrbaCommerce\Dal\obj\Debug\Dal.dll
+C:\Workspace\Dirty_Deeds\FrbaCommerce\Dal\obj\Debug\Dal.pdb

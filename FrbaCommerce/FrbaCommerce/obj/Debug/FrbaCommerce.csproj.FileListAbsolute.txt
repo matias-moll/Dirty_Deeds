@@ -1,0 +1,9 @@
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\bin\Debug\FrbaCommerce.exe
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\bin\Debug\FrbaCommerce.pdb
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\bin\Debug\Dal.dll
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\bin\Debug\Dal.pdb
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\obj\Debug\ResolveAssemblyReference.cache
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\obj\Debug\FrbaCommerce.Properties.Resources.resources
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\obj\Debug\FrbaCommerce.csproj.GenerateResource.Cache
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\obj\Debug\FrbaCommerce.exe
+C:\Workspace\Dirty_Deeds\FrbaCommerce\FrbaCommerce\obj\Debug\FrbaCommerce.pdb
