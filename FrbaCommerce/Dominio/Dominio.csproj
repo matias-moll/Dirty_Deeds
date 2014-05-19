@@ -53,6 +53,12 @@
     <Compile Include="Rubro.cs" />
     <Compile Include="Visibilidad.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dal\Dal.csproj">
+      <Project>{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}</Project>
+      <Name>Dal</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

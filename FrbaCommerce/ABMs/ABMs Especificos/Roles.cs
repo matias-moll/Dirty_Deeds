@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
+using Dominio;
 
 namespace ABMs
 {
@@ -16,7 +17,9 @@ namespace ABMs
 
         public void alta()
         {
-
+            // todo el codigo que dispare la ventana y me devuelva el objeto construido
+            Rol unRol = new Rol(1, "Administrativo");
+            unRol.save();
         }
         public Panel getPanel()
         {

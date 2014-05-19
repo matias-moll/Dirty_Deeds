@@ -17,9 +17,6 @@ namespace ABMs
 
         public void alta()
         {
-            Dal.DataAccessObject<Localidad> daoLocalidad = new Dal.DataAccessObject<Localidad>();
-            Localidad unaLocalidad = new Localidad("2737", "Marcos Paz");
-            daoLocalidad.insert(unaLocalidad);
 
         }
         public Panel getPanel()

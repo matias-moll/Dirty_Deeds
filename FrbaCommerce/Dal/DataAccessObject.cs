@@ -38,7 +38,7 @@ namespace Dal
             if (unValor.GetType() == typeof(string))
                 return String.Format("'{0}'", (string)unValor);
 
-            return (string)unValor;
+            return unValor.ToString();
         }
 
         private void removeTheLastComma(ref string listaStrings)
