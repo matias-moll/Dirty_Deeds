@@ -39,3 +39,6 @@ FrbaCommerce/FrbaCommerce/bin*/
 FrbaCommerce/FrbaCommerce/obj*/
 FrbaCommerce/Dominio/bin*/
 FrbaCommerce/Dominio/obj*/
+
+*/[Bb]in/
+*/[Oo]bj/
