@@ -107,6 +107,10 @@
       <Project>{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}</Project>
       <Name>Dal</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{9730C120-1F19-44C1-A71D-41B432775C6D}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Cedi.Te.ico" />
