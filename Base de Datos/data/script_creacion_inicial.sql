@@ -82,8 +82,7 @@ create table Direccion
 	NumeroCalle numeric(18, 0) not null,
 	Piso numeric(18, 0) not null,
 	Depto nvarchar(50) not null,
-	CodPostal int not null,
-	Ciudad varchar(60) not null,
+	CodPostal int not null
 )
 
 create table FormaPago
