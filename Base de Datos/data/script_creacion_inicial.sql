@@ -4,160 +4,160 @@ CREATE SCHEMA DIRTYDEEDS AUTHORIZATION gd
 
 create table Usuario
 (
-	id int primary key,
-	username char(20) not null unique,
-	contrasenia varchar(32) not null,
-	deleted bit not null
+	Id int primary key,
+	Username char(20) not null unique,
+	Contrasenia varchar(32) not null,
+	Deleted bit not null
 )
 
 create table Rol
 (
-	id int primary key,
-	nombre varchar(30) not null,
-	deleted bit not null
+	Id int primary key,
+	Nombre varchar(30) not null,
+	Deleted bit not null
 )
 
 create table Funcionalidad
 (
-	id int primary key,
-	descripcion varchar(30) not null,
-	deleted bit not null
+	Id int primary key,
+	Descripcion varchar(30) not null,
+	Deleted bit not null
 )
 
 create table Rol_Funcionalidad
 (
-	idRol int foreign key references Rol(id),
-	idFuncionalidad int foreign key references Funcionalidad(id),
-	primary key (idRol, idFuncionalidad)
+	IdRol int foreign key references Rol(Id),
+	IdFuncionalidad int foreign key references Funcionalidad(id),
+	primary key (IdRol, IdFuncionalidad)
 )
 
 create table Usuario_Rol
 (
-	idUsuario int foreign key references Usuario(id),
-	idRol int foreign key references Rol(id)
-	primary key (idUsuario, idRol)
+	IdUsuario int foreign key references Usuario(Id),
+	IdRol int foreign key references Rol(Id)
+	primary key (IdUsuario, IdRol)
 )
 
 create table Calificacion
 (
-	codigo numeric(18, 0) primary key,
-	descripcion nvarchar(255) not null,
-	cantidadEstrellas numeric(18, 0) not null
+	Codigo numeric(18, 0) primary key,
+	Descripcion nvarchar(255) not null,
+	CantidadEstrellas numeric(18, 0) not null
 )
 
 create table Usuario_Calificacion
 (
-	idUsuario int foreign key references Usuario(id),
-	codCalificacion numeric(18, 0) foreign key references Calificacion(codigo),
-	primary key (idUsuario, codCalificacion)
+	IdUsuario int foreign key references Usuario(Id),
+	CodCalificacion numeric(18, 0) foreign key references Calificacion(Codigo),
+	primary key (IdUsuario, CodCalificacion)
 )
 
 create table Localidad
 (
-	codPostal int primary key not null,
-	nombre nvarchar(100) not null
+	CodPostal int primary key not null,
+	Nombre nvarchar(100) not null
 )
 
 create table Cliente
 (
-	id int primary key,
-	apellido nvarchar(255) not null,
-	nombre nvarchar(255) not null,
-	tipoDocumento char(4) not null,
-	documento numeric(18, 0) not null,
-	fechaNacimiento datetime not null,
-	mail nvarchar(255) not null,
-	domicilio nvarchar(255) not null,
-	numeroCalle numeric(18, 0) not null,
-	piso numeric(18, 0) not null,
-	depto nvarchar(50) not null,
-	codPostal int not null foreign key references Localidad(codPostal)
+	Id int primary key,
+	Apellido nvarchar(255) not null,
+	Nombre nvarchar(255) not null,
+	TipoDocumento char(4) not null,
+	Documento numeric(18, 0) not null,
+	FechaNacimiento datetime not null,
+	Mail nvarchar(255) not null,
+	Domicilio nvarchar(255) not null,
+	NumeroCalle numeric(18, 0) not null,
+	Piso numeric(18, 0) not null,
+	Depto nvarchar(50) not null,
+	CodPostal int not null foreign key references Localidad(CodPostal)
 )
 
 create table Empresa
 (
-	id int primary key,
-	razonSocial nvarchar(255) not null unique,
-	cuit nvarchar(50) not null unique,
-	fechaIngreso datetime not null,
-	mail nvarchar(50) not null,
-	domicilio nvarchar(255) not null,
-	numeroCalle numeric(18, 0) not null,
-	piso numeric(18, 0) not null,
-	depto nvarchar(50) not null,
-	codPostal int not null foreign key references Localidad(codPostal),
-	ciudad varchar(60) not null,
-	nombreContacto varchar(60) not null
+	Id int primary key,
+	RazonSocial nvarchar(255) not null unique,
+	Cuit nvarchar(50) not null unique,
+	FechaIngreso datetime not null,
+	Mail nvarchar(50) not null,
+	Domicilio nvarchar(255) not null,
+	NumeroCalle numeric(18, 0) not null,
+	Piso numeric(18, 0) not null,
+	Depto nvarchar(50) not null,
+	CodPostal int not null foreign key references Localidad(CodPostal),
+	Ciudad varchar(60) not null,
+	NombreContacto varchar(60) not null
 )
 
 create table FormaPago
 (
-	id int primary key,
-	descripcion nvarchar(255) not null
+	Id int primary key,
+	Descripcion nvarchar(255) not null
 )
 
 create table Factura
 (
-	numero numeric(18, 0) primary key,
-	fecha datetime not null,
-	total numeric(18, 2) not null,
-	idFormaPago int not null foreign key references FormaPago(id)
+	Numero numeric(18, 0) primary key,
+	Fecha datetime not null,
+	Total numeric(18, 2) not null,
+	IdFormaPago int not null foreign key references FormaPago(Id)
 )
 
 create table Item
 (
-	numFactura numeric(18, 0) foreign key references Factura(numero),
-	numItem int not null,
-	descripcion varchar(60) not null,
-	monto numeric(18, 2) not null,
-	cantidad numeric(18, 0) not null,
-	primary key (numFactura,numItem)
+	NumFactura numeric(18, 0) foreign key references Factura(Numero),
+	NumItem int not null,
+	Descripcion varchar(60) not null,
+	Monto numeric(18, 2) not null,
+	Cantidad numeric(18, 0) not null,
+	primary key (NumFactura,NumItem)
 )
 
 create table Visibilidad
 (
-	codigo numeric(18, 0) primary key,
-	descripcion nvarchar(255) not null,
-	precio numeric(18, 2) not null,
-	porcentaje numeric(18, 2) not null
+	Codigo numeric(18, 0) primary key,
+	Descripcion nvarchar(255) not null,
+	Precio numeric(18, 2) not null,
+	Porcentaje numeric(18, 2) not null
 )
 
 create table Rubro
 (
-	id int primary key,
-	descripcion nvarchar(255) not null
+	Id int primary key,
+	Descripcion nvarchar(255) not null
 )
 
 create table Publicacion
 (
-	codigo numeric(18, 0) primary key,
-	descripcion nvarchar(255) not null,
-	stock numeric(18, 0) not null,
-	fecha datetime not null,
-	fechaVto datetime not null,
-	precio numeric(18, 2) not null,
-	tipo char(1) not null,
-	idRubro int foreign key references Rubro(id),
-	codVisibilidad numeric(18, 0) foreign key references Visibilidad(codigo)
+	Codigo numeric(18, 0) primary key,
+	Descripcion nvarchar(255) not null,
+	Stock numeric(18, 0) not null,
+	Fecha datetime not null,
+	FechaVto datetime not null,
+	Precio numeric(18, 2) not null,
+	Tipo char(1) not null,
+	IdRubro int foreign key references Rubro(Id),
+	CodVisibilidad numeric(18, 0) foreign key references Visibilidad(Codigo)
 )
 
 create table Publicacion_Pregunta
 (
-	codPublicacion numeric(18, 0) foreign key references Publicacion(codigo),
-	numPregunta int,
-	pregunta nvarchar(255) not null,
-	respuesta nvarchar(255),
-	primary key (codPublicacion, numPregunta)
+	CodPublicacion numeric(18, 0) foreign key references Publicacion(Codigo),
+	NumPregunta int,
+	Pregunta nvarchar(255) not null,
+	Respuesta nvarchar(255),
+	primary key (CodPublicacion, NumPregunta)
 )
 
 create table OfertaCompra
 (
-	idUsuario int foreign key references Usuario(id),
-	codPublicacion numeric(18, 0) foreign key references Publicacion(codigo),
-	fecha datetime not null,
-	monto numeric(18, 2),
-	cantidad numeric(18, 0),
-	primary key (idUsuario, codPublicacion) 
+	IdUsuario int foreign key references Usuario(Id),
+	CodPublicacion numeric(18, 0) foreign key references Publicacion(Codigo),
+	Fecha datetime not null,
+	Monto numeric(18, 2),
+	Cantidad numeric(18, 0),
+	primary key (IdUsuario, CodPublicacion) 
 )
 
 

@@ -18,9 +18,9 @@ namespace Dal
             foreach (PropertyInfo unaProperty in propiedadesCampos)
             {
                 listaCampos += unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name)) + ",";
-                listaValores += objetoAPersistir.GetType().InvokeMember(unaProperty.Name,
+                listaValores += formatToSql(objetoAPersistir.GetType().InvokeMember(unaProperty.Name,
                                     BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
-                                    null, objetoAPersistir, null) + ",";
+                                    null, objetoAPersistir, null)) + ",";
             }
 
             removeTheLastComma(ref listaCampos);
@@ -31,6 +31,14 @@ namespace Dal
 
             StaticDataAccess.executeCommand(commandInsert);
            
+        }
+
+        private string formatToSql(object unValor)
+        {
+            if (unValor.GetType() == typeof(string))
+                return String.Format("'{0}'", (string)unValor);
+
+            return (string)unValor;
         }
 
         private void removeTheLastComma(ref string listaStrings)
