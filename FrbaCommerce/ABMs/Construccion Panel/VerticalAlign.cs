@@ -60,34 +60,6 @@ namespace ABMs
             }
         }
 
-        internal override void centrarControlesEnElPanel(Panel panelToBuild) 
-        {
-            int puntoMaximoEnEjeX = 0;
-            int puntoFinalControl = 0;
-            // Obtenemos el maximo.
-            foreach (Control unControl in panelToBuild.Controls)
-            {
-                puntoFinalControl = unControl.Location.X + unControl.Size.Width;
-                if (puntoFinalControl > puntoMaximoEnEjeX)
-                    puntoMaximoEnEjeX = puntoFinalControl;
-            }
-
-            int separacionDeUltimoControlABordePanel = this.tamañoDisponible.Width - puntoMaximoEnEjeX;
-            // La cantidad de pixeles a mover para centrar es la separacion del ultimo control menos 
-            // la separacion actual que se fija como punto de inicio divido 2 ya que la idea es que quede
-            // misma cantidad de puntos vacios a ambos lados.
-            int cantidadAMoverLosControles = (separacionDeUltimoControlABordePanel - this.puntoInicio.X) /2;
-
-            if (cantidadAMoverLosControles > 1)
-                moverTodosLosControlesEnEjeXDe(panelToBuild, cantidadAMoverLosControles);
-
-        }
-
-        private void moverTodosLosControlesEnEjeXDe(Panel panelToBuild, int cantidadAMoverLosControles)
-        {
-            foreach (Control unControl in panelToBuild.Controls)
-                unControl.Location = new Point(unControl.Location.X + cantidadAMoverLosControles, unControl.Location.Y);
-        }
 
         #endregion
 

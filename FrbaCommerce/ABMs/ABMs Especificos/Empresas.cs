@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace ABMs
 {
     class Empresas : ABMEspecifico
     {
-        public DataTable ejecutarBusqueda()
+        public override DataTable ejecutarBusqueda()
         {
             return null;
         }
 
-        public void alta()
+        public override void alta(Form parent)
         {
 
         }
-        public Panel getPanel()
+        public override Panel getPanel(Size tamañoPanel, PanelBuilder.Alineacion alignment)
         {
             return null;
         }

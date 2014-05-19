@@ -60,12 +60,16 @@
       <DependentUpon>ABMGenerico.cs</DependentUpon>
     </Compile>
     <Compile Include="ABMs Especificos\ABMEspecifico.cs" />
-    <Compile Include="ABMs Especificos\Clientes.cs" />
+    <Compile Include="AltaGenerico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltaGenerico.Designer.cs">
+      <DependentUpon>AltaGenerico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Construccion Panel\Alignment.cs" />
     <Compile Include="Construccion Panel\HorizontalAlign.cs" />
     <Compile Include="Construccion Panel\PanelBuilder.cs" />
     <Compile Include="Construccion Panel\VerticalAlign.cs" />
-    <Compile Include="ABMs Especificos\Empresas.cs" />
     <Compile Include="PanelOperacional.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ABMGenerico.resx">
       <DependentUpon>ABMGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AltaGenerico.resx">
+      <DependentUpon>AltaGenerico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PanelOperacional.resx">
       <DependentUpon>PanelOperacional.cs</DependentUpon>
@@ -99,8 +106,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ABMs Especificos\Roles.cs" />
-    <Compile Include="ABMs Especificos\Rubros.cs" />
-    <Compile Include="ABMs Especificos\Visibilidades.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dal\Dal.csproj">

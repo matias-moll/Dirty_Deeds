@@ -41,14 +41,14 @@
             // 
             this.gbFiltros.Location = new System.Drawing.Point(21, 12);
             this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(626, 201);
+            this.gbFiltros.Size = new System.Drawing.Size(626, 221);
             this.gbFiltros.TabIndex = 0;
             this.gbFiltros.TabStop = false;
             this.gbFiltros.Text = "Filtros";
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(38, 219);
+            this.btnLimpiar.Location = new System.Drawing.Point(38, 258);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 1;
@@ -58,7 +58,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(527, 219);
+            this.btnBuscar.Location = new System.Drawing.Point(527, 258);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 2;
@@ -70,14 +70,14 @@
             // 
             this.dgvGrilla.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dgvGrilla.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGrilla.Location = new System.Drawing.Point(21, 270);
+            this.dgvGrilla.Location = new System.Drawing.Point(21, 308);
             this.dgvGrilla.Name = "dgvGrilla";
             this.dgvGrilla.Size = new System.Drawing.Size(626, 222);
             this.dgvGrilla.TabIndex = 3;
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(288, 219);
+            this.btnAlta.Location = new System.Drawing.Point(288, 258);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
             this.btnAlta.TabIndex = 4;
@@ -90,7 +90,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.ClientSize = new System.Drawing.Size(659, 514);
+            this.ClientSize = new System.Drawing.Size(659, 542);
             this.Controls.Add(this.btnAlta);
             this.Controls.Add(this.dgvGrilla);
             this.Controls.Add(this.btnBuscar);

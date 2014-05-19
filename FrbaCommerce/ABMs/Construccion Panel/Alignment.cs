@@ -18,7 +18,7 @@ namespace ABMs
         internal int separacionHorizontal;
         internal Point puntoInicio = new Point(10, 10);
         // Cargamos los valores defaults para los sizes, cada alignment peude sobreescribirlos luego.
-        public Size sizeLabels = new Size(100, 25);
+        public Size sizeLabels = new Size(120, 25);
         public Size sizeEdits = new Size(180, 20);
         public Size sizeNumberEdits = new Size(60, 20);
         public Size sizeDateEdits = new Size(90, 20);
@@ -64,7 +64,29 @@ namespace ABMs
         internal abstract Point calculaPosicion(Label control);
         internal abstract void cargaSeparaciones();
         internal virtual void acomodarControlesEnAgrupador(GroupBox grouper) { }
-        internal virtual void centrarControlesEnElPanel(Panel panelToBuild) { }
+
+
+        internal virtual void centrarControlesEnElPanel(Panel panelToBuild) 
+        {
+            int puntoMaximoEnEjeX = 0;
+            int puntoFinalControl = 0;
+            // Obtenemos el maximo.
+            foreach (Control unControl in panelToBuild.Controls)
+            {
+                puntoFinalControl = unControl.Location.X + unControl.Size.Width;
+                if (puntoFinalControl > puntoMaximoEnEjeX)
+                    puntoMaximoEnEjeX = puntoFinalControl;
+            }
+
+            int separacionDeUltimoControlABordePanel = this.tamañoDisponible.Width - puntoMaximoEnEjeX;
+            // La cantidad de pixeles a mover para centrar es la separacion del ultimo control menos 
+            // la separacion actual que se fija como punto de inicio divido 2 ya que la idea es que quede
+            // misma cantidad de puntos vacios a ambos lados.
+            int cantidadAMoverLosControles = (separacionDeUltimoControlABordePanel - this.puntoInicio.X) / 2;
+
+            if (cantidadAMoverLosControles > 1)
+                moverTodosLosControlesEnEjeXDe(panelToBuild, cantidadAMoverLosControles);
+        }
 
         // Si el ultimo control es el default de la clase, permitimos que cambie la posicion inicial.
         private Point posicionInicial 
@@ -93,6 +115,12 @@ namespace ABMs
         {
             return ultimoControlAñadido.Location.X +
                         ultimoControlAñadido.Size.Width;
+        }
+
+        private void moverTodosLosControlesEnEjeXDe(Panel panelToBuild, int cantidadAMoverLosControles)
+        {
+            foreach (Control unControl in panelToBuild.Controls)
+                unControl.Location = new Point(unControl.Location.X + cantidadAMoverLosControles, unControl.Location.Y);
         }
 
     }

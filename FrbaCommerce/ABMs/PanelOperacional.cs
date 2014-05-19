@@ -24,26 +24,26 @@ namespace ABMs
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            ABMGenerico abmClientes = new ABMGenerico(new Clientes());
-            abmClientes.Show(this);
+            //ABMGenerico abmClientes = new ABMGenerico(new Clientes());
+            //abmClientes.Show(this);
         }
 
         private void btnVisibilidades_Click(object sender, EventArgs e)
         {
-            ABMGenerico abmVisibilidades = new ABMGenerico(new Visibilidades());
-            abmVisibilidades.Show(this);
+            //ABMGenerico abmVisibilidades = new ABMGenerico(new Visibilidades());
+            //abmVisibilidades.Show(this);
         }
 
         private void btnEmpresas_Click(object sender, EventArgs e)
         {
-            ABMGenerico abmEmpresas = new ABMGenerico(new Empresas());
-            abmEmpresas.Show(this);
+            //ABMGenerico abmEmpresas = new ABMGenerico(new Empresas());
+            //abmEmpresas.Show(this);
         }
 
         private void btnRubros_Click(object sender, EventArgs e)
         {
-            ABMGenerico abmRubros = new ABMGenerico(new Rubros());
-            abmRubros.Show(this);
+            //ABMGenerico abmRubros = new ABMGenerico(new Rubros());
+            //abmRubros.Show(this);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ABMs
     public partial class ABMGenerico : Form
     {
         ABMEspecifico resolver;
+        Panel pnFiltros;
 
         public ABMGenerico(ABMEspecifico resolverEspecifico)
         {
@@ -23,7 +24,8 @@ namespace ABMs
         {
             // Cargamos el titulo y el panel especificos para completar nuestro form de ABM
             this.Text = resolver.GetType().Name.ToString();
-            this.gbFiltros.Controls.Add(resolver.getPanel());
+            pnFiltros = resolver.getPanel();
+            this.gbFiltros.Controls.Add(pnFiltros);
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -44,7 +46,10 @@ namespace ABMs
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            resolver.alta();
+            resolver.alta(this);
+            this.gbFiltros.Controls.Remove(pnFiltros);
+            pnFiltros = resolver.getPanel();
+            this.gbFiltros.Controls.Add(pnFiltros);
         }
 
 
