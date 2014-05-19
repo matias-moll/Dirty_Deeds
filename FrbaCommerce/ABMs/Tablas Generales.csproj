@@ -60,6 +60,10 @@
       <DependentUpon>ABMGenerico.cs</DependentUpon>
     </Compile>
     <Compile Include="ABMs Especificos\ABMEspecifico.cs" />
+    <Compile Include="ABMs Especificos\Rubros.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABMs Especificos\Visibilidades.cs" />
     <Compile Include="AltaGenerico.cs">
       <SubType>Form</SubType>
     </Compile>

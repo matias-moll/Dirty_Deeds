@@ -46,10 +46,34 @@ namespace ABMs
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            resolver.alta(this);
+            // Limpiamos los controles (se reutilizan para las dos pantallas, por eso hay que limpiarlos).
+            limpiarControlesDelPanel();
+
+            try
+            {
+                // Delegamos el alta.
+                resolver.alta(this);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+
+            // Removemos el panel actual y obtenemos uno nuevo para la busqueda (sino no se carga).
             this.gbFiltros.Controls.Remove(pnFiltros);
             pnFiltros = resolver.getPanel();
+
+            // Limpiamos los controles (se reutilizan para las dos pantallas, por eso hay que limpiarlos).
+            limpiarControlesDelPanel();
+
+            // Añadimos el panel nuevamente.
             this.gbFiltros.Controls.Add(pnFiltros);
+        }
+
+        private void limpiarControlesDelPanel()
+        {
+            foreach (Control unControl in pnFiltros.Controls)
+                if (unControl.GetType() == typeof(TextBox)) unControl.Text = "";
         }
 
 

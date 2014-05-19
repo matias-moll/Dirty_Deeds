@@ -30,8 +30,8 @@ namespace ABMs
 
         private void btnVisibilidades_Click(object sender, EventArgs e)
         {
-            //ABMGenerico abmVisibilidades = new ABMGenerico(new Visibilidades());
-            //abmVisibilidades.Show(this);
+            ABMGenerico abmVisibilidades = new ABMGenerico(new Visibilidades());
+            abmVisibilidades.Show(this);
         }
 
         private void btnEmpresas_Click(object sender, EventArgs e)
@@ -42,8 +42,8 @@ namespace ABMs
 
         private void btnRubros_Click(object sender, EventArgs e)
         {
-            //ABMGenerico abmRubros = new ABMGenerico(new Rubros());
-            //abmRubros.Show(this);
+            ABMGenerico abmRubros = new ABMGenerico(new Rubros());
+            abmRubros.Show(this);
         }
     }
 }

@@ -10,26 +10,34 @@ namespace Dal
     {
         public void insert(PersistentObject objetoAPersistir)
         {
-            string listaCampos, listaValores;
-            listaCampos = listaValores = "";
-
-            List<PropertyInfo> propiedadesCampos = objetoAPersistir.GetType().GetProperties().Where
-                                    (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
-            foreach (PropertyInfo unaProperty in propiedadesCampos)
+            try
             {
-                listaCampos += unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name)) + ",";
-                listaValores += formatToSql(objetoAPersistir.GetType().InvokeMember(unaProperty.Name,
-                                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
-                                    null, objetoAPersistir, null)) + ",";
+                string listaCampos, listaValores;
+                listaCampos = listaValores = "";
+
+                List<PropertyInfo> propiedadesCampos = objetoAPersistir.GetType().GetProperties().Where
+                                        (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
+                foreach (PropertyInfo unaProperty in propiedadesCampos)
+                {
+                    listaCampos += unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name)) + ",";
+                    listaValores += formatToSql(objetoAPersistir.GetType().InvokeMember(unaProperty.Name,
+                                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
+                                        null, objetoAPersistir, null)) + ",";
+                }
+
+                removeTheLastComma(ref listaCampos);
+                removeTheLastComma(ref listaValores);
+
+                string nombreTabla = objetoAPersistir.GetType().Name;
+                string commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
+
+                StaticDataAccess.executeCommand(commandInsert);
             }
-
-            removeTheLastComma(ref listaCampos);
-            removeTheLastComma(ref listaValores);
-            
-            string nombreTabla = objetoAPersistir.GetType().Name;
-            string commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
-
-            StaticDataAccess.executeCommand(commandInsert);
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba insertar un registro en la base de datos.",
+                                            e.Message, e.StackTrace);
+            }
            
         }
 

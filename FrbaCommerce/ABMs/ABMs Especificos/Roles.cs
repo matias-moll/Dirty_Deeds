@@ -20,21 +20,13 @@ namespace ABMs
             return null;
         }
 
-        public override void alta(Form parent)
+        public override void grabarAlta()
         {
-            // Disparamos el form de alta generico pasandole como resolver a nosotros mismos.
-            AltaGenerico frmAltaRol = new AltaGenerico(this);
-            frmAltaRol.ShowDialog(parent);
-
-            // Si confirmo el alta
-            if (frmAltaRol.DialogResult == DialogResult.OK)
-            {
-                // Creamos el rol y lo mandamos a grabar.
-                Rol unRol = new Rol(Convert.ToInt32(tbId.Text), tbNombre.Text, cbBorrado.Checked);
-                unRol.save();
-                MessageBox.Show("Se ha grabado exitosamente el Rol");
-            }
+            // Creamos el rol y lo mandamos a grabar.
+            Rol unRol = new Rol(Convert.ToInt32(tbId.Text), tbNombre.Text, cbBorrado.Checked);
+            unRol.save();
         }
+
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);

@@ -39,7 +39,7 @@
             this.btnAlta.Location = new System.Drawing.Point(104, 398);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
-            this.btnAlta.TabIndex = 6;
+            this.btnAlta.TabIndex = 1;
             this.btnAlta.Text = "Cancelar";
             this.btnAlta.UseVisualStyleBackColor = true;
             this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
@@ -49,7 +49,7 @@
             this.btnBuscar.Location = new System.Drawing.Point(268, 398);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscar.TabIndex = 5;
+            this.btnBuscar.TabIndex = 2;
             this.btnBuscar.Text = "Aceptar";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
@@ -59,7 +59,7 @@
             this.gbDatos.Location = new System.Drawing.Point(30, 12);
             this.gbDatos.Name = "gbDatos";
             this.gbDatos.Size = new System.Drawing.Size(370, 356);
-            this.gbDatos.TabIndex = 7;
+            this.gbDatos.TabIndex = 0;
             this.gbDatos.TabStop = false;
             this.gbDatos.Text = "Datos";
             // 

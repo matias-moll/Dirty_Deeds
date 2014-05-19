@@ -61,7 +61,7 @@
             this.btnBuscar.Location = new System.Drawing.Point(527, 258);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnBuscar.TabIndex = 2;
+            this.btnBuscar.TabIndex = 3;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
@@ -73,14 +73,14 @@
             this.dgvGrilla.Location = new System.Drawing.Point(21, 308);
             this.dgvGrilla.Name = "dgvGrilla";
             this.dgvGrilla.Size = new System.Drawing.Size(626, 222);
-            this.dgvGrilla.TabIndex = 3;
+            this.dgvGrilla.TabIndex = 4;
             // 
             // btnAlta
             // 
             this.btnAlta.Location = new System.Drawing.Point(288, 258);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
-            this.btnAlta.TabIndex = 4;
+            this.btnAlta.TabIndex = 2;
             this.btnAlta.Text = "Alta";
             this.btnAlta.UseVisualStyleBackColor = true;
             this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click);
