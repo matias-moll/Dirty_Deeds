@@ -4,7 +4,7 @@ CREATE SCHEMA DIRTYDEEDS AUTHORIZATION gd
 
 create table Usuario
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Username char(20) not null unique,
 	Contrasenia varchar(32) not null,
 	Deleted bit not null
@@ -12,14 +12,14 @@ create table Usuario
 
 create table Rol
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Nombre varchar(30) not null,
 	Deleted bit not null
 )
 
 create table Funcionalidad
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion varchar(30) not null,
 	Deleted bit not null
 )
@@ -54,13 +54,13 @@ create table Usuario_Calificacion
 
 create table Localidad
 (
-	CodPostal int primary key not null,
+	CodPostal int NOT NULL IDENTITY(1,1) primary key,
 	Nombre nvarchar(100) not null
 )
 
 create table Cliente
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Apellido nvarchar(255) not null,
 	Nombre nvarchar(255) not null,
 	TipoDocumento char(4) not null,
@@ -76,7 +76,7 @@ create table Cliente
 
 create table Empresa
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	RazonSocial nvarchar(255) not null unique,
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,
@@ -92,7 +92,7 @@ create table Empresa
 
 create table FormaPago
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null
 )
 
@@ -124,7 +124,7 @@ create table Visibilidad
 
 create table Rubro
 (
-	Id int primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null
 )
 
