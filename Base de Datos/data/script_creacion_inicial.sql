@@ -52,12 +52,6 @@ create table Usuario_Calificacion
 	primary key (IdUsuario, CodCalificacion)
 )
 
-create table Localidad
-(
-	CodPostal int NOT NULL IDENTITY(1,1) primary key,
-	Nombre nvarchar(100) not null
-)
-
 create table Cliente
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
@@ -66,12 +60,7 @@ create table Cliente
 	TipoDocumento char(4) not null,
 	Documento numeric(18, 0) not null,
 	FechaNacimiento datetime not null,
-	Mail nvarchar(255) not null,
-	Domicilio nvarchar(255) not null,
-	NumeroCalle numeric(18, 0) not null,
-	Piso numeric(18, 0) not null,
-	Depto nvarchar(50) not null,
-	CodPostal int not null foreign key references Localidad(CodPostal)
+	Mail nvarchar(255) not null
 )
 
 create table Empresa
@@ -81,13 +70,20 @@ create table Empresa
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,
 	Mail nvarchar(50) not null,
+	NombreContacto varchar(60) not null
+)
+
+create table Direccion
+(
+	Id int not null IDENTITY(1,1) primary key,
+	IdCliente int foreign key references Cliente(Id),
+	IdEmpresa int foreign key references Empresa(Id),
 	Domicilio nvarchar(255) not null,
 	NumeroCalle numeric(18, 0) not null,
 	Piso numeric(18, 0) not null,
 	Depto nvarchar(50) not null,
-	CodPostal int not null foreign key references Localidad(CodPostal),
+	CodPostal int not null,
 	Ciudad varchar(60) not null,
-	NombreContacto varchar(60) not null
 )
 
 create table FormaPago

@@ -5,6 +5,7 @@ drop table DIRTYDEEDS.Usuario_Rol
 drop table DIRTYDEEDS.Rol
 drop table DIRTYDEEDS.Calificacion
 drop table DIRTYDEEDS.Funcionalidad
+drop table DIRTYDEEDS.Direccion
 drop table DIRTYDEEDS.Empresa
 drop table DIRTYDEEDS.Cliente
 drop table DIRTYDEEDS.Item
@@ -15,7 +16,6 @@ drop table DIRTYDEEDS.Publicacion
 drop table DIRTYDEEDS.Rubro
 drop table DIRTYDEEDS.Visibilidad
 drop table DIRTYDEEDS.FormaPago
-drop table DIRTYDEEDS.Localidad
 drop table DIRTYDEEDS.Usuario
 
 
