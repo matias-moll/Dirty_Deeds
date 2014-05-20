@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Data;
 
 namespace Dal
 {
@@ -41,6 +42,46 @@ namespace Dal
            
         }
 
+        public void update()
+        {
+
+        }
+
+        public void delete()
+        {
+
+        }
+
+        public static DataTable upFullOnTable()
+        {
+            try
+            {
+                string query = String.Format("select * from DIRTYDEEDS.{0}",  typeof(PersistentObject).Name);
+
+                return StaticDataAccess.executeQuery(query);
+            }
+            catch(Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba realizar la consulta en la base de datos.",
+                                            e.Message, e.StackTrace);
+            }
+
+        }
+
+        public List<PersistentObject> upFull()
+        {
+            return null;
+        }
+
+        public PersistentObject get()
+        {
+            return (PersistentObject)new Object();
+        }
+
+
+
+        #region Metodos privados 
+
         private string formatToSql(object unValor)
         {
             if (unValor.GetType() == typeof(string))
@@ -56,11 +97,11 @@ namespace Dal
 
         private int getPositionOfFirstUpperCaseChar(string unaProperty)
         {
-            for (int i = 0; i < unaProperty.Length-1; i++)
+            for (int i = 0; i < unaProperty.Length - 1; i++)
                 if (char.IsUpper(unaProperty[i]))
                     return i;
             return 0;
-                
+
         }
 
         private bool representaUnCampoDeLaBase(string unaProperty)
@@ -68,25 +109,7 @@ namespace Dal
             return (unaProperty.Contains("campo") || unaProperty.Contains("clave"));
         }
 
-        public void update()
-        {
-
-        }
-
-        public void delete()
-        {
-
-        }
-
-        public List<PersistentObject> upFull()
-        {
-            return null;
-        }
-
-        public PersistentObject get()
-        {
-            return (PersistentObject)new Object();
-        }
+        #endregion
 
     }
 }

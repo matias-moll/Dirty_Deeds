@@ -16,7 +16,20 @@ namespace Dal
 
         public static DataTable executeQuery(string query)
         {
-            return null;
+            DataTable table = new DataTable();
+            SqlConnection conexion = DBConn.getDBConn();
+            SqlCommand command = new SqlCommand(query, conexion);
+            conexion.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+
+            // El fill ejecuta el query y llena la data table.
+            da.Fill(table);
+
+            conexion.Close();
+            da.Dispose();
+
+            return table;
         }
 
         public static void executeCommand(string stringCommand)
@@ -26,6 +39,7 @@ namespace Dal
 
             SqlCommand command = conexion.CreateCommand();
             command.CommandText = stringCommand;
+            command.Connection = conexion;
 
             command.ExecuteNonQuery();
 

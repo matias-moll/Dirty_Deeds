@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Dal;
+using System.Data;
 
 namespace Dominio
 {
@@ -10,6 +11,7 @@ namespace Dominio
     {
         //Miembros
         private bool deleted;
+        private DataAccessObject<Rol> daoRol;
 
         // Properties con la convencion del DataAccessObject
         public int claveId { get; set; }
@@ -23,6 +25,7 @@ namespace Dominio
             claveId = id;
             campoNombre = nombre;
             deleted = p_deleted;
+            daoRol = new DataAccessObject<Rol>();
         }
 
         public Rol(int id, string nombre): this(id, nombre, false){}
@@ -31,13 +34,17 @@ namespace Dominio
         //Metodos publicos
         public void save()
         {
-            DataAccessObject<Rol> daoRol = new DataAccessObject<Rol>();
             daoRol.insert(this);
         }
 
         public void update()
         {
 
+        }
+
+        public static DataTable upFullByCondition()
+        {
+            return DataAccessObject<Rol>.upFullOnTable();
         }
 
         public void borradoLogico()
