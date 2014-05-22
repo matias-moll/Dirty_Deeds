@@ -73,6 +73,11 @@ create table Empresa
 	NombreContacto varchar(60) not null
 )
 
+create table Localidad
+(
+	Id int NOT NULL IDENTITY(1,1) primary key,
+	Nombre nvarchar(255) not null unique
+)
 create table Direccion
 (
 	Id int not null IDENTITY(1,1) primary key,
@@ -82,7 +87,8 @@ create table Direccion
 	NumeroCalle numeric(18, 0) not null,
 	Piso numeric(18, 0) not null,
 	Depto nvarchar(50) not null,
-	CodPostal int not null
+	CodPostal int not null,
+	IdLocalidad int foreign key references Localidad(Id)
 )
 
 create table FormaPago
