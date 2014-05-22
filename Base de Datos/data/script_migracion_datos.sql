@@ -12,6 +12,13 @@ FROM gd_esquema.Maestra
 WHERE Cli_Dni IS NOT NULL 
 ORDER BY Cli_Apeliido;
 
-INSERT INTO DIRTYDEEDS.Direccion (IdCliente, Domicilio, NumeroCalle, Piso,Depto,CodPostal )
-SELECT DISTINCT Id, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal FROM gd_esquema.Maestra,DIRTYDEEDS.Cliente
-WHERE Documento = Cli_Dni AND Cli_Dni IS NOT NULL;
+INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto)
+SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion, Publ_Empresa_Mail, 'Sin Contacto' from gd_esquema.Maestra
+WHERE Publ_Empresa_Razon_Social IS NOT NULL;
+
+INSERT INTO DIRTYDEEDS.Direccion (IdCliente, IdEmpresa, Domicilio, NumeroCalle, Piso,Depto,CodPostal)
+SELECT DISTINCT Id as IdCliente, NULL as IdEmpresa, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal FROM gd_esquema.Maestra,DIRTYDEEDS.Cliente
+WHERE Documento = Cli_Dni AND Cli_Dni IS NOT NULL
+UNION
+SELECT DISTINCT NULL as IdCliente, Id as IdEmpresa, Publ_Empresa_Dom_Calle, Publ_Empresa_Piso, Publ_Empresa_Piso, Publ_Empresa_Depto,Publ_Empresa_Cod_Postal FROM gd_esquema.Maestra, DIRTYDEEDS.Empresa
+WHERE Cuit = Publ_Empresa_Cuit
