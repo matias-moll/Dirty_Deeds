@@ -16,9 +16,8 @@ namespace ABMs
 
         public override DataTable ejecutarBusqueda()
         {
-            return null;
+            return Rubro.upFullByCondition();
         }
-
 
         public override void grabarAlta()
         {
