@@ -8,12 +8,11 @@ namespace Dominio
 {
     public class Rubro
     {
-        public int claveId { get; set; }
+        public int autoId { get; set; }
         public string campoDescripcion { get; set; }
 
-        public Rubro(int id, string descripcion)
+        public Rubro(string descripcion)
         {
-            claveId = id;
             campoDescripcion = descripcion;
         }
 

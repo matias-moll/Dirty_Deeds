@@ -14,21 +14,20 @@ namespace Dominio
         private DataAccessObject<Rol> daoRol;
 
         // Properties con la convencion del DataAccessObject
-        public int claveId { get; set; }
+        public int autoId { get; set; }
         public string campoNombre { get; set; }
         public byte campoDeleted { get { if (deleted) return 1; else return 0; } }
 
 
         // Constructores
-        public Rol(int id, string nombre, bool p_deleted)
+        public Rol(string nombre, bool p_deleted)
         {
-            claveId = id;
             campoNombre = nombre;
             deleted = p_deleted;
             daoRol = new DataAccessObject<Rol>();
         }
 
-        public Rol(int id, string nombre): this(id, nombre, false){}
+        public Rol(string nombre): this(nombre, false){}
 
 
         //Metodos publicos

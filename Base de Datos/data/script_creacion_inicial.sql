@@ -60,7 +60,8 @@ create table Cliente
 	TipoDocumento char(4) not null,
 	Documento numeric(18, 0) not null,
 	FechaNacimiento datetime not null,
-	Mail nvarchar(255) not null
+	Mail nvarchar(255) not null,
+	Deleted bit not null
 )
 
 create table Empresa
@@ -70,7 +71,8 @@ create table Empresa
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,
 	Mail nvarchar(50) not null,
-	NombreContacto varchar(60) not null
+	NombreContacto varchar(60) not null,
+	Deleted bit not null
 )
 
 create table Localidad
@@ -117,16 +119,18 @@ create table Item
 
 create table Visibilidad
 (
-	Codigo numeric(18, 0) primary key,
+	Codigo numeric(18, 0) not null IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
-	Porcentaje numeric(18, 2) not null
+	Porcentaje numeric(18, 2) not null,
+	Deleted bit not null
 )
 
 create table Rubro
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
-	Descripcion nvarchar(255) not null
+	Descripcion nvarchar(255) not null,
+	Deleted bit not null
 )
 
 create table Publicacion

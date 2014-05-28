@@ -6,36 +6,34 @@ using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
 using Dominio;
+using TNGS.NetControls;
 
 namespace ABMs
 {
     class Visibilidades : ABMEspecifico
     {
-        TextBox tbCodigo = new TextBox();
-        TextBox tbDescripcion = new TextBox();
-        TextBox tbPrecio = new TextBox();
-        TextBox tbPorcentaje = new TextBox();
+        TextEdit teDescripcion = new TextEdit();
+        DecimalEdit dcePrecio = new DecimalEdit();
+        NumberEdit nePorcentaje = new NumberEdit();
 
         public override DataTable ejecutarBusqueda()
         {
-            return null;
+            return Visibilidad.upFullByCondition();
         }
 
         public override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unRol = new Visibilidad(Convert.ToInt32(tbCodigo.Text), tbDescripcion.Text, 
-                                                Convert.ToDouble(tbPrecio.Text), Convert.ToDouble(tbPorcentaje.Text));
+            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, nePorcentaje.Numero);
             unRol.save();
         }
 
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
-            builder.AddControlWithLabel("Código", tbCodigo)
-                   .AddControlWithLabel("Descripcion", tbDescripcion)
-                   .AddControlWithLabel("Precio", tbPrecio)
-                   .AddControlWithLabel("Porcentaje", tbPorcentaje)
+            builder.AddControlWithLabel("Descripcion", teDescripcion)
+                   .AddControlWithLabel("Precio", dcePrecio)
+                   .AddControlWithLabel("Porcentaje", nePorcentaje)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

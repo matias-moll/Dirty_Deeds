@@ -11,6 +11,8 @@ namespace Dal
     {
         public void insert(PersistentObject objetoAPersistir)
         {
+            string commandInsert = "";
+
             try
             {
                 string listaCampos, listaValores;
@@ -30,14 +32,14 @@ namespace Dal
                 removeTheLastComma(ref listaValores);
 
                 string nombreTabla = objetoAPersistir.GetType().Name;
-                string commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
+                commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
 
                 StaticDataAccess.executeCommand(commandInsert);
             }
             catch (Exception e)
             {
                 throw new DataBaseException("Se produjo un error cuando se intentaba insertar un registro en la base de datos.",
-                                            e.Message, e.StackTrace);
+                                            commandInsert, e.Message, e.StackTrace);
             }
            
         }
@@ -54,16 +56,17 @@ namespace Dal
 
         public static DataTable upFullOnTable()
         {
+            string query = "";
             try
             {
-                string query = String.Format("select * from DIRTYDEEDS.{0}",  typeof(PersistentObject).Name);
+                query = String.Format("select * from DIRTYDEEDS.{0}", typeof(PersistentObject).Name);
 
                 return StaticDataAccess.executeQuery(query);
             }
             catch(Exception e)
             {
                 throw new DataBaseException("Se produjo un error cuando se intentaba realizar la consulta en la base de datos.",
-                                            e.Message, e.StackTrace);
+                                            query, e.Message, e.StackTrace);
             }
 
         }
@@ -86,6 +89,8 @@ namespace Dal
         {
             if (unValor.GetType() == typeof(string))
                 return String.Format("'{0}'", (string)unValor);
+            else if (unValor.GetType() == typeof(decimal))
+                return unValor.ToString().Replace(',', '.');
 
             return unValor.ToString();
         }

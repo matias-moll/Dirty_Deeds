@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TNGS.NetControls;
 
 namespace ABMs
 {
@@ -31,17 +32,25 @@ namespace ABMs
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             // Limpiamos el texto de todos los textbox del agrupador de filtros. Y luego la grilla.
-            foreach(Control unControl in gbFiltros.Controls)
-            {
-                if (unControl.GetType() == typeof(TextBox))
+            foreach (Control unControl in pnFiltros.Controls)
+                if (esControlEdit(unControl.GetType()))
                     unControl.Text = "";
-            }
+            
             dgvGrilla.DataSource = null;
+            pnFiltros.Focus();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            dgvGrilla.DataSource = resolver.ejecutarBusqueda();
+            // Codigo para agregar columna con boton.
+            /*DataGridView pepe = new DataGridView();
+            DataGridViewButtonColumn col = new DataGridViewButtonColumn();
+            col.UseColumnTextForButtonValue = true;
+            col.Text = "modificar";
+            col.Name = "botonModif";
+            pepe.Columns.Add(col);
+             */
+            dgvGrilla.DataSource = formatToGrid(resolver.ejecutarBusqueda());
         }
 
         private void btnAlta_Click(object sender, EventArgs e)
@@ -58,7 +67,7 @@ namespace ABMs
             {
                 MessageBox.Show(excep.Message);
             }
-
+             
             // Removemos el panel actual y obtenemos uno nuevo para la busqueda (sino no se carga).
             this.gbFiltros.Controls.Remove(pnFiltros);
             pnFiltros = resolver.getPanel();
@@ -70,12 +79,23 @@ namespace ABMs
             this.gbFiltros.Controls.Add(pnFiltros);
         }
 
+
         private void limpiarControlesDelPanel()
         {
             foreach (Control unControl in pnFiltros.Controls)
-                if (unControl.GetType() == typeof(TextBox)) unControl.Text = "";
+                if (esControlEdit(unControl.GetType())) unControl.Text = "";
         }
 
+        private DataTable formatToGrid(DataTable tablaAMostrar)
+        {
+            tablaAMostrar.Columns["Deleted"].ReadOnly = true;
+            return tablaAMostrar;
+        }
 
+        private bool esControlEdit(Type tipoControl)
+        {
+            return ((tipoControl == typeof(TextEdit)) || (tipoControl == typeof(NumberEdit)) ||
+                (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)));
+        }
     }
 }

@@ -6,13 +6,13 @@ using System.Data;
 using System.Windows.Forms;
 using System.Drawing;
 using Dominio;
+using TNGS.NetControls;
 
 namespace ABMs
 {
     class Rubros : ABMEspecifico
     {
-        TextBox tbId = new TextBox();
-        TextBox tbDescripcion = new TextBox();
+        TextEdit teDescripcion = new TextEdit();
 
         public override DataTable ejecutarBusqueda()
         {
@@ -23,15 +23,14 @@ namespace ABMs
         public override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Rubro unRol = new Rubro(Convert.ToInt32(tbId.Text), tbDescripcion.Text);
+            Rubro unRol = new Rubro(teDescripcion.Text);
             unRol.save();
         }
 
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
-            builder.AddControlWithLabel("Identificador", tbId)
-                   .AddControlWithLabel("Descripcion", tbDescripcion)
+            builder.AddControlWithLabel("Descripcion", teDescripcion)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;
