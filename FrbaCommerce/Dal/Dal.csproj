@@ -45,11 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Strategy Acciones x Tipo\AccionesTipo.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesString.cs" />
     <Compile Include="DataAccessObject.cs" />
     <Compile Include="DataBaseException.cs" />
     <Compile Include="DBConn.cs" />
+    <Compile Include="LogicByType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticDataAccess.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesDecimal.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

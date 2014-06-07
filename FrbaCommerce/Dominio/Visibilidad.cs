@@ -10,6 +10,7 @@ namespace Dominio
     public class Visibilidad
     {
         private bool deleted;
+        private DataAccessObject<Visibilidad> daoVisibilidad;
 
         public int autoCodigo { get; set; }
         public string campoDescripcion { get; set; }
@@ -23,6 +24,7 @@ namespace Dominio
             campoPrecio = precio;
             campoPorcentaje = porcentaje;
             deleted = p_deleted;
+            daoVisibilidad = new DataAccessObject<Visibilidad>();
         }
 
         public Visibilidad(string descripcion, decimal precio, decimal porcentaje) :
@@ -31,7 +33,6 @@ namespace Dominio
         // Metodos publicos
         public void save()
         {
-            DataAccessObject<Visibilidad> daoVisibilidad = new DataAccessObject<Visibilidad>();
             daoVisibilidad.insert(this);
         }
 
@@ -40,9 +41,9 @@ namespace Dominio
 
         }
 
-        public static DataTable upFullByCondition()
+        public DataTable upFullByPrototype()
         {
-            return DataAccessObject<Visibilidad>.upFullOnTable();
+            return daoVisibilidad.upFullOnTableByPrototype(this);
         }
     }
 }

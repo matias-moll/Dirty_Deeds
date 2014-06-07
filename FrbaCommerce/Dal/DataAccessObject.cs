@@ -126,19 +126,10 @@ namespace Dal
             foreach (PropertyInfo unaProperty in propiedadesCampos)
             {
                 listaCampos += getNombreCampo(unaProperty) + ",";
-                listaValores += formatToSql(getValorProperty(unaProperty, objetoAObtenerCampos)) + ",";
+                listaValores += LogicByType.formatToSql(getValorProperty(unaProperty, objetoAObtenerCampos)) + ",";
             }
         }
 
-        private string formatToSql(object unValor)
-        {
-            if (unValor.GetType() == typeof(string))
-                return String.Format("'{0}'", (string)unValor);
-            else if (unValor.GetType() == typeof(decimal))
-                return unValor.ToString().Replace(',', '.');
-
-            return unValor.ToString();
-        }
 
         private void removeTheLastComma(ref string listaStrings)
         {

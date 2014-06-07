@@ -10,6 +10,7 @@ namespace Dominio
     public class Rubro
     {
         private bool deleted;
+        private DataAccessObject<Rubro> daoRubro;
 
         public int autoId { get; set; }
         public string campoDescripcion { get; set; }
@@ -19,6 +20,7 @@ namespace Dominio
         {
             campoDescripcion = descripcion;
             deleted = p_deleted;
+            daoRubro = new DataAccessObject<Rubro>();
         }
 
         public Rubro(string descripcion) : this(descripcion, false) { }
@@ -27,8 +29,7 @@ namespace Dominio
         //Metodos publicos
         public void save()
         {
-            DataAccessObject<Rubro> daoRol = new DataAccessObject<Rubro>();
-            daoRol.insert(this);
+            daoRubro.insert(this);
         }
 
         public void update()
@@ -36,9 +37,9 @@ namespace Dominio
 
         }
 
-        public static DataTable upFullByCondition()
+        public DataTable upFullByPrototype()
         {
-            return DataAccessObject<Rubro>.upFullOnTable();
+            return daoRubro.upFullOnTableByPrototype(this);
         }
     }
 }

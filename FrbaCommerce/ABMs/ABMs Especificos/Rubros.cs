@@ -16,7 +16,9 @@ namespace ABMs
 
         public override DataTable ejecutarBusqueda()
         {
-            return Rubro.upFullByCondition();
+            // Creamos el rol y lo mandamos a grabar.
+            Rubro unRol = new Rubro(teDescripcion.Text);
+            return unRol.upFullByPrototype();
         }
 
         public override void grabarAlta()

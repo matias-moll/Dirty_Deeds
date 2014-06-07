@@ -41,9 +41,9 @@ namespace Dominio
 
         }
 
-        public static DataTable upFullByCondition()
+        public DataTable upFullByPrototype()
         {
-            return DataAccessObject<Rol>.upFullOnTable();
+            return daoRol.upFullOnTableByPrototype(this);
         }
 
         public void borradoLogico()

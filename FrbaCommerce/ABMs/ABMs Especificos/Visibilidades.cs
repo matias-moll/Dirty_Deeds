@@ -18,7 +18,9 @@ namespace ABMs
 
         public override DataTable ejecutarBusqueda()
         {
-            return Visibilidad.upFullByCondition();
+            // Creamos el rol y lo mandamos a grabar.
+            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, nePorcentaje.Numero);
+            return unRol.upFullByPrototype();
         }
 
         public override void grabarAlta()
