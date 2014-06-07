@@ -54,7 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticDataAccess.cs" />
     <Compile Include="Strategy Acciones x Tipo\AccionesDecimal.cs" />
-    <Compile Include="Strategy Acciones x Tipo\AccionesObject.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesInt.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesByte.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

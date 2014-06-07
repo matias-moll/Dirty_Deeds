@@ -5,21 +5,21 @@ using System.Text;
 
 namespace Dal
 {
-    internal class AccionesDecimal : AccionesTipo
+    internal class AccionesByte : AccionesTipo
     {
         override internal string formatToSql(object unValor)
         {
-            return ((decimal)unValor).ToString().Replace(',', '.');
+            return unValor.ToString();
         }
 
         override internal string makeCondition(string nombreCampo, object valorCampo)
         {
-            return String.Format("{0} = {1}", nombreCampo, formatToSql(valorCampo));
+            return String.Format("{0} = {1}", nombreCampo, (byte)valorCampo);
         }
 
         override internal bool esVacio(object valorProperty)
         {
-            return Math.Truncate(((decimal)valorProperty)) == 0;
+            return (byte)valorProperty == 0;
         }
     }
 }

@@ -11,5 +11,16 @@ namespace Dal
         {
             return String.Format("'{0}'", (string)unValor);
         }
+
+        override internal string makeCondition(string nombreCampo, object valorCampo)
+        {
+            // Ej: Descripcion like '%pepe%'
+            return String.Format("{0} like '%{1}%'", nombreCampo, (string)valorCampo);
+        }
+
+        override internal bool esVacio(object valorProperty)
+        {
+            return ((string)valorProperty) == "";
+        }
     }
 }

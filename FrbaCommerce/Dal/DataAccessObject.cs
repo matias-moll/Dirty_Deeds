@@ -20,8 +20,8 @@ namespace Dal
 
                 fillListaCamposYListaValoresFrom(ref listaCampos, ref listaValores, objetoAPersistir);
 
-                removeTheLastComma(ref listaCampos);
-                removeTheLastComma(ref listaValores);
+                removeTheLast(ref listaCampos, ",");
+                removeTheLast(ref listaValores, ",");
 
                 string nombreTabla = objetoAPersistir.GetType().Name;
                 commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
@@ -51,7 +51,7 @@ namespace Dal
             string query = "";
             try
             {
-                string where = "";
+                string where = "where ";
                 object valorProperty;
 
                 // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
@@ -59,10 +59,12 @@ namespace Dal
                 foreach (PropertyInfo unaProperty in propiedadesCampos)
                 {
                     valorProperty = getValorProperty(unaProperty, prototipo);
-
-                    if (noEsVacio(valorProperty))
-                        agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
+                    // Si no es vacio el valor, agregamos la condicion.
+                    if (!LogicByType.esVacio(valorProperty))
+                        LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
                 }
+
+                removeTheLast(ref where, "and");
 
                 query = String.Format("select * from DIRTYDEEDS.{0} {1}", typeof(PersistentObject).Name, where); 
 
@@ -89,18 +91,6 @@ namespace Dal
 
 
         #region Metodos privados 
-
-        private bool noEsVacio(object valorProperty)
-        {
-            // TODO: hacer un switch del tipo de la property para validar que no agregue como condiciones
-            // los que sean strings vacias o numeros 0, etc.
-            return true;
-        }
-
-        private void agregarCondicion(ref string where, string nombreCampo, object valorCampo)
-        {
-            // TODO: toda la logica en cada tipo de like en strings, equals en numbers. equals en fecha con formateo, etc.
-        }
 
         private string getNombreCampo(PropertyInfo unaProperty)
         {
@@ -130,10 +120,9 @@ namespace Dal
             }
         }
 
-
-        private void removeTheLastComma(ref string listaStrings)
+        private void removeTheLast(ref string stringArmada, string stringARemover)
         {
-            listaStrings = listaStrings.Substring(0, listaStrings.Length - 1);
+            stringArmada = stringArmada.Substring(0, stringArmada.Length - stringARemover.Length);
         }
 
         private int getPositionOfFirstUpperCaseChar(string unaProperty)
