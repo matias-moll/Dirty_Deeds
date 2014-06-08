@@ -16,7 +16,15 @@ namespace Dominio
         public string campoDescripcion { get; set; }
         public decimal campoPrecio { get; set; }
         public decimal campoPorcentaje { get; set; }
-        public byte campoDeleted { get { if (deleted) return 1; else return 0; } }
+        public byte campoDeleted
+        {
+            get { if (deleted) return 1; else return 0; }
+            set { deleted = (value == 1) ? true : false; }
+        }
+
+        #region Constructores
+
+        public Visibilidad() {}
 
         public Visibilidad(string descripcion, decimal precio, decimal porcentaje, bool p_deleted)
         {
@@ -29,6 +37,8 @@ namespace Dominio
 
         public Visibilidad(string descripcion, decimal precio, decimal porcentaje) :
             this(descripcion, precio, porcentaje, false) { }
+
+        #endregion
 
         // Metodos publicos
         public void save()
@@ -50,5 +60,11 @@ namespace Dominio
         {
             return daoVisibilidad.upFullOnTableByPrototype(this);
         }
+
+        public static Visibilidad get(int idClavePrimaria)
+        {
+            return DataAccessObject<Visibilidad>.get(idClavePrimaria, typeof(Visibilidad));
+        }
+
     }
 }

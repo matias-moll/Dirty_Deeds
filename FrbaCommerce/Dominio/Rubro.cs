@@ -14,7 +14,15 @@ namespace Dominio
 
         public int autoId { get; set; }
         public string campoDescripcion { get; set; }
-        public byte campoDeleted { get { if (deleted) return 1; else return 0; } }
+        public byte campoDeleted
+        {
+            get { if (deleted) return 1; else return 0; }
+            set { deleted = (value == 1) ? true : false; }
+        }
+
+        #region Constructores
+
+        public Rubro() { }
 
         public Rubro(string descripcion, bool p_deleted)
         {
@@ -25,6 +33,7 @@ namespace Dominio
 
         public Rubro(string descripcion) : this(descripcion, false) { }
 
+        #endregion
 
         //Metodos publicos
         public void save()
@@ -45,6 +54,11 @@ namespace Dominio
         public DataTable upFullByPrototype()
         {
             return daoRubro.upFullOnTableByPrototype(this);
+        }
+
+        public static Rubro get(int idClavePrimaria)
+        {
+            return DataAccessObject<Rubro>.get(idClavePrimaria, typeof(Rubro));
         }
     }
 }

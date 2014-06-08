@@ -14,20 +14,33 @@ namespace ABMs
     {
         TextEdit teDescripcion = new TextEdit();
         DecimalEdit dcePrecio = new DecimalEdit();
-        NumberEdit nePorcentaje = new NumberEdit();
+        DecimalEdit dcePorcentaje = new DecimalEdit();
 
         public override DataTable ejecutarBusqueda()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, nePorcentaje.Numero);
+            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
             return unRol.upFullByPrototype();
+        }
+
+        public override void cargarTusDatos(int idClavePrimaria)
+        {
+            Visibilidad unaVisibilidad = Visibilidad.get(idClavePrimaria);
+            teDescripcion.Text = unaVisibilidad.campoDescripcion;
+            dcePrecio.Decimal = unaVisibilidad.campoPrecio;
+            dcePorcentaje.Decimal = unaVisibilidad.campoPorcentaje;
         }
 
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, nePorcentaje.Numero);
-            unRol.save();
+            Visibilidad unaVisibilidad = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            unaVisibilidad.save();
+        }
+
+        protected override void grabarModificacion()
+        {
+
         }
 
         protected override void baja(int idClavePrimaria)
@@ -40,7 +53,7 @@ namespace ABMs
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
             builder.AddControlWithLabel("Descripcion", teDescripcion)
                    .AddControlWithLabel("Precio", dcePrecio)
-                   .AddControlWithLabel("Porcentaje", nePorcentaje)
+                   .AddControlWithLabel("Porcentaje", dcePorcentaje)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

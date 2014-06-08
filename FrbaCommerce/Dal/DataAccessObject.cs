@@ -7,8 +7,11 @@ using System.Data;
 
 namespace Dal
 {
-    public class DataAccessObject<PersistentObject>
+    public class DataAccessObject<PersistentObject> where PersistentObject :new()
     {
+
+        #region Interfaz Publica
+
         public void insert(PersistentObject objetoAPersistir)
         {
             string commandInsert = "";
@@ -57,6 +60,23 @@ namespace Dal
             }
         }
 
+        public static PersistentObject get(int idClavePrimaria, Type tipoObjetoAObtener)
+        {
+            string query = "";
+            try
+            {
+                string nombreTabla = tipoObjetoAObtener.Name;
+                query = String.Format("select * from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
+                DataTable dtEntidad = StaticDataAccess.executeQuery(query);
+                return makeObject(dtEntidad.Rows[0], tipoObjetoAObtener.GetType());
+            }
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba obtener el objeto a partir de clave.",
+                                            query, e.Message, e.StackTrace);
+            }
+        }
+
         public DataTable upFullOnTableByPrototype(PersistentObject prototipo)
         {
             string query = "";
@@ -66,10 +86,10 @@ namespace Dal
                 object valorProperty;
 
                 // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
-                List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo);
+                List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo.GetType());
                 foreach (PropertyInfo unaProperty in propiedadesCampos)
                 {
-                    valorProperty = getValorProperty(unaProperty, prototipo);
+                    valorProperty = getValorProperty(unaProperty.Name, prototipo);
                     // Si no es vacio el valor, agregamos la condicion.
                     if (!LogicByType.esVacio(valorProperty))
                         LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
@@ -94,41 +114,60 @@ namespace Dal
             return null;
         }
 
-        public PersistentObject get()
+        #endregion
+
+
+
+        #region Metodos privados
+
+        private static PersistentObject makeObject(DataRow drEntidad, Type tipoClase)
         {
-            return (PersistentObject)new Object();
+            PersistentObject objetoCreado = new PersistentObject();
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(tipoClase);
+
+            // Le cargamos todos los valores del datarow al objeto.
+            foreach (PropertyInfo unaProperty in propiedadesCampos)
+                setValorProperty(unaProperty.Name, objetoCreado, drEntidad[getNombreCampo(unaProperty)]);
+
+            // Agregamos la clave primaria que tiene un tratamiento diferente al de los campos
+            setValorProperty("claveId", objetoCreado, drEntidad["Id"]); // TODO: pensar como no hardcodear esto.
+
+            return objetoCreado;
         }
 
-
-
-        #region Metodos privados 
-
-        private string getNombreCampo(PropertyInfo unaProperty)
+        private static List<PropertyInfo> getListaPropiedadesCampos(Type tipoClaseAObtenerProperties)
         {
-            return unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name));
-        }
-
-        private object getValorProperty(PropertyInfo unaProperty, PersistentObject unObjeto)
-        {
-            return unObjeto.GetType().InvokeMember(unaProperty.Name,
-                                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
-                                    null, unObjeto, null);
-        }
-
-        private List<PropertyInfo> getListaPropiedadesCampos(object prototipo)
-        {
-            return prototipo.GetType().GetProperties().Where
+            return tipoClaseAObtenerProperties.GetProperties().Where
                            (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
         }
 
         private void fillListaCamposYListaValoresFrom(ref string listaCampos, ref string listaValores, PersistentObject objetoAObtenerCampos)
         {
-            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoAObtenerCampos);
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoAObtenerCampos.GetType());
             foreach (PropertyInfo unaProperty in propiedadesCampos)
             {
                 listaCampos += getNombreCampo(unaProperty) + ",";
-                listaValores += LogicByType.formatToSql(getValorProperty(unaProperty, objetoAObtenerCampos)) + ",";
+                listaValores += LogicByType.formatToSql(getValorProperty(unaProperty.Name, objetoAObtenerCampos)) + ",";
             }
+        }
+
+        private static object getValorProperty(string mensaje, PersistentObject unObjeto)
+        {
+            return unObjeto.GetType().InvokeMember(mensaje,
+                                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
+                                    null, unObjeto, null);
+        }
+
+        private static void setValorProperty(string mensaje, PersistentObject unObjeto, object valor)
+        {
+            unObjeto.GetType().InvokeMember(mensaje,
+                                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty,
+                                    null, unObjeto, new object[] { valor });
+        }
+
+        private static string getNombreCampo(PropertyInfo unaProperty)
+        {
+            return unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name));
         }
 
         private void removeTheLast(ref string stringArmada, string stringARemover)
@@ -136,7 +175,7 @@ namespace Dal
             stringArmada = stringArmada.Substring(0, stringArmada.Length - stringARemover.Length);
         }
 
-        private int getPositionOfFirstUpperCaseChar(string unaProperty)
+        private static int getPositionOfFirstUpperCaseChar(string unaProperty)
         {
             for (int i = 0; i < unaProperty.Length - 1; i++)
                 if (char.IsUpper(unaProperty[i]))
@@ -145,9 +184,9 @@ namespace Dal
 
         }
 
-        private bool representaUnCampoDeLaBase(string unaProperty)
+        private static bool representaUnCampoDeLaBase(string unaProperty)
         {
-            return (unaProperty.Contains("campo") || unaProperty.Contains("clave"));
+            return (unaProperty.Contains("campo"));
         }
 
         #endregion

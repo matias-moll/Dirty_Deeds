@@ -131,5 +131,25 @@ namespace ABMs
 
         #endregion
 
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            if (dgvGrilla.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder modificarla");
+                return;
+            }
+            try
+            {
+                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
+                int idClavePrimaria = Convert.ToInt32(dgvGrilla.SelectedRows[0].Cells[0].Value);
+                resolver.modificacion(this, idClavePrimaria);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+            
+        }
+
     }
 }

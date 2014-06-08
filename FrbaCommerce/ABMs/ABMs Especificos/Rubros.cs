@@ -21,11 +21,22 @@ namespace ABMs
             return unRol.upFullByPrototype();
         }
 
+        public override void cargarTusDatos(int idClavePrimaria)
+        {
+            Rubro unRubro = Rubro.get(idClavePrimaria);
+            teDescripcion.Text = unRubro.campoDescripcion;
+        }
+
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
             Rubro unRol = new Rubro(teDescripcion.Text);
             unRol.save();
+        }
+
+        protected override void grabarModificacion()
+        {
+
         }
 
         protected override void baja(int idClavePrimaria)
