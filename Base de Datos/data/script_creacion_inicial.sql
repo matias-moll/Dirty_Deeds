@@ -40,15 +40,15 @@ create table Usuario_Rol
 
 create table Calificacion
 (
-	Codigo numeric(18, 0) primary key,
+	Codigo int primary key,
 	Descripcion nvarchar(255) not null,
-	CantidadEstrellas numeric(18, 0) not null
+	CantidadEstrellas int not null
 )
 
 create table Usuario_Calificacion
 (
 	IdUsuario int foreign key references Usuario(Id),
-	CodCalificacion numeric(18, 0) foreign key references Calificacion(Codigo),
+	CodCalificacion int foreign key references Calificacion(Codigo),
 	primary key (IdUsuario, CodCalificacion)
 )
 
@@ -58,7 +58,7 @@ create table Cliente
 	Apellido nvarchar(255) not null,
 	Nombre nvarchar(255) not null,
 	TipoDocumento char(4) not null,
-	Documento numeric(18, 0) not null,
+	Documento int not null,
 	FechaNacimiento datetime not null,
 	Mail nvarchar(255) not null,
 	Deleted bit not null
@@ -86,8 +86,8 @@ create table Direccion
 	IdCliente int foreign key references Cliente(Id),
 	IdEmpresa int foreign key references Empresa(Id),
 	Domicilio nvarchar(255) not null,
-	NumeroCalle numeric(18, 0) not null,
-	Piso numeric(18, 0) not null,
+	NumeroCalle int not null,
+	Piso int not null,
 	Depto nvarchar(50) not null,
 	CodPostal int not null,
 	IdLocalidad int foreign key references Localidad(Id)
@@ -101,7 +101,7 @@ create table FormaPago
 
 create table Factura
 (
-	Numero numeric(18, 0) primary key,
+	Numero int primary key,
 	Fecha datetime not null,
 	Total numeric(18, 2) not null,
 	IdFormaPago int not null foreign key references FormaPago(Id)
@@ -109,17 +109,17 @@ create table Factura
 
 create table Item
 (
-	NumFactura numeric(18, 0) foreign key references Factura(Numero),
+	NumFactura int foreign key references Factura(Numero),
 	NumItem int not null,
 	Descripcion varchar(60) not null,
 	Monto numeric(18, 2) not null,
-	Cantidad numeric(18, 0) not null,
+	Cantidad int not null,
 	primary key (NumFactura,NumItem)
 )
 
 create table Visibilidad
 (
-	Id numeric(18, 0) not null IDENTITY(1,1) primary key,
+	Id int not null IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
 	Porcentaje numeric(18, 2) not null,
@@ -135,20 +135,20 @@ create table Rubro
 
 create table Publicacion
 (
-	Codigo numeric(18, 0) primary key,
+	Codigo int primary key,
 	Descripcion nvarchar(255) not null,
-	Stock numeric(18, 0) not null,
+	Stock int not null,
 	Fecha datetime not null,
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	IdRubro int foreign key references Rubro(Id),
-	IdVisibilidad numeric(18, 0) foreign key references Visibilidad(Id)
+	IdVisibilidad int foreign key references Visibilidad(Id)
 )
 
 create table Publicacion_Pregunta
 (
-	CodPublicacion numeric(18, 0) foreign key references Publicacion(Codigo),
+	CodPublicacion int foreign key references Publicacion(Codigo),
 	NumPregunta int,
 	Pregunta nvarchar(255) not null,
 	Respuesta nvarchar(255),
@@ -158,10 +158,10 @@ create table Publicacion_Pregunta
 create table OfertaCompra
 (
 	IdUsuario int foreign key references Usuario(Id),
-	CodPublicacion numeric(18, 0) foreign key references Publicacion(Codigo),
+	CodPublicacion int foreign key references Publicacion(Codigo),
 	Fecha datetime not null,
 	Monto numeric(18, 2),
-	Cantidad numeric(18, 0),
+	Cantidad int,
 	primary key (IdUsuario, CodPublicacion) 
 )
 
