@@ -9,16 +9,11 @@ namespace Dominio
 {
     public class Rubro
     {
-        private bool deleted;
         private DataAccessObject<Rubro> daoRubro;
 
         public int autoId { get; set; }
         public string campoDescripcion { get; set; }
-        public byte campoDeleted
-        {
-            get { if (deleted) return 1; else return 0; }
-            set { deleted = (value == 1) ? true : false; }
-        }
+        public bool campoDeleted { get; set; }
 
         #region Constructores
 
@@ -27,7 +22,7 @@ namespace Dominio
         public Rubro(string descripcion, bool p_deleted)
         {
             campoDescripcion = descripcion;
-            deleted = p_deleted;
+            campoDeleted = p_deleted;
             daoRubro = new DataAccessObject<Rubro>();
         }
 
@@ -43,12 +38,12 @@ namespace Dominio
 
         public static void delete(int idClavePrimaria)
         {
-            DataAccessObject<Rubro>.delete(idClavePrimaria, typeof(Rubro));
+            DataAccessObject<Rubro>.delete(idClavePrimaria);
         }
 
         public void update()
         {
-
+            daoRubro.update(this);
         }
 
         public DataTable upFullByPrototype()
@@ -58,7 +53,7 @@ namespace Dominio
 
         public static Rubro get(int idClavePrimaria)
         {
-            return DataAccessObject<Rubro>.get(idClavePrimaria, typeof(Rubro));
+            return DataAccessObject<Rubro>.get(idClavePrimaria);
         }
     }
 }

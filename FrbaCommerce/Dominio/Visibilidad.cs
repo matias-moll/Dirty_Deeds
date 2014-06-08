@@ -9,18 +9,13 @@ namespace Dominio
 {
     public class Visibilidad
     {
-        private bool deleted;
         private DataAccessObject<Visibilidad> daoVisibilidad;
 
         public int autoId { get; set; }
         public string campoDescripcion { get; set; }
         public decimal campoPrecio { get; set; }
         public decimal campoPorcentaje { get; set; }
-        public byte campoDeleted
-        {
-            get { if (deleted) return 1; else return 0; }
-            set { deleted = (value == 1) ? true : false; }
-        }
+        public bool campoDeleted { get; set; }
 
         #region Constructores
 
@@ -31,7 +26,7 @@ namespace Dominio
             campoDescripcion = descripcion;
             campoPrecio = precio;
             campoPorcentaje = porcentaje;
-            deleted = p_deleted;
+            campoDeleted = p_deleted;
             daoVisibilidad = new DataAccessObject<Visibilidad>();
         }
 
@@ -48,12 +43,12 @@ namespace Dominio
 
         public static void delete(int idClavePrimaria)
         {
-            DataAccessObject<Visibilidad>.delete(idClavePrimaria, typeof(Visibilidad));
+            DataAccessObject<Visibilidad>.delete(idClavePrimaria);
         }
 
         public void update()
         {
-
+            daoVisibilidad.update(this);
         }
 
         public DataTable upFullByPrototype()
@@ -63,7 +58,7 @@ namespace Dominio
 
         public static Visibilidad get(int idClavePrimaria)
         {
-            return DataAccessObject<Visibilidad>.get(idClavePrimaria, typeof(Visibilidad));
+            return DataAccessObject<Visibilidad>.get(idClavePrimaria);
         }
 
     }

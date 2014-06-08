@@ -12,7 +12,7 @@ namespace ABMs
     public partial class AltaGenerico : Form
     {
         ABMEspecifico resolver;
-        int idClaveObjeto;
+        private int idClaveObjeto;
 
         public AltaGenerico(ABMEspecifico p_resolver, int idClaveObjetoModificacion)
         {

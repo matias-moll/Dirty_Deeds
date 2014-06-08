@@ -70,17 +70,28 @@ namespace ABMs
             {
                 MessageBox.Show(excep.Message);
             }
+            resetearControles();
+        }
 
-            // Removemos el panel actual y obtenemos uno nuevo para la busqueda (sino no se carga).
-            this.gbFiltros.Controls.Remove(pnFiltros);
-            pnFiltros = resolver.getPanel();
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            if (dgvGrilla.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder modificarla");
+                return;
+            }
+            try
+            {
+                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
+                int idClavePrimaria = Convert.ToInt32(dgvGrilla.SelectedRows[0].Cells[0].Value);
+                resolver.modificacion(this, idClavePrimaria);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
 
-            // Añadimos el panel nuevamente.
-            this.gbFiltros.Controls.Add(pnFiltros);
-
-            // Limpiamos la pantalla porque el alta puede modificar la consulta realizada y no podemos impactarla de vuelta.
-            this.btnLimpiar_Click(this, new EventArgs());
-             
+            resetearControles();
         }
 
         private void btnBorrar_Click(object sender, EventArgs e)
@@ -111,6 +122,19 @@ namespace ABMs
 
         #region Metodos Privados
 
+        private void resetearControles()
+        {
+            // Removemos el panel actual y obtenemos uno nuevo para la busqueda (sino no se carga).
+            this.gbFiltros.Controls.Remove(pnFiltros);
+            pnFiltros = resolver.getPanel();
+
+            // Añadimos el panel nuevamente.
+            this.gbFiltros.Controls.Add(pnFiltros);
+
+            // Limpiamos la pantalla porque el alta puede modificar la consulta realizada y no podemos impactarla de vuelta.
+            this.btnLimpiar_Click(this, new EventArgs());
+        }
+
         private void limpiarControlesDelPanel()
         {
             foreach (Control unControl in pnFiltros.Controls)
@@ -131,25 +155,6 @@ namespace ABMs
 
         #endregion
 
-        private void btnModificar_Click(object sender, EventArgs e)
-        {
-            if (dgvGrilla.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder modificarla");
-                return;
-            }
-            try
-            {
-                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
-                int idClavePrimaria = Convert.ToInt32(dgvGrilla.SelectedRows[0].Cells[0].Value);
-                resolver.modificacion(this, idClavePrimaria);
-            }
-            catch (Exception excep)
-            {
-                MessageBox.Show(excep.Message);
-            }
-            
-        }
 
     }
 }

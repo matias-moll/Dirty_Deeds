@@ -12,6 +12,7 @@ namespace ABMs
 {
     class Roles : ABMEspecifico
     {
+
         TextEdit teNombre = new TextEdit();
 
         public override DataTable ejecutarBusqueda()
@@ -21,9 +22,9 @@ namespace ABMs
             return unRol.upFullByPrototype();
         }
 
-        public override void cargarTusDatos(int idClavePrimaria)
+        public override void cargarTusDatos(int p_idClavePrimaria)
         {
-            Rol unRol = Rol.get(idClavePrimaria);
+            Rol unRol = Rol.get(p_idClavePrimaria);
             teNombre.Text = unRol.campoNombre;
         }
 
@@ -34,9 +35,12 @@ namespace ABMs
             unRol.save();
         }
 
-        protected override void grabarModificacion()
+        protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-
+            // Creamos el rol a partir de los datos de la pantalla y el id que tenemos guardado y lo mandamos a actualizar.
+            Rol unRol = new Rol(teNombre.Text);
+            unRol.autoId = idClaveObjetoAModificar;
+            unRol.update();
         }
 
         protected override void baja(int idClavePrimaria)

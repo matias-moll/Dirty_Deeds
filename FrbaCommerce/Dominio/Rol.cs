@@ -10,17 +10,12 @@ namespace Dominio
     public class Rol
     {
         //Miembros
-        private bool deleted;
         private DataAccessObject<Rol> daoRol;
 
         // Properties con la convencion del DataAccessObject
         public int autoId { get; set; }
         public string campoNombre { get; set; }
-        public byte campoDeleted
-        {
-            get { if (deleted) return 1; else return 0; }
-            set { deleted = (value == 1) ? true : false; }
-        }
+        public bool campoDeleted { get; set; }
 
         #region Constructores
         public Rol() { }
@@ -28,7 +23,7 @@ namespace Dominio
         public Rol(string nombre, bool p_deleted)
         {
             campoNombre = nombre;
-            deleted = p_deleted;
+            campoDeleted = p_deleted;
             daoRol = new DataAccessObject<Rol>();
         }
 
@@ -36,7 +31,13 @@ namespace Dominio
 
         #endregion
 
+
         //Metodos publicos
+        public static Rol get(int idClavePrimaria)
+        {
+            return DataAccessObject<Rol>.get(idClavePrimaria);
+        }
+
         public void save()
         {
             daoRol.insert(this);
@@ -44,7 +45,7 @@ namespace Dominio
 
         public void update()
         {
-
+            daoRol.update(this);
         }
 
         public DataTable upFullByPrototype()
@@ -52,20 +53,15 @@ namespace Dominio
             return daoRol.upFullOnTableByPrototype(this);
         }
 
-        public void borradoLogico()
-        {
-            deleted = true;
-            update();
-        }
-
         public static void delete(int idClavePrimaria)
         {
-            DataAccessObject<Rol>.delete(idClavePrimaria, typeof(Rol));
+            DataAccessObject<Rol>.delete(idClavePrimaria);
         }
 
-        public static Rol get(int idClavePrimaria)
+        public void borradoLogico()
         {
-            return DataAccessObject<Rol>.get(idClavePrimaria, typeof(Rol));
+            campoDeleted = true;
+            update();
         }
 
     }

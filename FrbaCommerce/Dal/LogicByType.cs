@@ -17,6 +17,7 @@ namespace Dal
             accionesSegunTipo.Add(typeof(int), new AccionesInt());
             accionesSegunTipo.Add(typeof(decimal), new AccionesDecimal());
             accionesSegunTipo.Add(typeof(byte), new AccionesByte());
+            accionesSegunTipo.Add(typeof(bool), new AccionesBool());
         }
         
         internal static string formatToSql(object unValor)

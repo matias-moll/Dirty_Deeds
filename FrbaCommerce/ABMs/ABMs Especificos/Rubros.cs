@@ -34,9 +34,11 @@ namespace ABMs
             unRol.save();
         }
 
-        protected override void grabarModificacion()
+        protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-
+            Rubro unRubro = new Rubro(teDescripcion.Text);
+            unRubro.autoId = idClaveObjetoAModificar;
+            unRubro.update();
         }
 
         protected override void baja(int idClavePrimaria)

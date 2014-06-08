@@ -7,7 +7,6 @@ namespace Dominio
 {
     public class Localidad
     {
-
         public string autoId { get; set; }
         public string campoNombre { get; set; }
 

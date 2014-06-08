@@ -39,17 +39,43 @@ namespace Dal
            
         }
 
-        public void update()
+        public void update(PersistentObject objetoAActualizar)
         {
+            string commandUpdate = "";
 
+            try
+            {
+                string listaCamposValores, listaCondiciones;
+                listaCamposValores = listaCondiciones = "";
+
+                // Instanciamos y llenamos el diccionario con todos los campos y valores del objeto.
+                Dictionary<string, string> diccionarioCampoValor = new Dictionary<string, string>();
+                fillDictionaryCampoValor(ref diccionarioCampoValor, objetoAActualizar);
+
+                // Convertimos el diccionario en una string para el sql.
+                listaCamposValores = makeStringOfFieldValues(diccionarioCampoValor);
+
+                // TODO: cambiar esta condicion hardcoded por un metodo que busque todas las properties que compongan la clave y sus valores.
+                listaCondiciones = "Id = " + getValorProperty("autoId",objetoAActualizar).ToString();
+
+                string nombreTabla = objetoAActualizar.GetType().Name;
+                commandUpdate = String.Format("update DIRTYDEEDS.{0} set {1} where {2}", nombreTabla, listaCamposValores, listaCondiciones);
+
+                StaticDataAccess.executeCommand(commandUpdate);
+            }
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba actualizar un registro en la base de datos.",
+                                            commandUpdate, e.Message, e.StackTrace);
+            }
         }
 
-        public static void delete(int idClavePrimaria, Type tipoObjetoABorrar)
+        public static void delete(int idClavePrimaria)
         {
             string deleteCommand = "";
             try
             {
-                string nombreTabla = tipoObjetoABorrar.Name;
+                string nombreTabla = typeof(PersistentObject).Name;
                 deleteCommand = String.Format("delete from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
                 StaticDataAccess.executeCommand(deleteCommand);
             }
@@ -60,15 +86,17 @@ namespace Dal
             }
         }
 
-        public static PersistentObject get(int idClavePrimaria, Type tipoObjetoAObtener)
+        public static PersistentObject get(int idClavePrimaria)
         {
             string query = "";
             try
             {
-                string nombreTabla = tipoObjetoAObtener.Name;
+                PersistentObject objetoAConstruir = new PersistentObject();
+                string nombreTabla = objetoAConstruir.GetType().Name;
                 query = String.Format("select * from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
                 DataTable dtEntidad = StaticDataAccess.executeQuery(query);
-                return makeObject(dtEntidad.Rows[0], tipoObjetoAObtener.GetType());
+                fillObject(dtEntidad.Rows[0], ref objetoAConstruir);
+                return objetoAConstruir;
             }
             catch (Exception e)
             {
@@ -109,6 +137,7 @@ namespace Dal
 
         }
 
+        // TODO: Implementame D=! 
         public List<PersistentObject> upFull()
         {
             return null;
@@ -117,22 +146,19 @@ namespace Dal
         #endregion
 
 
-
         #region Metodos privados
 
-        private static PersistentObject makeObject(DataRow drEntidad, Type tipoClase)
+        private static void fillObject(DataRow drEntidad, ref PersistentObject objetoALlenar)
         {
-            PersistentObject objetoCreado = new PersistentObject();
-            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(tipoClase);
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoALlenar.GetType());
 
             // Le cargamos todos los valores del datarow al objeto.
             foreach (PropertyInfo unaProperty in propiedadesCampos)
-                setValorProperty(unaProperty.Name, objetoCreado, drEntidad[getNombreCampo(unaProperty)]);
+                setValorProperty(unaProperty.Name, objetoALlenar, drEntidad[getNombreCampo(unaProperty)]);
 
             // Agregamos la clave primaria que tiene un tratamiento diferente al de los campos
-            setValorProperty("claveId", objetoCreado, drEntidad["Id"]); // TODO: pensar como no hardcodear esto.
-
-            return objetoCreado;
+            PropertyInfo propiedadClave = getPropiedadClave(objetoALlenar.GetType());
+            setValorProperty(propiedadClave.Name, objetoALlenar, drEntidad[getNombreCampo(propiedadClave)]);
         }
 
         private static List<PropertyInfo> getListaPropiedadesCampos(Type tipoClaseAObtenerProperties)
@@ -140,6 +166,13 @@ namespace Dal
             return tipoClaseAObtenerProperties.GetProperties().Where
                            (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
         }
+
+        private static PropertyInfo getPropiedadClave(Type tipoClaseAObtenerProperties)
+        {
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList()[0];
+        }
+
 
         private void fillListaCamposYListaValoresFrom(ref string listaCampos, ref string listaValores, PersistentObject objetoAObtenerCampos)
         {
@@ -149,6 +182,27 @@ namespace Dal
                 listaCampos += getNombreCampo(unaProperty) + ",";
                 listaValores += LogicByType.formatToSql(getValorProperty(unaProperty.Name, objetoAObtenerCampos)) + ",";
             }
+        }
+
+        private void fillDictionaryCampoValor(ref Dictionary<string, string> diccionarioCampoValor, PersistentObject objetoAPersistir)
+        {
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoAPersistir.GetType());
+            // Por cada property agregamos un objeto al diccionario con clave nombre de campo y valor valor del campo.
+            foreach (PropertyInfo unaProperty in propiedadesCampos)
+                diccionarioCampoValor.Add(getNombreCampo(unaProperty),
+                    LogicByType.formatToSql(getValorProperty(unaProperty.Name, objetoAPersistir)));
+        }
+
+        private string makeStringOfFieldValues(Dictionary<string, string> diccionarioCampoValor)
+        {
+            string setCampoValor = "";
+            // Armamos la string de asignacion de nombreCampo = valor para todas las entradas del diccionario.
+            foreach (KeyValuePair<string, string> keyValuePair in diccionarioCampoValor)
+                setCampoValor += String.Format("{0} = {1} ,", keyValuePair.Key, keyValuePair.Value);
+
+            removeTheLast(ref setCampoValor, ",");
+
+            return setCampoValor;
         }
 
         private static object getValorProperty(string mensaje, PersistentObject unObjeto)
@@ -187,6 +241,11 @@ namespace Dal
         private static bool representaUnCampoDeLaBase(string unaProperty)
         {
             return (unaProperty.Contains("campo"));
+        }
+
+        private static bool representaClaveEnLaBase(string unaProperty)
+        {
+            return (unaProperty.Contains("auto"));
         }
 
         #endregion

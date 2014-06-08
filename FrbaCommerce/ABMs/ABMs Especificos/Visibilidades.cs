@@ -38,9 +38,11 @@ namespace ABMs
             unaVisibilidad.save();
         }
 
-        protected override void grabarModificacion()
+        protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-
+            Visibilidad unaVisibilidad = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            unaVisibilidad.autoId = idClaveObjetoAModificar;
+            unaVisibilidad.update();
         }
 
         protected override void baja(int idClavePrimaria)
