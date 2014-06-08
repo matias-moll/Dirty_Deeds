@@ -29,13 +29,16 @@ namespace ABMs
             this.gbFiltros.Controls.Add(pnFiltros);
         }
 
+
+        #region Operaciones
+
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             // Limpiamos el texto de todos los textbox del agrupador de filtros. Y luego la grilla.
             foreach (Control unControl in pnFiltros.Controls)
                 if (esControlEdit(unControl.GetType()))
                     unControl.Text = "";
-            
+
             dgvGrilla.DataSource = null;
             pnFiltros.Focus();
         }
@@ -67,18 +70,46 @@ namespace ABMs
             {
                 MessageBox.Show(excep.Message);
             }
-             
+
             // Removemos el panel actual y obtenemos uno nuevo para la busqueda (sino no se carga).
             this.gbFiltros.Controls.Remove(pnFiltros);
             pnFiltros = resolver.getPanel();
 
-            // Limpiamos los controles (se reutilizan para las dos pantallas, por eso hay que limpiarlos).
-            limpiarControlesDelPanel();
-
             // Añadimos el panel nuevamente.
             this.gbFiltros.Controls.Add(pnFiltros);
+
+            // Limpiamos la pantalla porque el alta puede modificar la consulta realizada y no podemos impactarla de vuelta.
+            this.btnLimpiar_Click(this, new EventArgs());
+             
         }
 
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            if (dgvGrilla.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder borrarla");
+                return;
+            }
+            try
+            {
+                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
+                int idClavePrimaria = Convert.ToInt32(dgvGrilla.SelectedRows[0].Cells[0].Value);
+                resolver.baja(this, idClavePrimaria);
+
+                // Actualizamos la grilla.
+                this.btnBuscar_Click(this, new EventArgs());
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+        }
+
+        #endregion
+
+
+
+        #region Metodos Privados
 
         private void limpiarControlesDelPanel()
         {
@@ -97,5 +128,8 @@ namespace ABMs
             return ((tipoControl == typeof(TextEdit)) || (tipoControl == typeof(NumberEdit)) ||
                 (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)));
         }
+
+        #endregion
+
     }
 }

@@ -12,7 +12,7 @@ namespace Dominio
         private bool deleted;
         private DataAccessObject<Visibilidad> daoVisibilidad;
 
-        public int autoCodigo { get; set; }
+        public int autoId { get; set; }
         public string campoDescripcion { get; set; }
         public decimal campoPrecio { get; set; }
         public decimal campoPorcentaje { get; set; }
@@ -34,6 +34,11 @@ namespace Dominio
         public void save()
         {
             daoVisibilidad.insert(this);
+        }
+
+        public static void delete(int idClavePrimaria)
+        {
+            DataAccessObject<Visibilidad>.delete(idClavePrimaria, typeof(Visibilidad));
         }
 
         public void update()

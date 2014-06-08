@@ -13,7 +13,8 @@ namespace ABMs
         // Firmas obligatorias que deben sobreescribir las subclases.
         public abstract DataTable ejecutarBusqueda();
         public abstract Panel getPanel(Size tamañoPanel);
-        public abstract void grabarAlta();
+        protected abstract void grabarAlta();
+        protected abstract void baja(int idClavePrimaria);
 
 
         // Metodos con comportamiento default, pueden sobreescribirse
@@ -29,6 +30,18 @@ namespace ABMs
                 this.grabarAlta();
                 MessageBox.Show("Se ha realizado exitosamente la grabación");
             }
+        }
+
+        public virtual void baja(Form parent, int idClavePrimaria)
+        {
+            // Pedimos confirmacion.
+            if (MessageBox.Show("¿Está seguro que desea borrar la entidad seleccionada?", "Baja",
+                                MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                return;
+
+            this.baja(idClavePrimaria);
+            MessageBox.Show("Se ha realizado la baja física exitosamente");
+
         }
         
         public virtual Panel getPanel()

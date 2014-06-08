@@ -41,9 +41,20 @@ namespace Dal
 
         }
 
-        public void delete()
+        public static void delete(int idClavePrimaria, Type tipoObjetoABorrar)
         {
-
+            string deleteCommand = "";
+            try
+            {
+                string nombreTabla = tipoObjetoABorrar.Name;
+                deleteCommand = String.Format("delete from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
+                StaticDataAccess.executeCommand(deleteCommand);
+            }
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba realizar el borrado en la base de datos.",
+                                            deleteCommand, e.Message, e.StackTrace);
+            }
         }
 
         public DataTable upFullOnTableByPrototype(PersistentObject prototipo)

@@ -36,6 +36,11 @@ namespace Dominio
             daoRol.insert(this);
         }
 
+        public static void delete(int idClavePrimaria)
+        {
+            DataAccessObject<Rol>.delete(idClavePrimaria, typeof(Rol));
+        }
+
         public void update()
         {
 

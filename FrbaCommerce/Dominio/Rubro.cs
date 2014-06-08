@@ -32,6 +32,11 @@ namespace Dominio
             daoRubro.insert(this);
         }
 
+        public static void delete(int idClavePrimaria)
+        {
+            DataAccessObject<Rubro>.delete(idClavePrimaria, typeof(Rubro));
+        }
+
         public void update()
         {
 

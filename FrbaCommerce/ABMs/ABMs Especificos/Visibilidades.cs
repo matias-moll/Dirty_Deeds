@@ -23,11 +23,16 @@ namespace ABMs
             return unRol.upFullByPrototype();
         }
 
-        public override void grabarAlta()
+        protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
             Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, nePorcentaje.Numero);
             unRol.save();
+        }
+
+        protected override void baja(int idClavePrimaria)
+        {
+            Visibilidad.delete(idClavePrimaria);
         }
 
         public override Panel getPanel(Size tamañoPanel)

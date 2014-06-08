@@ -119,7 +119,7 @@ create table Item
 
 create table Visibilidad
 (
-	Codigo numeric(18, 0) not null IDENTITY(1,1) primary key,
+	Id numeric(18, 0) not null IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
 	Porcentaje numeric(18, 2) not null,
@@ -143,7 +143,7 @@ create table Publicacion
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	IdRubro int foreign key references Rubro(Id),
-	CodVisibilidad numeric(18, 0) foreign key references Visibilidad(Codigo)
+	IdVisibilidad numeric(18, 0) foreign key references Visibilidad(Id)
 )
 
 create table Publicacion_Pregunta
