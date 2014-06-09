@@ -9,28 +9,9 @@ namespace Dal
     {
         override internal string formatToSql(object unValor)
         {
-            string valorString = unValor.ToString();
-            // Si es pm, tenemos que ajustar a mano la suma de 12 horas porque en la conversion a string
-            // se pierde y nos graba todas las horas como si fuera am.
-            if (valorString.Contains('p'))
-            {
-                string horaAnterior = valorString.Substring(11,2);
-                int horaAnteriorInt = Convert.ToInt32(horaAnterior);
-                horaAnteriorInt += 12;
-                horaAnterior = String.Format(" {0}:", horaAnterior);
-                string horaNueva = String.Format(" {0}:", horaAnteriorInt.ToString());
-                valorString = valorString.Replace(horaAnterior, horaNueva);
-            }
-
-            // Hay que cambiar de lugar los dias y el mes porque el sql tiene el formato ingles.
-            string dias = valorString.Substring(0, 2);
-            string mes = valorString.Substring(3, 2);
-            valorString = String.Format("{0}/{1}{2}", mes, dias, valorString.Substring(5, valorString.Length - 5));
-
-            // Le quitamos el p.m. de la string.
-            valorString = valorString.Substring(0, valorString.Length - 5);
-
-            return String.Format("'{0}'", valorString);
+            DateTime unaFechaHora = (DateTime)unValor;
+            string fechaFormateada = unaFechaHora.ToString("MM/dd/yyyy HH:mm:ss");
+            return String.Format("'{0}'", fechaFormateada);
         }
 
         override internal string makeCondition(string nombreCampo, object valorCampo)
