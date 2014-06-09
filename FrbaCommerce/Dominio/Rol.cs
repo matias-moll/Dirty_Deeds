@@ -18,13 +18,12 @@ namespace Dominio
         public bool campoDeleted { get; set; }
 
         #region Constructores
-        public Rol() { }
+        public Rol() { daoRol = new DataAccessObject<Rol>(); }
 
-        public Rol(string nombre, bool p_deleted)
+        public Rol(string nombre, bool p_deleted) : this()
         {
             campoNombre = nombre;
             campoDeleted = p_deleted;
-            daoRol = new DataAccessObject<Rol>();
         }
 
         public Rol(string nombre): this(nombre, false){ }
@@ -60,7 +59,7 @@ namespace Dominio
 
         public void borradoLogico()
         {
-            campoDeleted = true;
+            campoDeleted = !campoDeleted;
             update();
         }
 

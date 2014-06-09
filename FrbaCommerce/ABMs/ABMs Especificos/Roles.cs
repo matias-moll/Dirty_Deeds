@@ -48,6 +48,12 @@ namespace ABMs
             Rol.delete(idClavePrimaria);
         }
 
+        protected override void bajaLogica(int idClavePrimaria)
+        {
+            Rol unRol = Rol.get(idClavePrimaria);
+            unRol.borradoLogico();
+        }
+
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);

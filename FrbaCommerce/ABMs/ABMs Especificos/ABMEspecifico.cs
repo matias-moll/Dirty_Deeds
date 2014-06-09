@@ -19,9 +19,10 @@ namespace ABMs
         protected abstract void grabarAlta();
         protected abstract void grabarModificacion(int idClaveObjeto);
         protected abstract void baja(int idClavePrimaria);
+        protected abstract void bajaLogica(int idClavePrimaria);
 
 
-        // Metodos con comportamiento default, pueden sobreescribirse
+        // Metodos con comportamiento comun a todos los ABMs especificos.
         public virtual void alta(Form parent)
         {
             disparaFormularioCarga(parent, modoForm.alta, 0, "Se ha realizado exitosamente el alta");
@@ -35,13 +36,18 @@ namespace ABMs
         public virtual void baja(Form parent, int idClavePrimaria)
         {
             // Pedimos confirmacion.
-            if (MessageBox.Show("¿Está seguro que desea borrar la entidad seleccionada?", "Baja",
+            if (MessageBox.Show(parent, "¿Está seguro que desea borrar la entidad seleccionada?", "Baja",
                                 MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return;
 
             this.baja(idClavePrimaria);
-            MessageBox.Show("Se ha realizado la baja física exitosamente");
+            MessageBox.Show(parent,"Se ha realizado la baja física exitosamente");
+        }
 
+        public virtual void bajaLogica(Form parent, int idClavePrimaria)
+        {
+            this.bajaLogica(idClavePrimaria);
+            MessageBox.Show(parent, "Se ha realizado el cambio de estado lógico exitosamente");
         }
         
         public virtual Panel getPanel()

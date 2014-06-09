@@ -19,15 +19,14 @@ namespace Dominio
 
         #region Constructores
 
-        public Visibilidad() {}
+        public Visibilidad() { daoVisibilidad = new DataAccessObject<Visibilidad>(); }
 
-        public Visibilidad(string descripcion, decimal precio, decimal porcentaje, bool p_deleted)
+        public Visibilidad(string descripcion, decimal precio, decimal porcentaje, bool p_deleted) : this()
         {
             campoDescripcion = descripcion;
             campoPrecio = precio;
             campoPorcentaje = porcentaje;
             campoDeleted = p_deleted;
-            daoVisibilidad = new DataAccessObject<Visibilidad>();
         }
 
         public Visibilidad(string descripcion, decimal precio, decimal porcentaje) :
@@ -44,6 +43,12 @@ namespace Dominio
         public static void delete(int idClavePrimaria)
         {
             DataAccessObject<Visibilidad>.delete(idClavePrimaria);
+        }
+
+        public void borradoLogico()
+        {
+            campoDeleted = !campoDeleted;
+            update();
         }
 
         public void update()

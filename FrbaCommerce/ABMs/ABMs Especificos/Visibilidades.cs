@@ -50,6 +50,12 @@ namespace ABMs
             Visibilidad.delete(idClavePrimaria);
         }
 
+        protected override void bajaLogica(int idClavePrimaria)
+        {
+            Visibilidad unaVisibilidad = Visibilidad.get(idClavePrimaria);
+            unaVisibilidad.borradoLogico();
+        }
+
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);

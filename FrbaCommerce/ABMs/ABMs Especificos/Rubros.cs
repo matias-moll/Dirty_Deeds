@@ -46,6 +46,12 @@ namespace ABMs
             Rubro.delete(idClavePrimaria);
         }
 
+        protected override void bajaLogica(int idClavePrimaria)
+        {
+            Rubro unRubro = Rubro.get(idClavePrimaria);
+            unRubro.borradoLogico();
+        }
+
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);

@@ -36,6 +36,7 @@
             this.btnAlta = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
+            this.btnBajaLogica = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrilla)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,9 +81,9 @@
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(389, 279);
+            this.btnAlta.Location = new System.Drawing.Point(269, 279);
             this.btnAlta.Name = "btnAlta";
-            this.btnAlta.Size = new System.Drawing.Size(75, 23);
+            this.btnAlta.Size = new System.Drawing.Size(87, 23);
             this.btnAlta.TabIndex = 3;
             this.btnAlta.Text = "Alta";
             this.btnAlta.UseVisualStyleBackColor = true;
@@ -90,23 +91,33 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(482, 279);
+            this.btnModificar.Location = new System.Drawing.Point(362, 279);
             this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(75, 23);
+            this.btnModificar.Size = new System.Drawing.Size(87, 23);
             this.btnModificar.TabIndex = 4;
-            this.btnModificar.Text = "Modificar";
+            this.btnModificar.Text = "Modificación";
             this.btnModificar.UseVisualStyleBackColor = true;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnBorrar
             // 
-            this.btnBorrar.Location = new System.Drawing.Point(572, 279);
+            this.btnBorrar.Location = new System.Drawing.Point(455, 279);
             this.btnBorrar.Name = "btnBorrar";
-            this.btnBorrar.Size = new System.Drawing.Size(75, 23);
+            this.btnBorrar.Size = new System.Drawing.Size(87, 23);
             this.btnBorrar.TabIndex = 5;
-            this.btnBorrar.Text = "Borrar";
+            this.btnBorrar.Text = "Baja Física";
             this.btnBorrar.UseVisualStyleBackColor = true;
             this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
+            // 
+            // btnBajaLogica
+            // 
+            this.btnBajaLogica.Location = new System.Drawing.Point(548, 279);
+            this.btnBajaLogica.Name = "btnBajaLogica";
+            this.btnBajaLogica.Size = new System.Drawing.Size(99, 23);
+            this.btnBajaLogica.TabIndex = 7;
+            this.btnBajaLogica.Text = "Baja/Rec. Lógica";
+            this.btnBajaLogica.UseVisualStyleBackColor = true;
+            this.btnBajaLogica.Click += new System.EventHandler(this.btnBajaLogica_Click);
             // 
             // ABMGenerico
             // 
@@ -114,6 +125,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSkyBlue;
             this.ClientSize = new System.Drawing.Size(659, 542);
+            this.Controls.Add(this.btnBajaLogica);
             this.Controls.Add(this.btnBorrar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnAlta);
@@ -142,5 +154,6 @@
         private System.Windows.Forms.Button btnAlta;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnBorrar;
+        private System.Windows.Forms.Button btnBajaLogica;
     }
 }

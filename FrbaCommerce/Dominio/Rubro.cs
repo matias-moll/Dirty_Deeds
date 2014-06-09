@@ -17,13 +17,12 @@ namespace Dominio
 
         #region Constructores
 
-        public Rubro() { }
+        public Rubro() { daoRubro = new DataAccessObject<Rubro>(); }
 
-        public Rubro(string descripcion, bool p_deleted)
+        public Rubro(string descripcion, bool p_deleted) : this()
         {
             campoDescripcion = descripcion;
             campoDeleted = p_deleted;
-            daoRubro = new DataAccessObject<Rubro>();
         }
 
         public Rubro(string descripcion) : this(descripcion, false) { }
@@ -39,6 +38,12 @@ namespace Dominio
         public static void delete(int idClavePrimaria)
         {
             DataAccessObject<Rubro>.delete(idClavePrimaria);
+        }
+
+        public void borradoLogico()
+        {
+            campoDeleted = !campoDeleted;
+            update();
         }
 
         public void update()
