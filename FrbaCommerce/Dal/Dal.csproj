@@ -57,6 +57,7 @@
     <Compile Include="Strategy Acciones x Tipo\AccionesInt.cs" />
     <Compile Include="Strategy Acciones x Tipo\AccionesByte.cs" />
     <Compile Include="Strategy Acciones x Tipo\AccionesBool.cs" />
+    <Compile Include="Strategy Acciones x Tipo\AccionesDateTime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

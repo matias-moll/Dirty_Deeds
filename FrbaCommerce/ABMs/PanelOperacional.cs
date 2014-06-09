@@ -36,8 +36,8 @@ namespace ABMs
 
         private void btnEmpresas_Click(object sender, EventArgs e)
         {
-            //ABMGenerico abmEmpresas = new ABMGenerico(new Empresas());
-            //abmEmpresas.Show(this);
+            ABMGenerico abmEmpresas = new ABMGenerico(new Empresas());
+            abmEmpresas.Show(this);
         }
 
         private void btnRubros_Click(object sender, EventArgs e)

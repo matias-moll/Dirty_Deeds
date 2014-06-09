@@ -150,7 +150,8 @@ namespace ABMs
         private bool esControlEdit(Type tipoControl)
         {
             return ((tipoControl == typeof(TextEdit)) || (tipoControl == typeof(NumberEdit)) ||
-                (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)));
+                (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)) ||
+                (tipoControl == typeof(CuitEdit)));
         }
 
         #endregion
