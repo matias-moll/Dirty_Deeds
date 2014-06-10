@@ -11,7 +11,6 @@ namespace Dominio
     {
         //Miembros
         private DataAccessObject<Empresa> daoEmpresa;
-        private DateTime fechaIngreso;
 
         // Properties con la convencion del DataAccessObject
         public int autoId { get; set; }

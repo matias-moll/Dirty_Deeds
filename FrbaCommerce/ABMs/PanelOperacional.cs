@@ -24,8 +24,8 @@ namespace ABMs
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            //ABMGenerico abmClientes = new ABMGenerico(new Clientes());
-            //abmClientes.Show(this);
+            ABMGenerico abmClientes = new ABMGenerico(new Clientes());
+            abmClientes.Show(this);
         }
 
         private void btnVisibilidades_Click(object sender, EventArgs e)

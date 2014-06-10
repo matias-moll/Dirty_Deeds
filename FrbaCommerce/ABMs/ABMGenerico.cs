@@ -27,6 +27,11 @@ namespace ABMs
             this.Text = resolver.GetType().Name.ToString();
             pnFiltros = resolver.getPanel();
             this.gbFiltros.Controls.Add(pnFiltros);
+
+            // Hay que hacer esto de recargar los controles para evitar unas validaciones boludas que hace
+            // los controles decimal y sino les pinta el fondo de rojo.
+            limpiarControlesDelPanel();
+            resetearControles();
         }
 
 
@@ -45,14 +50,6 @@ namespace ABMs
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Codigo para agregar columna con boton.
-            /*DataGridView pepe = new DataGridView();
-            DataGridViewButtonColumn col = new DataGridViewButtonColumn();
-            col.UseColumnTextForButtonValue = true;
-            col.Text = "modificar";
-            col.Name = "botonModif";
-            pepe.Columns.Add(col);
-             */
             dgvGrilla.DataSource = formatToGrid(resolver.ejecutarBusqueda());
         }
 
@@ -151,7 +148,7 @@ namespace ABMs
         {
             return ((tipoControl == typeof(TextEdit)) || (tipoControl == typeof(NumberEdit)) ||
                 (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)) ||
-                (tipoControl == typeof(CuitEdit)));
+                (tipoControl == typeof(CuitEdit)) || (tipoControl == typeof(DateEdit)));
         }
 
         #endregion

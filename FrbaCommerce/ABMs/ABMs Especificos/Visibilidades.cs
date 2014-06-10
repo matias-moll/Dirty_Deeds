@@ -58,6 +58,8 @@ namespace ABMs
 
         public override Panel getPanel(Size tamañoPanel)
         {
+            dcePrecio.ZeroValid = true;
+            dcePorcentaje.ZeroValid = true;
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
             builder.AddControlWithLabel("Descripcion", teDescripcion)
                    .AddControlWithLabel("Precio", dcePrecio)

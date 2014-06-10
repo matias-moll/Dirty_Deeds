@@ -68,7 +68,7 @@ namespace ABMs
                    .AddControlWithLabel("Cuit", ceCuit)
                    .AddControlWithLabel("Fecha Ingreso", dteFechaIngreso)
                    .AddControlWithLabel("Mail", teMail)
-                   .AddControlWithLabel("Nombre Contacto", teNombreContacto)
+                   .AddControlWithLabel("Contacto", teNombreContacto)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;
