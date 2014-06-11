@@ -12,11 +12,30 @@ namespace ABMs
 {
     class Empresas : ABMEspecifico
     {
+        // Campos para la empresa
         TextEdit teRazonSocial = new TextEdit();
         CuitEdit ceCuit = new CuitEdit();
         DateTimeEdit dteFechaIngreso = new DateTimeEdit();
         TextEdit teMail = new TextEdit();
         TextEdit teNombreContacto = new TextEdit();
+
+        // Campos para la direccion
+        TextEdit teDomicilio = new TextEdit();
+        NumberEdit neNroCalle = new NumberEdit();
+        NumberEdit nePiso = new NumberEdit();
+        TextEdit teDepto = new TextEdit();
+        ComboBox cbLocalidades = new ComboBox();
+
+        public Empresas()
+        {
+            // Cargamos la lista de localidades.
+            cbLocalidades.DataSource = Localidad.upFull();
+            cbLocalidades.DisplayMember = "campoNombre";
+            cbLocalidades.ValueMember = "autoId";
+
+            // Solo lectura.
+            cbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
 
         public override DataTable ejecutarBusqueda()
         {
@@ -69,6 +88,11 @@ namespace ABMs
                    .AddControlWithLabel("Fecha Ingreso", dteFechaIngreso)
                    .AddControlWithLabel("Mail", teMail)
                    .AddControlWithLabel("Contacto", teNombreContacto)
+                   .AddControlWithLabel("Dirección", teDomicilio)
+                   .AddControlWithLabel("Nro. Calle", neNroCalle)
+                   .AddControlWithLabel("Piso", nePiso)
+                   .AddControlWithLabel("Departamento", teDepto)
+                   .AddControlWithLabel("Localidad", cbLocalidades)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

@@ -52,7 +52,7 @@ namespace ABMs
         
         public virtual Panel getPanel()
         {
-            return this.getPanel(new Size(600, 200));
+            return this.getPanel(new Size(750, 200));
         }
 
         public virtual Panel getPanelAlta()

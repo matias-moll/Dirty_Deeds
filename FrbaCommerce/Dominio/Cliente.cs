@@ -20,7 +20,10 @@ namespace Dominio
         public int campoDocumento { get; set; }
         public DateTime campoFechaNacimiento { get; set; }
         public string campoMail { get; set; }
+        public int foraneaIdDireccion { get; set; }
         public bool campoDeleted { get; set; }
+
+        public Direccion prototipoDireccion { get; set; }
 
 
         #region Constructores

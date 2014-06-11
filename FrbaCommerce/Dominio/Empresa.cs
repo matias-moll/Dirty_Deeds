@@ -18,8 +18,10 @@ namespace Dominio
         public string campoCuit { get; set; }
         public string campoMail { get; set; }
         public string campoNombreContacto { get; set; }
-        public bool campoDeleted { get; set; }
         public DateTime campoFechaIngreso { get; set; }
+        public int campoIdDireccion { get; set; }
+        public bool campoDeleted { get; set; }
+       
 
 
         #region Constructores

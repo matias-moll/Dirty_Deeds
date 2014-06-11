@@ -44,7 +44,7 @@
             // 
             this.gbFiltros.Location = new System.Drawing.Point(21, 12);
             this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(626, 221);
+            this.gbFiltros.Size = new System.Drawing.Size(771, 221);
             this.gbFiltros.TabIndex = 0;
             this.gbFiltros.TabStop = false;
             this.gbFiltros.Text = "Filtros";
@@ -76,12 +76,12 @@
             this.dgvGrilla.Location = new System.Drawing.Point(21, 308);
             this.dgvGrilla.Name = "dgvGrilla";
             this.dgvGrilla.ReadOnly = true;
-            this.dgvGrilla.Size = new System.Drawing.Size(626, 222);
+            this.dgvGrilla.Size = new System.Drawing.Size(771, 222);
             this.dgvGrilla.TabIndex = 6;
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(269, 279);
+            this.btnAlta.Location = new System.Drawing.Point(414, 279);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(87, 23);
             this.btnAlta.TabIndex = 3;
@@ -91,7 +91,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(362, 279);
+            this.btnModificar.Location = new System.Drawing.Point(507, 279);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(87, 23);
             this.btnModificar.TabIndex = 4;
@@ -101,7 +101,7 @@
             // 
             // btnBorrar
             // 
-            this.btnBorrar.Location = new System.Drawing.Point(455, 279);
+            this.btnBorrar.Location = new System.Drawing.Point(600, 279);
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(87, 23);
             this.btnBorrar.TabIndex = 5;
@@ -111,7 +111,7 @@
             // 
             // btnBajaLogica
             // 
-            this.btnBajaLogica.Location = new System.Drawing.Point(548, 279);
+            this.btnBajaLogica.Location = new System.Drawing.Point(693, 279);
             this.btnBajaLogica.Name = "btnBajaLogica";
             this.btnBajaLogica.Size = new System.Drawing.Size(99, 23);
             this.btnBajaLogica.TabIndex = 7;
@@ -124,7 +124,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.ClientSize = new System.Drawing.Size(659, 542);
+            this.ClientSize = new System.Drawing.Size(804, 542);
             this.Controls.Add(this.btnBajaLogica);
             this.Controls.Add(this.btnBorrar);
             this.Controls.Add(this.btnModificar);

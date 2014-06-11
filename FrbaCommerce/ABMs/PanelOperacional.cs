@@ -45,5 +45,11 @@ namespace ABMs
             ABMGenerico abmRubros = new ABMGenerico(new Rubros());
             abmRubros.Show(this);
         }
+
+        private void btnLocalidades_Click(object sender, EventArgs e)
+        {
+            ABMGenerico abmLocalidades = new ABMGenerico(new Localidades());
+            abmLocalidades.Show(this);
+        }
     }
 }

@@ -125,6 +125,17 @@ namespace Dal
 
                 removeTheLast(ref where, "and");
 
+                string joins = "";
+
+                List<PropertyInfo> propiedadesForaneas= getListaPropiedadesForaneas(prototipo.GetType());
+                foreach (PropertyInfo unaPropiedad in propiedadesForaneas)
+                {
+                    joins += String.Format("join DIRTYDEEDS.{0} on {1} ", nombreTablaForanea(unaPropiedad), 
+                                                                        condicionForanea(unaPropiedad));
+
+                }
+
+
                 query = String.Format("select * from DIRTYDEEDS.{0} {1}", typeof(PersistentObject).Name, where); 
 
                 return StaticDataAccess.executeQuery(query);
@@ -137,10 +148,31 @@ namespace Dal
 
         }
 
-        // TODO: Implementame D=! 
-        public List<PersistentObject> upFull()
+        public static List<PersistentObject> upFull()
         {
-            return null;
+            string query = "";
+            List<PersistentObject> listaObjetos = new List<PersistentObject>();
+            try
+            {
+                
+                string nombreTabla = typeof(PersistentObject).Name;
+                query = String.Format("select * from DIRTYDEEDS.{0}", nombreTabla);
+                DataTable dtListaEntidades = StaticDataAccess.executeQuery(query);
+                // Iteramos por todas las filas que devolvio la consulta
+                foreach (DataRow drEntidad in dtListaEntidades.Rows)
+                {
+                    // Creamos el objeto, lo llenamos a aprtir del datarow y lo agregamos a al lista.
+                    PersistentObject objetoAAgregar = new PersistentObject();
+                    fillObject(drEntidad, ref objetoAAgregar);
+                    listaObjetos.Add(objetoAAgregar);
+                }
+                return listaObjetos;
+            }
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba obtener la lista de objetos.",
+                                            query, e.Message, e.StackTrace);
+            }
         }
 
         #endregion
@@ -167,12 +199,17 @@ namespace Dal
                            (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
         }
 
+        private List<PropertyInfo> getListaPropiedadesForaneas(Type tipoClaseAObtenerProperties)
+        {
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaUnaClaveForanea(unaProperty.Name)).ToList();
+        }
+
         private static PropertyInfo getPropiedadClave(Type tipoClaseAObtenerProperties)
         {
             return tipoClaseAObtenerProperties.GetProperties().Where
                            (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList()[0];
         }
-
 
         private void fillListaCamposYListaValoresFrom(ref string listaCampos, ref string listaValores, PersistentObject objetoAObtenerCampos)
         {
@@ -238,9 +275,32 @@ namespace Dal
 
         }
 
+        private string nombreTablaForanea(PropertyInfo unaPropiedad)
+        {
+            // Todas las foraneas deben respetar foraneaIdNombreTabla, entonces foraneaId ocupa 9 caracteres.
+            return unaPropiedad.Name.Substring(9, unaPropiedad.Name.Length - 9);
+        }
+
+        private string condicionForanea(PropertyInfo unaPropiedad)
+        {
+            // Ejemplo
+            // Property : foraneaIdDireccion
+            // Condicion esperada: IdDireccion = Direccion.Id
+            // Obtenemos el nombre del campo foraneo
+            string condicion = unaPropiedad.Name.Substring(7, unaPropiedad.Name.Length - 7);
+            // Le contactenamos el campo Id (default para claves primarias) anteponiendole el nombre de la tabla.
+            condicion += String.Format(" = {0}.{1}", nombreTablaForanea(unaPropiedad), "Id");
+            return condicion;
+        }
+
         private static bool representaUnCampoDeLaBase(string unaProperty)
         {
             return (unaProperty.Contains("campo"));
+        }
+
+        private static bool representaUnaClaveForanea(string unaProperty)
+        {
+            return (unaProperty.Contains("foranea"));
         }
 
         private static bool representaClaveEnLaBase(string unaProperty)

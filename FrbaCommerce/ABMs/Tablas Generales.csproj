@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="ABMs Especificos\ABMEspecifico.cs" />
     <Compile Include="ABMs Especificos\Clientes.cs" />
+    <Compile Include="ABMs Especificos\Localidades.cs" />
     <Compile Include="ABMs Especificos\Empresas.cs" />
     <Compile Include="ABMs Especificos\Rubros.cs">
       <SubType>Code</SubType>

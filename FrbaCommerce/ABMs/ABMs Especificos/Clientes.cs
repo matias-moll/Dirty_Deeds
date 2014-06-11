@@ -12,6 +12,7 @@ namespace ABMs
 {
     class Clientes : ABMEspecifico
     {
+        // Campos para el Cliente
         TextEdit teApellido = new TextEdit();
         TextEdit teNombre = new TextEdit();
         TextEdit teTipoDocumento= new TextEdit();
@@ -19,8 +20,33 @@ namespace ABMs
         DateEdit deFechaNacimiento = new DateEdit();
         TextEdit teMail = new TextEdit();
 
+        // Campos para la direccion
+        TextEdit teDomicilio = new TextEdit();
+        NumberEdit neNroCalle = new NumberEdit();
+        NumberEdit nePiso = new NumberEdit();
+        TextEdit teDepto = new TextEdit();
+        ComboBox cbLocalidades = new ComboBox();
+
+        public Clientes()
+        {
+            // Cargamos la lista de localidades.
+            cbLocalidades.DataSource = Localidad.upFull();
+            cbLocalidades.DisplayMember = "campoNombre";
+            cbLocalidades.ValueMember = "autoId";
+
+            // Solo lectura.
+            cbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+
         public override DataTable ejecutarBusqueda()
         {
+            if (algunCampoDeDireccionNoEsVacio())
+            {
+                Direccion unaDireccion = new Direccion(teDomicilio.Text, neNroCalle.Numero, nePiso.Numero,
+                                                       teDepto.Text, (int)cbLocalidades.SelectedValue);
+
+            }
             // Creamos el Cliente y lo mandamos a buscar.
             Cliente unCliente = crearClienteFromCamposGUI();
             return unCliente.upFullByPrototype();
@@ -35,6 +61,13 @@ namespace ABMs
             neDocumento.Numero = unCliente.campoDocumento;
             deFechaNacimiento.Fecha = unCliente.campoFechaNacimiento;
             teMail.Text = unCliente.campoMail;
+
+            Direccion unaDireccion = Direccion.get(unCliente.campoIdDireccion);
+            teDomicilio.Text = unaDireccion.campoDomicilio;
+            neNroCalle.Numero = unaDireccion.campoNumeroCalle;
+            nePiso.Numero = unaDireccion.campoPiso;
+            teDepto.Text = unaDireccion.campoDepto;
+            cbLocalidades.SelectedValue = unaDireccion.campoIdLocalidad;
         }
 
         protected override void grabarAlta()
@@ -73,6 +106,11 @@ namespace ABMs
                    .AddControlWithLabel("Documento", neDocumento)
                    .AddControlWithLabel("F. Nacimiento", deFechaNacimiento)
                    .AddControlWithLabel("Mail", teMail)
+                   .AddControlWithLabel("Dirección", teDomicilio)
+                   .AddControlWithLabel("Nro. Calle", neNroCalle)
+                   .AddControlWithLabel("Piso", nePiso)
+                   .AddControlWithLabel("Departamento", teDepto)
+                   .AddControlWithLabel("Localidad", cbLocalidades)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

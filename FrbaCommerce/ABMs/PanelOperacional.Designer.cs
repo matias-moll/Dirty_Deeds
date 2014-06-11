@@ -34,6 +34,8 @@
             this.btnEmpresas = new System.Windows.Forms.Button();
             this.btnRubros = new System.Windows.Forms.Button();
             this.btnVisibilidades = new System.Windows.Forms.Button();
+            this.btnLocalidades = new System.Windows.Forms.Button();
+            this.btnUsuarios = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnRoles
@@ -54,7 +56,7 @@
             this.btnClientes.BackColor = System.Drawing.Color.Transparent;
             this.btnClientes.Image = ((System.Drawing.Image)(resources.GetObject("btnClientes.Image")));
             this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Location = new System.Drawing.Point(103, 180);
+            this.btnClientes.Location = new System.Drawing.Point(103, 157);
             this.btnClientes.Name = "btnClientes";
             this.btnClientes.Size = new System.Drawing.Size(117, 34);
             this.btnClientes.TabIndex = 2;
@@ -67,7 +69,7 @@
             this.btnEmpresas.BackColor = System.Drawing.Color.Transparent;
             this.btnEmpresas.Image = ((System.Drawing.Image)(resources.GetObject("btnEmpresas.Image")));
             this.btnEmpresas.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmpresas.Location = new System.Drawing.Point(343, 180);
+            this.btnEmpresas.Location = new System.Drawing.Point(343, 157);
             this.btnEmpresas.Name = "btnEmpresas";
             this.btnEmpresas.Size = new System.Drawing.Size(117, 34);
             this.btnEmpresas.TabIndex = 3;
@@ -80,7 +82,7 @@
             this.btnRubros.BackColor = System.Drawing.Color.Transparent;
             this.btnRubros.Image = ((System.Drawing.Image)(resources.GetObject("btnRubros.Image")));
             this.btnRubros.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRubros.Location = new System.Drawing.Point(224, 272);
+            this.btnRubros.Location = new System.Drawing.Point(103, 250);
             this.btnRubros.Name = "btnRubros";
             this.btnRubros.Size = new System.Drawing.Size(117, 34);
             this.btnRubros.TabIndex = 4;
@@ -101,12 +103,39 @@
             this.btnVisibilidades.UseVisualStyleBackColor = false;
             this.btnVisibilidades.Click += new System.EventHandler(this.btnVisibilidades_Click);
             // 
+            // btnLocalidades
+            // 
+            this.btnLocalidades.BackColor = System.Drawing.Color.Transparent;
+            this.btnLocalidades.Image = ((System.Drawing.Image)(resources.GetObject("btnLocalidades.Image")));
+            this.btnLocalidades.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLocalidades.Location = new System.Drawing.Point(343, 250);
+            this.btnLocalidades.Name = "btnLocalidades";
+            this.btnLocalidades.Size = new System.Drawing.Size(117, 34);
+            this.btnLocalidades.TabIndex = 6;
+            this.btnLocalidades.Text = "Localidades";
+            this.btnLocalidades.UseVisualStyleBackColor = false;
+            this.btnLocalidades.Click += new System.EventHandler(this.btnLocalidades_Click);
+            // 
+            // btnUsuarios
+            // 
+            this.btnUsuarios.BackColor = System.Drawing.Color.Transparent;
+            this.btnUsuarios.Image = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.Image")));
+            this.btnUsuarios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUsuarios.Location = new System.Drawing.Point(226, 326);
+            this.btnUsuarios.Name = "btnUsuarios";
+            this.btnUsuarios.Size = new System.Drawing.Size(117, 34);
+            this.btnUsuarios.TabIndex = 7;
+            this.btnUsuarios.Text = "Usuarios";
+            this.btnUsuarios.UseVisualStyleBackColor = false;
+            // 
             // PanelOperacional
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Azure;
-            this.ClientSize = new System.Drawing.Size(569, 369);
+            this.ClientSize = new System.Drawing.Size(568, 417);
+            this.Controls.Add(this.btnUsuarios);
+            this.Controls.Add(this.btnLocalidades);
             this.Controls.Add(this.btnVisibilidades);
             this.Controls.Add(this.btnRubros);
             this.Controls.Add(this.btnEmpresas);
@@ -129,5 +158,7 @@
         private System.Windows.Forms.Button btnEmpresas;
         private System.Windows.Forms.Button btnRubros;
         private System.Windows.Forms.Button btnVisibilidades;
+        private System.Windows.Forms.Button btnLocalidades;
+        private System.Windows.Forms.Button btnUsuarios;
     }
 }

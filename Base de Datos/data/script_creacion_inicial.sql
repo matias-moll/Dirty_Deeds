@@ -4,9 +4,10 @@ CREATE SCHEMA DIRTYDEEDS AUTHORIZATION gd
 
 create table Usuario
 (
-	Id int NOT NULL IDENTITY(1,1) primary key,
+	Id int NOT NULL primary key,
 	Username char(20) not null unique,
 	Contrasenia varchar(32) not null,
+	IntentosFallidos int not null,
 	Deleted bit not null
 )
 
@@ -55,12 +56,14 @@ create table Usuario_Calificacion
 create table Cliente
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
-	Apellido nvarchar(255) not null,
-	Nombre nvarchar(255) not null,
+	Apellido nvarchar(150) not null,
+	Nombre nvarchar(150) not null,
 	TipoDocumento char(4) not null,
 	Documento int not null,
 	FechaNacimiento datetime not null,
-	Mail nvarchar(255) not null,
+	Telefono nvarchar(40) not null unique, 
+	Mail nvarchar(150) not null,
+	IdDireccion int foreign key references Direccion(Id),
 	Deleted bit not null
 )
 
@@ -71,25 +74,26 @@ create table Empresa
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,
 	Mail nvarchar(50) not null,
+	Ciudad nvarchar(60) not null,
 	NombreContacto varchar(60) not null,
+	IdDireccion int foreign key references Direccion(Id),
 	Deleted bit not null
 )
 
 create table Localidad
 (
-	Id int NOT NULL IDENTITY(1,1) primary key,
-	Nombre nvarchar(255) not null unique
+	Id int not null IDENTITY(1,1) primary key,
+	CodPostal int NOT NULL,
+	Nombre nvarchar(255) not null unique,
+	Deleted bit not null
 )
 create table Direccion
 (
 	Id int not null IDENTITY(1,1) primary key,
-	IdCliente int foreign key references Cliente(Id),
-	IdEmpresa int foreign key references Empresa(Id),
 	Domicilio nvarchar(255) not null,
 	NumeroCalle int not null,
 	Piso int not null,
 	Depto nvarchar(50) not null,
-	CodPostal int not null,
 	IdLocalidad int foreign key references Localidad(Id)
 )
 
