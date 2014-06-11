@@ -12,7 +12,7 @@ namespace Dal
 
         #region Interfaz Publica
 
-        public void insert(PersistentObject objetoAPersistir)
+        public int insert(PersistentObject objetoAPersistir)
         {
             string commandInsert = "";
 
@@ -27,9 +27,10 @@ namespace Dal
                 removeTheLast(ref listaValores, ",");
 
                 string nombreTabla = objetoAPersistir.GetType().Name;
-                commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})", nombreTabla, listaCampos, listaValores);
+                commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})  {3}", 
+                                              nombreTabla, listaCampos, listaValores, returnIdentity());
 
-                StaticDataAccess.executeCommand(commandInsert);
+                return StaticDataAccess.executeInsert(commandInsert);
             }
             catch (Exception e)
             {
@@ -37,6 +38,11 @@ namespace Dal
                                             commandInsert, e.Message, e.StackTrace);
             }
            
+        }
+
+        private static string returnIdentity()
+        {
+            return "SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]";
         }
 
         public void update(PersistentObject objetoAActualizar)
@@ -111,32 +117,23 @@ namespace Dal
             try
             {
                 string where = "where ";
-                object valorProperty;
 
-                // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
-                List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo.GetType());
-                foreach (PropertyInfo unaProperty in propiedadesCampos)
-                {
-                    valorProperty = getValorProperty(unaProperty.Name, prototipo);
-                    // Si no es vacio el valor, agregamos la condicion.
-                    if (!LogicByType.esVacio(valorProperty))
-                        LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
-                }
-
-                removeTheLast(ref where, "and");
+                armaWheresSegunPrototipo(prototipo, ref where);
 
                 string joins = "";
 
-                List<PropertyInfo> propiedadesForaneas= getListaPropiedadesForaneas(prototipo.GetType());
-                foreach (PropertyInfo unaPropiedad in propiedadesForaneas)
+                List<PropertyInfo> propiedadesClavesForaneas= getListaPropiedadesForaneas(prototipo.GetType());
+                List<PropertyInfo> propiedadesPrototiposForaneos = getListaPropiedadesPrototiposForaneos(prototipo.GetType());
+                foreach (PropertyInfo unaPropiedad in propiedadesClavesForaneas)
                 {
                     joins += String.Format("join DIRTYDEEDS.{0} on {1} ", nombreTablaForanea(unaPropiedad), 
                                                                         condicionForanea(unaPropiedad));
+                    where += armaWhereForaneos(prototipo, unaPropiedad, propiedadesPrototiposForaneos);
 
                 }
 
 
-                query = String.Format("select * from DIRTYDEEDS.{0} {1}", typeof(PersistentObject).Name, where); 
+                query = String.Format("select * from DIRTYDEEDS.{0} {1} {2}", typeof(PersistentObject).Name, joins, where); 
 
                 return StaticDataAccess.executeQuery(query);
             }
@@ -146,6 +143,39 @@ namespace Dal
                                             query, e.Message, e.StackTrace);
             }
 
+        }
+
+        private static void armaWheresSegunPrototipo(object prototipo, ref string where)
+        {
+            object valorProperty;
+            // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo.GetType());
+            foreach (PropertyInfo unaProperty in propiedadesCampos)
+            {
+                valorProperty = getValorProperty(unaProperty.Name, prototipo);
+                // Si no es vacio el valor, agregamos la condicion.
+                if (!LogicByType.esVacio(valorProperty))
+                    LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
+            }
+
+            removeTheLast(ref where, "and");
+        }
+
+        private static string armaWhereForaneos(object objetoRaiz, PropertyInfo unaPropiedad, 
+                                                List<PropertyInfo> propiedadesPrototiposForaneos)
+        {
+            string whereForaneo = " and ";
+            // Ejemplo: foraneaIdDireccion, 9 caracteres ocupa el prefijo (foraneaId) lo siguiente es el nombre.
+            string nombrePrototipoForaneo = unaPropiedad.Name.Substring(9, unaPropiedad.Name.Length -9);
+            // FIltramos la lista para que nos quede la que estamos buscando
+            propiedadesPrototiposForaneos.Where(unaProp => unaProp.Name.Contains(nombrePrototipoForaneo));
+            if (propiedadesPrototiposForaneos.Count != 1)
+                return "";
+            // Obtenemos el objeto prototipo foraneo para construir los where a partir de la property encontrada
+            object objetoPrototipoForaneo = getValorProperty(propiedadesPrototiposForaneos[0].Name, objetoRaiz);
+
+            armaWheresSegunPrototipo(objetoPrototipoForaneo, ref whereForaneo);
+            return whereForaneo;
         }
 
         public static List<PersistentObject> upFull()
@@ -196,10 +226,17 @@ namespace Dal
         private static List<PropertyInfo> getListaPropiedadesCampos(Type tipoClaseAObtenerProperties)
         {
             return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => representaUnCampoDeLaBase(unaProperty.Name)).ToList();
+                           (unaProperty => (representaUnCampoDeLaBase(unaProperty.Name)) || 
+                               (representaUnaClaveForanea(unaProperty.Name))).ToList();
         }
 
-        private List<PropertyInfo> getListaPropiedadesForaneas(Type tipoClaseAObtenerProperties)
+        private static List<PropertyInfo> getListaPropiedadesPrototiposForaneos(Type tipoClaseAObtenerProperties)
+        {
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaUnPrototipoForaneo(unaProperty.Name)).ToList();
+        }
+
+        private static List<PropertyInfo> getListaPropiedadesForaneas(Type tipoClaseAObtenerProperties)
         {
             return tipoClaseAObtenerProperties.GetProperties().Where
                            (unaProperty => representaUnaClaveForanea(unaProperty.Name)).ToList();
@@ -242,14 +279,14 @@ namespace Dal
             return setCampoValor;
         }
 
-        private static object getValorProperty(string mensaje, PersistentObject unObjeto)
+        private static object getValorProperty(string mensaje, object unObjeto)
         {
             return unObjeto.GetType().InvokeMember(mensaje,
                                     BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty,
                                     null, unObjeto, null);
         }
 
-        private static void setValorProperty(string mensaje, PersistentObject unObjeto, object valor)
+        private static void setValorProperty(string mensaje, object unObjeto, object valor)
         {
             unObjeto.GetType().InvokeMember(mensaje,
                                     BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty,
@@ -261,7 +298,7 @@ namespace Dal
             return unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name));
         }
 
-        private void removeTheLast(ref string stringArmada, string stringARemover)
+        private static void removeTheLast(ref string stringArmada, string stringARemover)
         {
             stringArmada = stringArmada.Substring(0, stringArmada.Length - stringARemover.Length);
         }
@@ -301,6 +338,11 @@ namespace Dal
         private static bool representaUnaClaveForanea(string unaProperty)
         {
             return (unaProperty.Contains("foranea"));
+        }
+
+        private static bool representaUnPrototipoForaneo(string unaProperty)
+        {
+            return (unaProperty.Contains("prototipo"));
         }
 
         private static bool representaClaveEnLaBase(string unaProperty)

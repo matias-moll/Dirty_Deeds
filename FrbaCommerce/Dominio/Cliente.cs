@@ -20,6 +20,7 @@ namespace Dominio
         public int campoDocumento { get; set; }
         public DateTime campoFechaNacimiento { get; set; }
         public string campoMail { get; set; }
+        public string campoTelefono { get; set; }
         public int foraneaIdDireccion { get; set; }
         public bool campoDeleted { get; set; }
 
@@ -30,7 +31,7 @@ namespace Dominio
         public Cliente() { daoCliente = new DataAccessObject<Cliente>(); }
 
         public Cliente(string Apellido, string Nombre,string TipoDocumento, int Documento, DateTime FechaNacimiento,
-                       string Mail, bool p_deleted): this()
+                       string Mail, string Telefono, bool p_deleted): this()
         {
             campoApellido = Apellido;
             campoNombre = Nombre;
@@ -38,12 +39,13 @@ namespace Dominio
             campoTipoDocumento = TipoDocumento;
             campoDocumento = Documento;
             campoMail = Mail;
+            campoTelefono = Telefono;
             campoDeleted = p_deleted;
         }
 
         public Cliente(string Apellido, string Nombre, string TipoDocumento, int Documento, 
-                       DateTime FechaNacimiento, string Mail)
-            : this(Apellido, Nombre,TipoDocumento, Documento, FechaNacimiento, Mail, false) { }
+                       DateTime FechaNacimiento, string Mail, string Telefono)
+            : this(Apellido, Nombre,TipoDocumento, Documento, FechaNacimiento, Mail, Telefono, false) { }
 
         #endregion
 

@@ -32,7 +32,7 @@ namespace Dal
             return table;
         }
 
-        public static void executeCommand(string stringCommand)
+        public static int executeCommand(string stringCommand)
         {
             SqlConnection conexion = DBConn.getDBConn();
             conexion.Open();
@@ -41,8 +41,23 @@ namespace Dal
             command.CommandText = stringCommand;
             command.Connection = conexion;
 
-            command.ExecuteNonQuery();
+            return command.ExecuteNonQuery();
+        }
 
+        public static int executeInsert(string stringInsert)
+        {
+            // Ejecutamos el select para saber el id que nos dio ese insert.
+            DataTable dtIdentity = executeQuery(stringInsert);
+            if ((dtIdentity == null) || (dtIdentity.Rows.Count != 1))
+                return 0;
+
+            // Devolvemos el id.
+            return Convert.ToInt32(dtIdentity.Rows[0][0]);
+        }
+
+        private static string returnIdentity()
+        {
+            return "SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]";
         }
     }
 }

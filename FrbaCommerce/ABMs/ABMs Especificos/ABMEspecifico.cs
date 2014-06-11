@@ -57,7 +57,7 @@ namespace ABMs
 
         public virtual Panel getPanelAlta()
         {
-            return this.getPanel(new Size(350, 340));
+            return this.getPanel(new Size(350, 400));
         }
 
         protected void disparaFormularioCarga(Form parent, modoForm modoForm, int idClave, string mensajeExitoso)

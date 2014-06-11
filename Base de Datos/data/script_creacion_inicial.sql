@@ -94,7 +94,8 @@ create table Direccion
 	NumeroCalle int not null,
 	Piso int not null,
 	Depto nvarchar(50) not null,
-	IdLocalidad int foreign key references Localidad(Id)
+	IdLocalidad int foreign key references Localidad(Id),
+	Deleted bit not null
 )
 
 create table FormaPago
