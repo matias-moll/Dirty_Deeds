@@ -1,6 +1,6 @@
-﻿namespace FrbaCommerce.Login
+﻿namespace FrbaCommerce
 {
-    partial class Form1
+    partial class Mainframe
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mainframe));
+            this.SuspendLayout();
+            // 
+            // Mainframe
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(792, 566);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.Name = "Mainframe";
+            this.Text = "FRBA Commerce";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
     }
 }
+
