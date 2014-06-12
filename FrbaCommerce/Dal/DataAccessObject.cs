@@ -109,7 +109,7 @@ namespace Dal
         // Este metodo devuelve un Datatable con todas entidades que cumplan con los datos
         // que tenga el prototipo parametro. Se banca un nivel de claves foraneas chequeando
         // el prototipo foraneo definido en el objeto que recibe por parametro.
-        public DataTable upFullOnTableByPrototype(PersistentObject prototipo)
+        public static DataTable upFullOnTableByPrototype(PersistentObject prototipo)
         {
             string query = "";
             try
@@ -131,7 +131,7 @@ namespace Dal
                 // Quita el and demas si hubo condiciones, sino lo deja vacio.
                 where = acomodarWhere(where);
 
-                query = String.Format("select * from DIRTYDEEDS.{0} {1} {2}", typeof(PersistentObject).Name, joins, where); 
+                query = String.Format("select * from DIRTYDEEDS.{0} {1} {2}", typeof(PersistentObject).Name, joins, where);
 
                 return StaticDataAccess.executeQuery(query);
             }
@@ -142,6 +142,7 @@ namespace Dal
             }
 
         }
+
 
         public static List<PersistentObject> upFull()
         {
@@ -169,6 +170,33 @@ namespace Dal
                                             query, e.Message, e.StackTrace);
             }
         }
+
+        public static List<PersistentObject> upFullByPrototype(PersistentObject prototipo)
+        {
+            string query = "";
+            List<PersistentObject> listaObjetos = new List<PersistentObject>();
+            try
+            {
+                // Obtenemos la lista de entidades delegando en el metodo con la logica del prototipo.
+                DataTable dtListaEntidades = upFullOnTableByPrototype(prototipo);
+
+                // Iteramos por todas las filas que devolvio la consulta
+                foreach (DataRow drEntidad in dtListaEntidades.Rows)
+                {
+                    // Creamos el objeto, lo llenamos a aprtir del datarow y lo agregamos a al lista.
+                    PersistentObject objetoAAgregar = new PersistentObject();
+                    fillObject(drEntidad, ref objetoAAgregar);
+                    listaObjetos.Add(objetoAAgregar);
+                }
+                return listaObjetos;
+            }
+            catch (Exception e)
+            {
+                throw new DataBaseException("Se produjo un error cuando se intentaba obtener la lista de objetos.",
+                                            query, e.Message, e.StackTrace);
+            }
+        }
+
 
         #endregion
 
@@ -291,7 +319,8 @@ namespace Dal
 
             // Agregamos la clave primaria que tiene un tratamiento diferente al de los campos
             PropertyInfo propiedadClave = getPropiedadClave(objetoALlenar.GetType());
-            setValorProperty(propiedadClave.Name, objetoALlenar, drEntidad[getNombreCampo(propiedadClave)]);
+            if (propiedadClave != null)
+                setValorProperty(propiedadClave.Name, objetoALlenar, drEntidad[getNombreCampo(propiedadClave)]);
         }
 
 
@@ -340,8 +369,12 @@ namespace Dal
 
         private static PropertyInfo getPropiedadClave(Type tipoClaseAObtenerProperties)
         {
-            return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList()[0];
+            List<PropertyInfo> propiedadClave = tipoClaseAObtenerProperties.GetProperties().Where
+                                                    (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList();
+            if (propiedadClave.Count == 0)
+                return null;
+            else
+                return propiedadClave[0];
         }
 
         #endregion
@@ -349,13 +382,13 @@ namespace Dal
 
         #region Metodos soporte para los joins con otras tablas
 
-        private string nombreTablaForanea(PropertyInfo unaPropiedad)
+        private static string nombreTablaForanea(PropertyInfo unaPropiedad)
         {
             // Todas las foraneas deben respetar foraneaIdNombreTabla, entonces foraneaId ocupa 9 caracteres.
             return unaPropiedad.Name.Substring(9, unaPropiedad.Name.Length - 9);
         }
 
-        private string condicionForanea(PropertyInfo unaPropiedad)
+        private static string condicionForanea(PropertyInfo unaPropiedad)
         {
             // Ejemplo
             // Property : foraneaIdDireccion

@@ -46,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cliente.cs" />
+    <Compile Include="Copy of Usuario.cs" />
+    <Compile Include="Excepciones\UsuarioNoEncontradoException.cs" />
+    <Compile Include="Excepciones\UsuarioInhabilitadoException.cs" />
+    <Compile Include="Usuario.cs" />
     <Compile Include="Direccion.cs" />
     <Compile Include="Empresa.cs" />
     <Compile Include="Localidad.cs" />
@@ -60,9 +64,6 @@
       <Project>{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}</Project>
       <Name>Dal</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Excepciones\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

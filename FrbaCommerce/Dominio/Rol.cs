@@ -49,7 +49,7 @@ namespace Dominio
 
         public DataTable upFullByPrototype()
         {
-            return daoRol.upFullOnTableByPrototype(this);
+            return DataAccessObject<Rol>.upFullOnTableByPrototype(this);
         }
 
         public static void delete(int idClavePrimaria)

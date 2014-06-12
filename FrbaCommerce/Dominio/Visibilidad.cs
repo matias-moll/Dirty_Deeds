@@ -58,7 +58,7 @@ namespace Dominio
 
         public DataTable upFullByPrototype()
         {
-            return daoVisibilidad.upFullOnTableByPrototype(this);
+            return DataAccessObject<Visibilidad>.upFullOnTableByPrototype(this);
         }
 
         public static Visibilidad get(int idClavePrimaria)

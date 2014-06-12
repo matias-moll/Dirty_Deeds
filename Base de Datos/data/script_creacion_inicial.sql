@@ -5,7 +5,7 @@ CREATE SCHEMA DIRTYDEEDS AUTHORIZATION gd
 create table Usuario
 (
 	Id int NOT NULL primary key,
-	Username char(20) not null unique,
+	Usuario char(20) not null unique,
 	Contrasenia varchar(32) not null,
 	IntentosFallidos int not null,
 	Deleted bit not null

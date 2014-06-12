@@ -18,9 +18,25 @@ namespace FrbaCommerce
         {
             InitializeComponent();
             CreateDockManager();
+            // Esta rutina es recursiva hasta que logre hacer un login satisfactorio
+            iniciarLogin();
 
-            Login logeo = new Login();
-            logeo.ShowDialog(this);
+            // En este punto el usuario ya esta loggeado.
+
+        }
+
+        private void iniciarLogin()
+        {
+            try
+            {
+                Login logeo = new Login();
+                logeo.ShowDialog(this);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                iniciarLogin();
+            }
         }
 
         private void CreateDockManager()

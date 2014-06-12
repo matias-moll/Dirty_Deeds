@@ -53,7 +53,7 @@ namespace Dominio
 
         public DataTable upFullByPrototype()
         {
-            return daoRubro.upFullOnTableByPrototype(this);
+            return DataAccessObject<Rubro>.upFullOnTableByPrototype(this);
         }
 
         public static Rubro get(int idClavePrimaria)

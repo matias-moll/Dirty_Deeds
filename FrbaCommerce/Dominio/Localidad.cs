@@ -51,7 +51,7 @@ namespace Dominio
 
         public DataTable upFullByPrototype()
         {
-            return daoLocalidad.upFullOnTableByPrototype(this);
+            return DataAccessObject<Localidad>.upFullOnTableByPrototype(this);
         }
 
         public static List<Localidad> upFull()

@@ -65,7 +65,7 @@ namespace Dominio
 
         public DataTable upFullByPrototype()
         {
-            return daoEmpresa.upFullOnTableByPrototype(this);
+            return DataAccessObject<Empresa>.upFullOnTableByPrototype(this);
         }
 
         public static void delete(int idClavePrimaria)
