@@ -21,10 +21,15 @@ namespace ABMs
 
         public Direcciones()
         {
+            List<Localidad> localidades = Localidad.upFull();
+            Localidad localidadVacia = new Localidad(0, "");
+            localidades.Add(localidadVacia);
             // Cargamos la lista de localidades.
-            cbLocalidades.DataSource = Localidad.upFull();
+            cbLocalidades.DataSource = localidades;
             cbLocalidades.DisplayMember = "campoNombre";
             cbLocalidades.ValueMember = "autoId";
+
+            cbLocalidades.SelectedItem = localidadVacia;
 
             // Solo lectura.
             cbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -42,12 +47,15 @@ namespace ABMs
 
         internal Direccion crearDireccionFromCamposGUI()
         {
+            int idLocalidadSelected = (int)Soporte.notNull(cbLocalidades.SelectedValue, 0);
             return new Direccion(teDomicilio.Text, neNroCalle.Numero, nePiso.Numero,
-                                 teDepto.Text, (int)Soporte.notNull(cbLocalidades.SelectedValue, 0));
+                                 teDepto.Text, idLocalidadSelected);
         }
 
         internal void agregaTusControles(PanelBuilder builder)
         {
+            cbLocalidades.SelectedValue = 0;
+
             builder.AddControlWithLabel("Dirección", teDomicilio)
                    .AddControlWithLabel("Nro. Calle", neNroCalle)
                    .AddControlWithLabel("Piso", nePiso)

@@ -18,30 +18,21 @@ namespace ABMs
         DateTimeEdit dteFechaIngreso = new DateTimeEdit();
         TextEdit teMail = new TextEdit();
         TextEdit teNombreContacto = new TextEdit();
+        TextEdit teCiudad = new TextEdit();
 
-        // Campos para la direccion
-        TextEdit teDomicilio = new TextEdit();
-        NumberEdit neNroCalle = new NumberEdit();
-        NumberEdit nePiso = new NumberEdit();
-        TextEdit teDepto = new TextEdit();
-        ComboBox cbLocalidades = new ComboBox();
+        Direcciones abmDirecciones;
 
         public Empresas()
         {
-            // Cargamos la lista de localidades.
-            cbLocalidades.DataSource = Localidad.upFull();
-            cbLocalidades.DisplayMember = "campoNombre";
-            cbLocalidades.ValueMember = "autoId";
-
-            // Solo lectura.
-            cbLocalidades.DropDownStyle = ComboBoxStyle.DropDownList;
+            abmDirecciones = new Direcciones();
         }
 
         public override DataTable ejecutarBusqueda()
         {
             // Creamos el Empresa y lo mandamos a buscar.
-            Empresa unEmpresa = crearEmpresaFromCamposGUI();
-            return unEmpresa.upFullByPrototype();
+            Empresa unaEmpresa = crearEmpresaFromCamposGUI();
+            unaEmpresa.prototipoDireccion = abmDirecciones.crearDireccionFromCamposGUI();
+            return unaEmpresa.upFullByPrototype();
         }
 
         public override void cargarTusDatos(int p_idClavePrimaria)
@@ -52,32 +43,47 @@ namespace ABMs
             dteFechaIngreso.FechaHora = unaEmpresa.campoFechaIngreso;
             teMail.Text = unaEmpresa.campoMail;
             teNombreContacto.Text = unaEmpresa.campoNombreContacto;
+
+            Direccion unaDireccion = Direccion.get(unaEmpresa.foraneaIdDireccion);
+            abmDirecciones.cargarTusDatos(unaDireccion);
         }
 
         protected override void grabarAlta()
         {
-            // Creamos el Empresa y lo mandamos a grabar.
-            Empresa unEmpresa = crearEmpresaFromCamposGUI();
-            unEmpresa.save();
+            // Creamos la direccion y el cliente a partir de los datos ingresados.
+            Direccion unaDir = abmDirecciones.crearDireccionFromCamposGUI();
+            if (unaDir.campoIdLocalidad == 0)
+                throw new Exception("No puede darse el alta sin elegir una localidad.");
+            Empresa unaEmpresa = crearEmpresaFromCamposGUI();
+            // Los mandamos a grabar, linqueando la dir al cliente a partir del id que nos devuelve el grabado.
+            unaEmpresa.foraneaIdDireccion = unaDir.save();
+            unaEmpresa.save();
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
             // Creamos el Empresa a partir de los datos de la pantalla y el id que tenemos guardado y lo mandamos a actualizar.
-            Empresa unEmpresa = crearEmpresaFromCamposGUI();
-            unEmpresa.autoId = idClaveObjetoAModificar;
-            unEmpresa.update();
+            Empresa unaEmpresa = crearEmpresaFromCamposGUI();
+            unaEmpresa.autoId = idClaveObjetoAModificar;
+            unaEmpresa.update();
         }
 
         protected override void baja(int idClavePrimaria)
         {
+            // La baja borra a la empresa y la direccion.
+            Empresa unaEmpresa = Empresa.get(idClavePrimaria);
+            Direccion unaDir = Direccion.get(unaEmpresa.foraneaIdDireccion);
             Empresa.delete(idClavePrimaria);
+            Direccion.delete(unaDir.autoId);
         }
 
         protected override void bajaLogica(int idClavePrimaria)
         {
-            Empresa unEmpresa = Empresa.get(idClavePrimaria);
-            unEmpresa.borradoLogico();
+            // La baja logica marca a la empresa y la direccion.
+            Empresa unaEmpresa = Empresa.get(idClavePrimaria);
+            Direccion unaDir = Direccion.get(unaEmpresa.foraneaIdDireccion);
+            unaDir.borradoLogico();
+            unaEmpresa.borradoLogico();
         }
 
         public override Panel getPanel(Size tamañoPanel)
@@ -88,12 +94,11 @@ namespace ABMs
                    .AddControlWithLabel("Fecha Ingreso", dteFechaIngreso)
                    .AddControlWithLabel("Mail", teMail)
                    .AddControlWithLabel("Contacto", teNombreContacto)
-                   .AddControlWithLabel("Dirección", teDomicilio)
-                   .AddControlWithLabel("Nro. Calle", neNroCalle)
-                   .AddControlWithLabel("Piso", nePiso)
-                   .AddControlWithLabel("Departamento", teDepto)
-                   .AddControlWithLabel("Localidad", cbLocalidades)
-                   .centrarControlesEnElPanel();
+                   .AddControlWithLabel("Ciudad", teCiudad);
+
+            abmDirecciones.agregaTusControles(builder);
+
+            builder.centrarControlesEnElPanel();
 
             return builder.getPanel;
         }
@@ -101,7 +106,7 @@ namespace ABMs
         private Empresa crearEmpresaFromCamposGUI()
         {
             return new Empresa(teRazonSocial.Text, ceCuit.Text, dteFechaIngreso.FechaHora,
-                                            teMail.Text, teNombreContacto.Text);
+                                            teMail.Text, teNombreContacto.Text, teCiudad.Text);
         }
     }
 }

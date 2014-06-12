@@ -18,28 +18,31 @@ namespace Dominio
         public string campoCuit { get; set; }
         public string campoMail { get; set; }
         public string campoNombreContacto { get; set; }
+        public string campoCiudad { get; set; }
         public DateTime campoFechaIngreso { get; set; }
-        public int campoIdDireccion { get; set; }
+        public int foraneaIdDireccion { get; set; }
         public bool campoDeleted { get; set; }
-       
+
+        public Direccion prototipoDireccion { get; set; }
 
 
         #region Constructores
         public Empresa() { daoEmpresa = new DataAccessObject<Empresa>(); }
 
         public Empresa(string razonSocial, string cuit, DateTime fechaIngreso, string mail, 
-                       string nombreContacto, bool p_deleted) : this()
+                       string nombreContacto, string ciudad, bool p_deleted) : this()
         {
             campoRazonSocial = razonSocial;
             campoCuit = cuit;
             campoFechaIngreso = fechaIngreso;
             campoMail = mail;
             campoNombreContacto = nombreContacto;
+            campoCiudad = ciudad;
             campoDeleted = p_deleted;
         }
 
-        public Empresa(string razonSocial, string cuit, DateTime fechaIngreso, string mail, string nombreContacto)
-            : this(razonSocial,cuit, fechaIngreso, mail, nombreContacto, false) { }
+        public Empresa(string razonSocial, string cuit, DateTime fechaIngreso, string mail, string nombreContacto, string ciudad)
+            : this(razonSocial,cuit, fechaIngreso, mail, nombreContacto, ciudad, false) { }
 
         #endregion
 

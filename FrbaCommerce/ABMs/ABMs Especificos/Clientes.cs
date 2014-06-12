@@ -33,7 +33,7 @@ namespace ABMs
         {
             // Creamos el Cliente y lo mandamos a buscar.
             Cliente unCliente = crearClienteFromCamposGUI();
-            unCliente.prototipoDireccion = crearDireccionFromCamposGUI();
+            unCliente.prototipoDireccion = abmDirecciones.crearDireccionFromCamposGUI();
             return unCliente.upFullByPrototype();
         }
 
@@ -54,16 +54,13 @@ namespace ABMs
         protected override void grabarAlta()
         {
             // Creamos la direccion y el cliente a partir de los datos ingresados.
-            Direccion unaDir = crearDireccionFromCamposGUI();
+            Direccion unaDir = abmDirecciones.crearDireccionFromCamposGUI();
+            if (unaDir.campoIdLocalidad == 0)
+                throw new Exception("No puede darse el alta sin elegir una localidad.");
             Cliente unCliente = crearClienteFromCamposGUI();
             // Los mandamos a grabar, linqueando la dir al cliente a partir del id que nos devuelve el grabado.
             unCliente.foraneaIdDireccion = unaDir.save();
             unCliente.save();
-        }
-
-        private Direccion crearDireccionFromCamposGUI()
-        {
-            return abmDirecciones.crearDireccionFromCamposGUI();
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
@@ -79,8 +76,8 @@ namespace ABMs
             // La baja borra al cliente y la direccion.
             Cliente unCliente = Cliente.get(idClavePrimaria);
             Direccion unaDir = Direccion.get(unCliente.foraneaIdDireccion);
-            Direccion.delete(unaDir.autoId);
             Cliente.delete(idClavePrimaria);
+            Direccion.delete(unaDir.autoId);
         }
 
         protected override void bajaLogica(int idClavePrimaria)

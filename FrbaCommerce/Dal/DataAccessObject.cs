@@ -40,11 +40,6 @@ namespace Dal
            
         }
 
-        private static string returnIdentity()
-        {
-            return "SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]";
-        }
-
         public void update(PersistentObject objetoAActualizar)
         {
             string commandUpdate = "";
@@ -111,6 +106,9 @@ namespace Dal
             }
         }
 
+        // Este metodo devuelve un Datatable con todas entidades que cumplan con los datos
+        // que tenga el prototipo parametro. Se banca un nivel de claves foraneas chequeando
+        // el prototipo foraneo definido en el objeto que recibe por parametro.
         public DataTable upFullOnTableByPrototype(PersistentObject prototipo)
         {
             string query = "";
@@ -121,61 +119,28 @@ namespace Dal
                 armaWheresSegunPrototipo(prototipo, ref where);
 
                 string joins = "";
-
-                List<PropertyInfo> propiedadesClavesForaneas= getListaPropiedadesForaneas(prototipo.GetType());
+                List<PropertyInfo> propiedadesClavesForaneas = getListaPropiedadesForaneas(prototipo.GetType());
                 List<PropertyInfo> propiedadesPrototiposForaneos = getListaPropiedadesPrototiposForaneos(prototipo.GetType());
                 foreach (PropertyInfo unaPropiedad in propiedadesClavesForaneas)
                 {
-                    joins += String.Format("join DIRTYDEEDS.{0} on {1} ", nombreTablaForanea(unaPropiedad), 
+                    joins += String.Format("join DIRTYDEEDS.{0} on {1} ", nombreTablaForanea(unaPropiedad),
                                                                         condicionForanea(unaPropiedad));
                     where += armaWhereForaneos(prototipo, unaPropiedad, propiedadesPrototiposForaneos);
-
                 }
 
+                // Quita el and demas si hubo condiciones, sino lo deja vacio.
+                where = acomodarWhere(where);
 
                 query = String.Format("select * from DIRTYDEEDS.{0} {1} {2}", typeof(PersistentObject).Name, joins, where); 
 
                 return StaticDataAccess.executeQuery(query);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new DataBaseException("Se produjo un error cuando se intentaba realizar la consulta en la base de datos.",
                                             query, e.Message, e.StackTrace);
             }
 
-        }
-
-        private static void armaWheresSegunPrototipo(object prototipo, ref string where)
-        {
-            object valorProperty;
-            // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
-            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo.GetType());
-            foreach (PropertyInfo unaProperty in propiedadesCampos)
-            {
-                valorProperty = getValorProperty(unaProperty.Name, prototipo);
-                // Si no es vacio el valor, agregamos la condicion.
-                if (!LogicByType.esVacio(valorProperty))
-                    LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
-            }
-
-            removeTheLast(ref where, "and");
-        }
-
-        private static string armaWhereForaneos(object objetoRaiz, PropertyInfo unaPropiedad, 
-                                                List<PropertyInfo> propiedadesPrototiposForaneos)
-        {
-            string whereForaneo = " and ";
-            // Ejemplo: foraneaIdDireccion, 9 caracteres ocupa el prefijo (foraneaId) lo siguiente es el nombre.
-            string nombrePrototipoForaneo = unaPropiedad.Name.Substring(9, unaPropiedad.Name.Length -9);
-            // FIltramos la lista para que nos quede la que estamos buscando
-            propiedadesPrototiposForaneos.Where(unaProp => unaProp.Name.Contains(nombrePrototipoForaneo));
-            if (propiedadesPrototiposForaneos.Count != 1)
-                return "";
-            // Obtenemos el objeto prototipo foraneo para construir los where a partir de la property encontrada
-            object objetoPrototipoForaneo = getValorProperty(propiedadesPrototiposForaneos[0].Name, objetoRaiz);
-
-            armaWheresSegunPrototipo(objetoPrototipoForaneo, ref whereForaneo);
-            return whereForaneo;
         }
 
         public static List<PersistentObject> upFull()
@@ -210,44 +175,6 @@ namespace Dal
 
         #region Metodos privados
 
-        private static void fillObject(DataRow drEntidad, ref PersistentObject objetoALlenar)
-        {
-            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoALlenar.GetType());
-
-            // Le cargamos todos los valores del datarow al objeto.
-            foreach (PropertyInfo unaProperty in propiedadesCampos)
-                setValorProperty(unaProperty.Name, objetoALlenar, drEntidad[getNombreCampo(unaProperty)]);
-
-            // Agregamos la clave primaria que tiene un tratamiento diferente al de los campos
-            PropertyInfo propiedadClave = getPropiedadClave(objetoALlenar.GetType());
-            setValorProperty(propiedadClave.Name, objetoALlenar, drEntidad[getNombreCampo(propiedadClave)]);
-        }
-
-        private static List<PropertyInfo> getListaPropiedadesCampos(Type tipoClaseAObtenerProperties)
-        {
-            return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => (representaUnCampoDeLaBase(unaProperty.Name)) || 
-                               (representaUnaClaveForanea(unaProperty.Name))).ToList();
-        }
-
-        private static List<PropertyInfo> getListaPropiedadesPrototiposForaneos(Type tipoClaseAObtenerProperties)
-        {
-            return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => representaUnPrototipoForaneo(unaProperty.Name)).ToList();
-        }
-
-        private static List<PropertyInfo> getListaPropiedadesForaneas(Type tipoClaseAObtenerProperties)
-        {
-            return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => representaUnaClaveForanea(unaProperty.Name)).ToList();
-        }
-
-        private static PropertyInfo getPropiedadClave(Type tipoClaseAObtenerProperties)
-        {
-            return tipoClaseAObtenerProperties.GetProperties().Where
-                           (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList()[0];
-        }
-
         private void fillListaCamposYListaValoresFrom(ref string listaCampos, ref string listaValores, PersistentObject objetoAObtenerCampos)
         {
             List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoAObtenerCampos.GetType());
@@ -279,6 +206,95 @@ namespace Dal
             return setCampoValor;
         }
 
+        private static int getPositionOfFirstUpperCaseChar(string unaProperty)
+        {
+            for (int i = 0; i < unaProperty.Length - 1; i++)
+                if (char.IsUpper(unaProperty[i]))
+                    return i;
+            return 0;
+
+        }
+
+        private static string returnIdentity()
+        {
+            return "SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]";
+        }
+
+        private bool noSeAgregoNingunaCondicion(string where)
+        {
+            return (where == "where ");
+        }
+
+
+        #region Metodos Soporte para armado de where
+
+        private static void armaWheresSegunPrototipo(object prototipo, ref string where)
+        {
+            object valorProperty;
+            // Armamos el where recorriendo las properties del objeto Prototipo y validando que no sean "vacias"
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(prototipo.GetType());
+            foreach (PropertyInfo unaProperty in propiedadesCampos)
+            {
+                valorProperty = getValorProperty(unaProperty.Name, prototipo);
+                // Si no es vacio el valor, agregamos la condicion.
+                if (!LogicByType.esVacio(valorProperty))
+                    LogicByType.agregarCondicion(ref where, getNombreCampo(unaProperty), valorProperty);
+            }
+        }
+
+        private static string armaWhereForaneos(object objetoRaiz, PropertyInfo unaPropiedad,
+                                                List<PropertyInfo> propiedadesPrototiposForaneos)
+        {
+            string whereForaneo = "";
+            // Ejemplo: foraneaIdDireccion, 9 caracteres ocupa el prefijo (foraneaId) lo siguiente es el nombre.
+            string nombrePrototipoForaneo = unaPropiedad.Name.Substring(9, unaPropiedad.Name.Length - 9);
+            // FIltramos la lista para que nos quede la que estamos buscando
+            propiedadesPrototiposForaneos.Where(unaProp => unaProp.Name.Contains(nombrePrototipoForaneo));
+            if (propiedadesPrototiposForaneos.Count != 1)
+                return "";
+            // Obtenemos el objeto prototipo foraneo para construir los where a partir de la property encontrada
+            object objetoPrototipoForaneo = getValorProperty(propiedadesPrototiposForaneos[0].Name, objetoRaiz);
+
+            // Agregamos las condicion del objeto prototipo foraneo
+            armaWheresSegunPrototipo(objetoPrototipoForaneo, ref whereForaneo);
+
+            return whereForaneo;
+        }
+
+        private static void removeTheLast(ref string stringArmada, string stringARemover)
+        {
+            stringArmada = stringArmada.Substring(0, stringArmada.Length - stringARemover.Length);
+        }
+
+        private static string acomodarWhere(string where)
+        {
+            // Si hubo condiciones, quitamos el ultimo and que esta demas. Sino reseteamos la string.
+            if (where != "where ")
+                removeTheLast(ref where, "and");
+            else
+                where = "";
+            return where;
+        }
+
+        #endregion
+
+
+        #region Metodos Soporte base para el uso de reflection
+
+        private static void fillObject(DataRow drEntidad, ref PersistentObject objetoALlenar)
+        {
+            List<PropertyInfo> propiedadesCampos = getListaPropiedadesCampos(objetoALlenar.GetType());
+
+            // Le cargamos todos los valores del datarow al objeto.
+            foreach (PropertyInfo unaProperty in propiedadesCampos)
+                setValorProperty(unaProperty.Name, objetoALlenar, drEntidad[getNombreCampo(unaProperty)]);
+
+            // Agregamos la clave primaria que tiene un tratamiento diferente al de los campos
+            PropertyInfo propiedadClave = getPropiedadClave(objetoALlenar.GetType());
+            setValorProperty(propiedadClave.Name, objetoALlenar, drEntidad[getNombreCampo(propiedadClave)]);
+        }
+
+
         private static object getValorProperty(string mensaje, object unObjeto)
         {
             return unObjeto.GetType().InvokeMember(mensaje,
@@ -298,19 +314,40 @@ namespace Dal
             return unaProperty.Name.Substring(getPositionOfFirstUpperCaseChar(unaProperty.Name));
         }
 
-        private static void removeTheLast(ref string stringArmada, string stringARemover)
+        #endregion
+
+
+        #region Metodos soporte para obtener listas de properties que cumplan una condicion
+
+        private static List<PropertyInfo> getListaPropiedadesCampos(Type tipoClaseAObtenerProperties)
         {
-            stringArmada = stringArmada.Substring(0, stringArmada.Length - stringARemover.Length);
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => (representaUnCampoDeLaBase(unaProperty.Name)) || 
+                               (representaUnaClaveForanea(unaProperty.Name))).ToList();
         }
 
-        private static int getPositionOfFirstUpperCaseChar(string unaProperty)
+        private static List<PropertyInfo> getListaPropiedadesPrototiposForaneos(Type tipoClaseAObtenerProperties)
         {
-            for (int i = 0; i < unaProperty.Length - 1; i++)
-                if (char.IsUpper(unaProperty[i]))
-                    return i;
-            return 0;
-
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaUnPrototipoForaneo(unaProperty.Name)).ToList();
         }
+
+        private static List<PropertyInfo> getListaPropiedadesForaneas(Type tipoClaseAObtenerProperties)
+        {
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaUnaClaveForanea(unaProperty.Name)).ToList();
+        }
+
+        private static PropertyInfo getPropiedadClave(Type tipoClaseAObtenerProperties)
+        {
+            return tipoClaseAObtenerProperties.GetProperties().Where
+                           (unaProperty => representaClaveEnLaBase(unaProperty.Name)).ToList()[0];
+        }
+
+        #endregion
+
+
+        #region Metodos soporte para los joins con otras tablas
 
         private string nombreTablaForanea(PropertyInfo unaPropiedad)
         {
@@ -329,6 +366,11 @@ namespace Dal
             condicion += String.Format(" = {0}.{1}", nombreTablaForanea(unaPropiedad), "Id");
             return condicion;
         }
+
+        #endregion
+
+
+        #region Metodos Soporte para reificado de las convenciones tomadas
 
         private static bool representaUnCampoDeLaBase(string unaProperty)
         {
@@ -349,6 +391,9 @@ namespace Dal
         {
             return (unaProperty.Contains("auto"));
         }
+
+        #endregion
+
 
         #endregion
 

@@ -135,13 +135,31 @@ namespace ABMs
         private void limpiarControlesDelPanel()
         {
             foreach (Control unControl in pnFiltros.Controls)
+            {
                 if (esControlEdit(unControl.GetType())) unControl.Text = "";
+                if (esCombo(unControl.GetType())) ((ComboBox)unControl).SelectedValue = 0;
+            }
         }
+
+        
 
         private DataTable formatToGrid(DataTable tablaAMostrar)
         {
             tablaAMostrar.Columns["Deleted"].ReadOnly = true;
+            ajustarColumnasEnCasoDeCamposForaneos(tablaAMostrar);
             return tablaAMostrar;
+        }
+
+        private void ajustarColumnasEnCasoDeCamposForaneos(DataTable tablaAMostrar)
+        {
+            // Si hay campos de una tabla foranea
+            if (tablaAMostrar.Columns.Contains("Deleted1"))
+            {
+                // Hacemos que el deleted1 (el del final) sea readonly y borramos el Deleted y el Id1 (foraneo)
+                tablaAMostrar.Columns["Deleted1"].ReadOnly = true;
+                tablaAMostrar.Columns.Remove(tablaAMostrar.Columns["Deleted"]);
+                tablaAMostrar.Columns.Remove(tablaAMostrar.Columns["Id1"]);
+            }
         }
 
         private bool esControlEdit(Type tipoControl)
@@ -149,6 +167,11 @@ namespace ABMs
             return ((tipoControl == typeof(TextEdit)) || (tipoControl == typeof(NumberEdit)) ||
                 (tipoControl == typeof(DecimalEdit)) || (tipoControl == typeof(DateTimeEdit)) ||
                 (tipoControl == typeof(CuitEdit)) || (tipoControl == typeof(DateEdit)));
+        }
+
+        private bool esCombo(Type type)
+        {
+            return type == typeof(ComboBox);
         }
 
         #endregion
