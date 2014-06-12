@@ -62,9 +62,20 @@ namespace ABMs
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-            // Creamos el Empresa a partir de los datos de la pantalla y el id que tenemos guardado y lo mandamos a actualizar.
-            Empresa unaEmpresa = crearEmpresaFromCamposGUI();
-            unaEmpresa.autoId = idClaveObjetoAModificar;
+            // Obtenemos la empresa a partir de la clave seleccionada por el usuario y lo actualizamos
+            Empresa unaEmpresa = Empresa.get(idClaveObjetoAModificar);
+            actualizarEmpresaFromCamposGUI(unaEmpresa);
+
+            // Obtenemos la dir a partir de la que tiene la empresa y actualizamos la dir.
+            Direccion unaDir = Direccion.get(unaEmpresa.foraneaIdDireccion);
+            abmDirecciones.actualizarDireccionFromCamposGUI(unaDir);
+
+            // Validamos que no le haya seleccionado localidad vacia.
+            if (unaDir.campoIdLocalidad == 0)
+                throw new Exception("No puede modificar el cliente dejandolo sin una localidad.");
+
+            // Actualizamos ambos objetos.
+            unaDir.update();
             unaEmpresa.update();
         }
 
@@ -107,6 +118,15 @@ namespace ABMs
         {
             return new Empresa(teRazonSocial.Text, ceCuit.Text, dteFechaIngreso.FechaHora,
                                             teMail.Text, teNombreContacto.Text, teCiudad.Text);
+        }
+        private void actualizarEmpresaFromCamposGUI(Empresa unaEmpresa)
+        {
+            unaEmpresa.campoRazonSocial = teRazonSocial.Text;
+            unaEmpresa.campoCuit = ceCuit.Text;
+            unaEmpresa.campoFechaIngreso = dteFechaIngreso.FechaHora;
+            unaEmpresa.campoMail = teMail.Text;
+            unaEmpresa.campoNombreContacto = teNombreContacto.Text;
+            unaEmpresa.campoCiudad = teCiudad.Text;
         }
     }
 }

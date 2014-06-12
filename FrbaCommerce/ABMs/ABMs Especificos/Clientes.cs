@@ -65,11 +65,24 @@ namespace ABMs
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-            // Creamos el Cliente a partir de los datos de la pantalla y el id que tenemos guardado y lo mandamos a actualizar.
-            Cliente unCliente = crearClienteFromCamposGUI();
-            unCliente.autoId = idClaveObjetoAModificar;
+            // Obtenemos el cliente a partir de la clave seleccionada por el usuario y lo actualizamos
+            Cliente unCliente = Cliente.get(idClaveObjetoAModificar);
+            actualizarClienteFromCamposGUI(unCliente);
+
+            // Obtenemos la dir a partir de la que tiene el cliente y actualizamos la dir.
+            Direccion unaDir = Direccion.get(unCliente.foraneaIdDireccion);
+            abmDirecciones.actualizarDireccionFromCamposGUI(unaDir);
+
+            // Validamos que no le haya seleccionado localidad vacia.
+            if (unaDir.campoIdLocalidad == 0)
+                throw new Exception("No puede modificar el cliente dejandolo sin una localidad.");
+
+            // Actualizamos ambos objetos.
+            unaDir.update();
             unCliente.update();
         }
+
+
 
         protected override void baja(int idClavePrimaria)
         {
@@ -110,6 +123,17 @@ namespace ABMs
         {
             return new Cliente(teApellido.Text, teNombre.Text, teTipoDocumento.Text, neDocumento.Numero, 
                                deFechaNacimiento.Fecha, teMail.Text, teTelefono.Text);
+        }
+
+        private void actualizarClienteFromCamposGUI(Cliente unCliente)
+        {
+            unCliente.campoApellido = teApellido.Text;
+            unCliente.campoNombre = teNombre.Text;
+            unCliente.campoTipoDocumento = teTipoDocumento.Text;
+            unCliente.campoDocumento = neDocumento.Numero;
+            unCliente.campoFechaNacimiento = deFechaNacimiento.Fecha;
+            unCliente.campoMail = teMail.Text;
+            unCliente.campoTelefono = teTelefono.Text;
         }
 
     }

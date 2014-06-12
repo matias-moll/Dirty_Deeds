@@ -56,11 +56,20 @@ namespace ABMs
         {
             cbLocalidades.SelectedValue = 0;
 
-            builder.AddControlWithLabel("Dirección", teDomicilio)
+            builder.AddControlWithLabel("Domicilio", teDomicilio)
                    .AddControlWithLabel("Nro. Calle", neNroCalle)
                    .AddControlWithLabel("Piso", nePiso)
                    .AddControlWithLabel("Departamento", teDepto)
                    .AddControlWithLabel("Localidad", cbLocalidades);
+        }
+
+        internal void actualizarDireccionFromCamposGUI(Direccion unaDir)
+        {
+            unaDir.campoDomicilio = teDomicilio.Text;
+            unaDir.campoNumeroCalle = neNroCalle.Numero;
+            unaDir.campoPiso = nePiso.Numero;
+            unaDir.campoDepto = teDepto.Text;
+            unaDir.campoIdLocalidad = (int)Soporte.notNull(cbLocalidades.SelectedValue, 0);
         }
     }
 }
