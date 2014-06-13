@@ -84,7 +84,7 @@ create table Localidad
 (
 	Id int not null IDENTITY(1,1) primary key,
 	CodPostal int NOT NULL,
-	Nombre nvarchar(255) not null unique,
+	Nombre nvarchar(255) unique,
 	Deleted bit not null
 )
 create table Direccion
