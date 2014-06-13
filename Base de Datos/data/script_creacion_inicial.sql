@@ -8,21 +8,21 @@ create table Usuario
 	Usuario char(20) not null unique,
 	Contrasenia varchar(32) not null,
 	IntentosFallidos int not null,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Rol
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
 	Nombre varchar(30) not null,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Funcionalidad
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion varchar(30) not null,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Rol_Funcionalidad
@@ -61,10 +61,10 @@ create table Cliente
 	TipoDocumento char(4) not null,
 	Documento int not null,
 	FechaNacimiento datetime not null,
-	Telefono nvarchar(40) not null unique, 
+	Telefono nvarchar(40), 
 	Mail nvarchar(150) not null,
 	IdDireccion int foreign key references Direccion(Id),
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Empresa
@@ -77,15 +77,14 @@ create table Empresa
 	Ciudad nvarchar(60) not null,
 	NombreContacto varchar(60) not null,
 	IdDireccion int foreign key references Direccion(Id),
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Localidad
 (
 	Id int not null IDENTITY(1,1) primary key,
-	CodPostal int NOT NULL,
 	Nombre nvarchar(255) unique,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 create table Direccion
 (
@@ -94,8 +93,9 @@ create table Direccion
 	NumeroCalle int not null,
 	Piso int not null,
 	Depto nvarchar(50) not null,
+	CodPostal int NOT NULL,
 	IdLocalidad int foreign key references Localidad(Id),
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table FormaPago
@@ -128,14 +128,14 @@ create table Visibilidad
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
 	Porcentaje numeric(18, 2) not null,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Rubro
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion nvarchar(255) not null,
-	Deleted bit not null
+	Deleted bit not null DEFAULT 0
 )
 
 create table Publicacion
