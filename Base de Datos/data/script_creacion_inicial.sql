@@ -127,6 +127,7 @@ create table Item
 create table Visibilidad
 (
 	Id int not null IDENTITY(1,1) primary key,
+	Codigo varchar(20) not null,
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
 	Porcentaje numeric(18, 2) not null,
@@ -149,8 +150,16 @@ create table Publicacion
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
+	IdEstado int foreign key references Publicacion_Estado(Id),
 	IdRubro int foreign key references Rubro(Id),
-	IdVisibilidad int foreign key references Visibilidad(Id)
+	IdVisibilidad int foreign key references Visibilidad(Id),
+	IdUsuario int foreign key references Usuario(Id) not null
+)
+
+create table Publicacion_Estado
+(
+	Id int NOT NULL IDENTITY(1,1) primary key,
+	Descripcion varchar(50) not null
 )
 
 create table Publicacion_Pregunta
