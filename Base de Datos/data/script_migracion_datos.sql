@@ -20,7 +20,9 @@ WHERE Publ_Empresa_Dom_Calle IS NOT NULL
 INSERT INTO DIRTYDEEDS.Cliente(TipoDocumento,Documento,Nombre,Apellido,FechaNacimiento,Mail,IdDireccion)
 SELECT DISTINCT 'DNI', Cli_Dni,Cli_Nombre,Cli_Apeliido,Cli_Fecha_Nac,Cli_Mail,Id
 FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion
-WHERE Cli_Dni IS NOT NULL AND Cli_Dom_Calle = Domicilio
+WHERE Cli_Dni IS NOT NULL 
+AND Cli_Dom_Calle = Domicilio 
+AND Cli_Nro_Calle = NumeroCalle
 
 INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto, Ciudad, IdDireccion)
 SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion, Publ_Empresa_Mail, 'Sin Contacto', 'Buenos Aires',Id from gd_esquema.Maestra,DIRTYDEEDS.Direccion
