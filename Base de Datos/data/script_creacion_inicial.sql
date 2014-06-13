@@ -64,6 +64,7 @@ create table Cliente
 	Telefono nvarchar(40), 
 	Mail nvarchar(150) not null,
 	IdDireccion int foreign key references Direccion(Id),
+	IdUsuario int foreign key references Usuario(Id) not null,
 	Deleted bit not null DEFAULT 0
 )
 
@@ -77,6 +78,7 @@ create table Empresa
 	Ciudad nvarchar(60) not null,
 	NombreContacto varchar(60) not null,
 	IdDireccion int foreign key references Direccion(Id),
+	IdUsuario int foreign key references Usuario(Id) not null,
 	Deleted bit not null DEFAULT 0
 )
 
