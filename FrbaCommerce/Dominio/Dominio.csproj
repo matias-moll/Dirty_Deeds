@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cliente.cs" />
+    <Compile Include="Funcionalidad.cs" />
+    <Compile Include="Rol_Funcionalidad.cs" />
     <Compile Include="Excepciones\ContraseniaIncorrectaException.cs" />
     <Compile Include="Usuario_Rol.cs" />
     <Compile Include="Excepciones\UsuarioNoEncontradoException.cs" />

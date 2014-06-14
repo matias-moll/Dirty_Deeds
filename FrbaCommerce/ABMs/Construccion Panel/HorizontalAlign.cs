@@ -15,7 +15,7 @@ namespace ABMs
         public HorizontalAlign( Size tamaño)
                         : base(tamaño)
         {
-            this.sizeLabels = new Size(76, 25);
+            this.sizeLabels = new Size(85, 25);
             this.controlMasLargo.Size = new Size(1, 1);
         }
 
@@ -75,7 +75,7 @@ namespace ABMs
         internal override void cargaSeparaciones()
         {
             this.separacionVertical = 5;
-            this.separacionHorizontal = 35;
+            this.separacionHorizontal = 22;
         }
 
 

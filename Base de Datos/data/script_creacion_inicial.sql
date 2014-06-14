@@ -18,17 +18,10 @@ create table Rol
 	Deleted bit not null DEFAULT 0
 )
 
-create table Funcionalidad
-(
-	Id int NOT NULL IDENTITY(1,1) primary key,
-	Descripcion varchar(30) not null,
-	Deleted bit not null DEFAULT 0
-)
-
 create table Rol_Funcionalidad
 (
 	IdRol int foreign key references Rol(Id),
-	IdFuncionalidad int foreign key references Funcionalidad(id),
+	IdFuncionalidad int not null,
 	primary key (IdRol, IdFuncionalidad)
 )
 

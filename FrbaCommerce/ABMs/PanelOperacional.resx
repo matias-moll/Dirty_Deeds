@@ -152,18 +152,6 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="btnRubros.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAAS5JREFUOE+lksFmg1EQhYduS1clq9JttqX0GbLKqoTQVQkh29I3KCWrEEofoJSQVSkh
-        hJBV6CqE0FUpWYVQkvPFXEblvy25nDj/zNxzM2fGzOxd2BRgqfgik/9WzvgpEnhV7jqT557NCwpeFD8T
-        ToRWRsQmmWRfufpf/yDnQVFrMW70SeBTuBDagT+Jf3gcPnXe8zs/eEACAZKcRuB34kOPR97xO7spPIYe
-        8ePLv+EUrITffOk1MwTuDxBA2JoHtPCGQM0FMPFSaAvJ0Gjis3uD0clEdsUqoYX/jC3WdBG4cgHMSqOi
-        CPcpALy+FjCY77S9DwiU93iAwLlQEk4p0hm4KDyNkQHsirjAyG6FtFj0eiNUhWOBPeFlakZ+h52xI2Hs
-        gdgf3sST9iPV8GB5CxB3wLLPrCyXAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="btnVisibilidades.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

@@ -14,6 +14,11 @@ namespace ABMs
     {
 
         TextEdit teNombre = new TextEdit();
+        CheckBox cbComprarOfertar = new CheckBox();
+        CheckBox cbGenEditPublicacion = new CheckBox();
+        CheckBox cbFactPublicaciones = new CheckBox();
+        CheckBox cbHistorialCliente = new CheckBox();
+        CheckBox cbEstadisticas = new CheckBox();
 
         public override DataTable ejecutarBusqueda()
         {
@@ -32,7 +37,25 @@ namespace ABMs
         {
             // Creamos el rol y lo mandamos a grabar.
             Rol unRol = new Rol(teNombre.Text);
-            unRol.save();
+            int idRol = unRol.save();
+
+            // Grabamos las funcionalidades correspondientes segun haya elegido el usuario en pantalla.
+            grabarRelacionRolFuncionalidad(idRol, cbComprarOfertar, "ComprarOfertar");
+            grabarRelacionRolFuncionalidad(idRol, cbEstadisticas, "Estadisticas");
+            grabarRelacionRolFuncionalidad(idRol, cbFactPublicaciones, "Facturacion");
+            grabarRelacionRolFuncionalidad(idRol, cbGenEditPublicacion, "GenEditPublicacion");
+            grabarRelacionRolFuncionalidad(idRol, cbHistorialCliente, "HistorialCliente");
+        }
+
+        private void grabarRelacionRolFuncionalidad(int idRol, CheckBox cbFuncionalidad, string nombreFuncionalidad)
+        {
+            Rol_Funcionalidad relacionRolFunc = new Rol_Funcionalidad();
+            relacionRolFunc.campoIdRol = idRol;
+            if (cbFuncionalidad.Checked)
+            {
+                relacionRolFunc.campoIdFuncionalidad = Funcionalidad.funcionalidades[nombreFuncionalidad];
+                relacionRolFunc.save();
+            }
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
@@ -45,6 +68,7 @@ namespace ABMs
 
         protected override void baja(int idClavePrimaria)
         {
+            Rol_Funcionalidad.delete(idClavePrimaria);
             Rol.delete(idClavePrimaria);
         }
 
@@ -62,5 +86,27 @@ namespace ABMs
 
             return builder.getPanel;
         }
+
+        public override Panel getPanelAlta()
+        {
+            limpiarCheckBoxes(new List<CheckBox>(){cbComprarOfertar, cbEstadisticas, cbFactPublicaciones, cbGenEditPublicacion, cbHistorialCliente});
+            PanelBuilder builder = new PanelBuilder(new Size(350, 400), PanelBuilder.Alineacion.Horizontal);
+            builder.AddControlWithLabel("Nombre", teNombre)
+                   .AddControlWithLabel("Comprar/Ofertar", cbComprarOfertar)
+                   .AddControlWithLabel("Estadísticas", cbEstadisticas)
+                   .AddControlWithLabel("Facturación", cbFactPublicaciones)
+                   .AddControlWithLabel("Publicaciones", cbGenEditPublicacion)
+                   .AddControlWithLabel("Historial Cliente", cbHistorialCliente)
+                   .centrarControlesEnElPanel();
+
+            return builder.getPanel;
+        }
+
+        private void limpiarCheckBoxes(List<CheckBox> list)
+        {
+            foreach (CheckBox cb in list)
+                cb.Checked = false;
+        }
+
     }
 }

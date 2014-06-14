@@ -76,11 +76,16 @@ namespace Dal
 
         public static void delete(int idClavePrimaria)
         {
+            delete(idClavePrimaria, "Id");
+        }
+
+        public static void delete(int idClavePrimaria, string nombreClave)
+        {
             string deleteCommand = "";
             try
             {
                 string nombreTabla = typeof(PersistentObject).Name;
-                deleteCommand = String.Format("delete from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
+                deleteCommand = String.Format("delete from DIRTYDEEDS.{0} where {1} = {2}", nombreTabla, nombreClave, idClavePrimaria);
                 StaticDataAccess.executeCommand(deleteCommand);
             }
             catch (Exception e)

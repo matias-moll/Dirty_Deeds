@@ -37,9 +37,9 @@ namespace Dominio
             return DataAccessObject<Rol>.get(idClavePrimaria);
         }
 
-        public void save()
+        public int save()
         {
-            daoRol.insert(this);
+            return daoRol.insert(this);
         }
 
         public void update()

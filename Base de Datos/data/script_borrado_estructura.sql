@@ -4,7 +4,6 @@ drop table DIRTYDEEDS.Rol_Funcionalidad
 drop table DIRTYDEEDS.Usuario_Rol
 drop table DIRTYDEEDS.Rol
 drop table DIRTYDEEDS.Calificacion
-drop table DIRTYDEEDS.Funcionalidad
 drop table DIRTYDEEDS.Empresa
 drop table DIRTYDEEDS.Cliente
 drop table DIRTYDEEDS.Direccion
