@@ -101,3 +101,9 @@ INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuari
 SELECT Publicacion_Cod, Compra_Fecha, NULL as Monto, Compra_Cantidad as Cantidad, usuario.id from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
 WHERE Compra_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
+
+INSERT INTO DIRTYDEEDS.Item(NumItem,Monto,Cantidad,NumFactura,Descripcion)
+SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, Item_Factura_Cantidad, Factura_Nro,'' as Descripcion
+FROM gd_esquema.Maestra
+WHERE Item_Factura_Monto IS NOT NULL
+ORDER BY Factura_Nro
