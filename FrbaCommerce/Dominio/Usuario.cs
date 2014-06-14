@@ -13,7 +13,7 @@ namespace Dominio
         private DataAccessObject<Usuario> daoUsuario;
 
         // Properties con la convencion del DataAccessObject
-        public int campoId { get; set; }
+        public int autoId { get; set; }
         public string campoUsuario { get; set; }
         public string campoContrasenia { get; set; }
         public int campoIntentosFallidos { get; set; }

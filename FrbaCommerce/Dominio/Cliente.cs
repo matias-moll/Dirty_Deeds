@@ -22,6 +22,7 @@ namespace Dominio
         public string campoMail { get; set; }
         public string campoTelefono { get; set; }
         public int foraneaIdDireccion { get; set; }
+        public int foraneaIdUsuario { get; set; }
         public bool campoDeleted { get; set; }
 
         public Direccion prototipoDireccion { get; set; }

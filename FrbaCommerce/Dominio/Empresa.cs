@@ -21,6 +21,7 @@ namespace Dominio
         public string campoCiudad { get; set; }
         public DateTime campoFechaIngreso { get; set; }
         public int foraneaIdDireccion { get; set; }
+        public int foraneaIdUsuario { get; set; }
         public bool campoDeleted { get; set; }
 
         public Direccion prototipoDireccion { get; set; }
