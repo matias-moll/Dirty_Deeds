@@ -31,8 +31,11 @@ namespace ABMs
         {
             Rol unRol = Rol.get(p_idClavePrimaria);
             teNombre.Text = unRol.campoNombre;
-        }
 
+            Rol_Funcionalidad relacionRolFunc = new Rol_Funcionalidad();
+            relacionRolFunc.campoIdRol = p_idClavePrimaria;
+            cargarCheckedCorrespondientes(relacionRolFunc.getListByPrototype());
+        }
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
@@ -40,6 +43,11 @@ namespace ABMs
             int idRol = unRol.save();
 
             // Grabamos las funcionalidades correspondientes segun haya elegido el usuario en pantalla.
+            grabarFuncionalidades(idRol);
+        }
+
+        private void grabarFuncionalidades(int idRol)
+        {
             grabarRelacionRolFuncionalidad(idRol, cbComprarOfertar, "ComprarOfertar");
             grabarRelacionRolFuncionalidad(idRol, cbEstadisticas, "Estadisticas");
             grabarRelacionRolFuncionalidad(idRol, cbFactPublicaciones, "Facturacion");
@@ -64,12 +72,31 @@ namespace ABMs
             Rol unRol = new Rol(teNombre.Text);
             unRol.autoId = idClaveObjetoAModificar;
             unRol.update();
+
+            // Actualizamos la nueva seleccion.
+            Rol_Funcionalidad.delete(idClaveObjetoAModificar);
+            grabarFuncionalidades(idClaveObjetoAModificar);
         }
 
         protected override void baja(int idClavePrimaria)
         {
             Rol_Funcionalidad.delete(idClavePrimaria);
             Rol.delete(idClavePrimaria);
+        }
+
+        private void cargarCheckedCorrespondientes(List<Rol_Funcionalidad> list)
+        {
+            foreach (Rol_Funcionalidad unaFuncionalidad in list)
+            {
+                switch (unaFuncionalidad.campoIdFuncionalidad)
+                {
+                    case 1: cbComprarOfertar.Checked = true; break;
+                    case 2: cbGenEditPublicacion.Checked = true; break;
+                    case 3: cbFactPublicaciones.Checked = true; break;
+                    case 4: cbHistorialCliente.Checked = true; break;
+                    case 5: cbEstadisticas.Checked = true; break;
+                }
+            }
         }
 
         protected override void bajaLogica(int idClavePrimaria)

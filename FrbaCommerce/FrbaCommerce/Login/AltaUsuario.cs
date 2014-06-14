@@ -13,12 +13,14 @@ namespace FrbaCommerce
     public partial class AltaUsuario : Form
     {
         public int idRolUsuarioAlta { get; set; }
-        private int idUsuario;
+        private int idReferencia;
+        private char tipo;
 
-        public AltaUsuario(Usuario usuarioADarDeAlta, int idUsuarioAGrabar)
+        public AltaUsuario(Usuario usuarioADarDeAlta, int idUsuarioAGrabar, char tipoUsuario)
         {
             InitializeComponent();
-            idUsuario = idUsuarioAGrabar;
+            idReferencia = idUsuarioAGrabar;
+            tipo = tipoUsuario;
 
             // En caso de que ya haya cargado usuario y contrasenia evitamos que tenga que repetirlos.
             teUsuario.Text = usuarioADarDeAlta.campoUsuario;
@@ -33,11 +35,12 @@ namespace FrbaCommerce
         {
             // Grabamos el usuario y la relacion con el rol.
             Usuario usuarioADarDeAlta = new Usuario(teUsuario.Text, Hash.getHashSha256(teContrasenia.Text));
-            usuarioADarDeAlta.campoId = idUsuario;
-            usuarioADarDeAlta.save();
+            usuarioADarDeAlta.campoIdReferencia = idReferencia;
+            usuarioADarDeAlta.campoDiscriminante = tipo.ToString();
+            int idUsuarioGrabado = usuarioADarDeAlta.save();
 
             Usuario_Rol relacionUsuarioRol = new Usuario_Rol();
-            relacionUsuarioRol.campoIdUsuario = usuarioADarDeAlta.campoId;
+            relacionUsuarioRol.campoIdUsuario = idUsuarioGrabado;
             relacionUsuarioRol.campoIdRol = Convert.ToInt32(cbRoles.SelectedValue);
             relacionUsuarioRol.save();
 

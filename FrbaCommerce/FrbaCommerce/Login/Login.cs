@@ -26,7 +26,7 @@ namespace FrbaCommerce
 
             // Obtenemos la lista de roles de dicho usuario
             Usuario_Rol usuarioRol = new Usuario_Rol();
-            usuarioRol.campoIdUsuario = unUsuario.campoId;
+            usuarioRol.campoIdUsuario = unUsuario.autoId;
             List<Usuario_Rol> rolesDelUsuario = usuarioRol.getListByPrototype();
 
             // Si tiene solo uno disponible, pasamos a validar el login.
@@ -51,9 +51,14 @@ namespace FrbaCommerce
 
         private void validarLogin(Usuario unUsuario, Rol rol, string contraseniaIngresada)
         {
+            unUsuario.validarCantidadIntentosFallidos();
+
             // Validamos la contrasenia mediante el algoritmo Sha256
             if (Hash.getHashSha256(contraseniaIngresada) != unUsuario.campoContrasenia)
+            {
+                unUsuario.sumateIntentoFallidoYValida();
                 throw new ContraseniaIncorrectaException();
+            }
 
             // Paso la validacion exitosamente.
             finalizarLoginExitosamente(rol.autoId);

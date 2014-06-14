@@ -26,22 +26,22 @@ namespace FrbaCommerce
         private void btnCliente_Click(object sender, EventArgs e)
         {
             ABMGenerico seleccion = new ABMGenerico(new Clientes(), ABMGenerico.modoPantalla.seleccion);
-            procesoAltaUsuario(seleccion);
+            procesoAltaUsuario(seleccion, 'C');
         }
 
         private void btnEmpresa_Click(object sender, EventArgs e)
         {
             ABMGenerico seleccion = new ABMGenerico(new Empresas(), ABMGenerico.modoPantalla.seleccion);
-            procesoAltaUsuario(seleccion);
+            procesoAltaUsuario(seleccion, 'E');
         }
 
-        private void procesoAltaUsuario(ABMGenerico seleccion)
+        private void procesoAltaUsuario(ABMGenerico seleccion, char tipoUsuario)
         {
             seleccion.ShowDialog(this);
 
             if (seleccion.DialogResult == DialogResult.OK)
             {
-                AltaUsuario altaUsuario = new AltaUsuario(usuario, seleccion.idClavePrimariaObjetoSeleccionado);
+                AltaUsuario altaUsuario = new AltaUsuario(usuario, seleccion.idClavePrimariaObjetoSeleccionado, tipoUsuario);
                 altaUsuario.ShowDialog(this);
 
                 if (altaUsuario.DialogResult == DialogResult.OK)

@@ -14,6 +14,8 @@ namespace Dominio
 
         // Properties con la convencion del DataAccessObject
         public int autoId { get; set; }
+        public int campoIdReferencia { get; set; }
+        public string campoDiscriminante { get; set; }
         public string campoUsuario { get; set; }
         public string campoContrasenia { get; set; }
         public int campoIntentosFallidos { get; set; }
@@ -27,6 +29,7 @@ namespace Dominio
             campoUsuario = usuario;
             campoContrasenia = contrasenia;
             campoDeleted = p_deleted;
+            campoDiscriminante = "";
             campoIntentosFallidos = 0;
         }
 
@@ -37,18 +40,12 @@ namespace Dominio
 
         //Metodos publicos
 
-        public void sumateIntentoFallido()
+        public void sumateIntentoFallidoYValida()
         {
             // Sumamos uno al contador de intentos fallidos y validamos.
             campoIntentosFallidos++;
-            if (campoIntentosFallidos >= 3)
-            {
-                // Si no pasa la validacion => inhabilitamos y lanzamos la excepcion correspondiente.
-                this.inhabilitar();
-                throw new UsuarioInhabilitadoException("El usuario ha realizado 3 ingresos incorrectos, " +
-                "por lo tanto ha sido inhabilitado. Contactese con un alguien que tenga permisos para volver a "+
-                "habilitar su usuario.");
-            }
+            validarCantidadIntentosFallidos();
+            this.update();
         }
 
         private void inhabilitar()
@@ -75,9 +72,9 @@ namespace Dominio
             return usuarios[0];
         }
 
-        public void save()
+        public int save()
         {
-            daoUsuario.insert(this);
+            return daoUsuario.insert(this);
         }
 
         public void update()
@@ -103,5 +100,17 @@ namespace Dominio
 
         #endregion
 
+
+        public void validarCantidadIntentosFallidos()
+        {
+            if (campoIntentosFallidos >= 3)
+            {
+                // Si no pasa la validacion => inhabilitamos y lanzamos la excepcion correspondiente.
+                this.inhabilitar();
+                throw new UsuarioInhabilitadoException("El usuario ha realizado 3 ingresos incorrectos, " +
+                "por lo tanto ha sido inhabilitado. Contactese con alguien que tenga permisos para volver a " +
+                "habilitar su usuario.");
+            }
+        }
     }
 }

@@ -43,6 +43,24 @@ create table Calificacion
 	CantidadEstrellas int not null
 )
 
+create table Localidad
+(
+	Id int not null IDENTITY(1,1) primary key,
+	Nombre nvarchar(255) unique,
+	Deleted bit not null DEFAULT 0
+)
+create table Direccion
+(
+	Id int not null IDENTITY(1,1) primary key,
+	Domicilio nvarchar(255) not null,
+	NumeroCalle int not null,
+	Piso int not null,
+	Depto nvarchar(50) not null,
+	CodPostal int NOT NULL,
+	IdLocalidad int foreign key references Localidad(Id),
+	Deleted bit not null DEFAULT 0
+)
+
 create table Cliente
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
@@ -67,24 +85,6 @@ create table Empresa
 	Ciudad nvarchar(60) not null,
 	NombreContacto varchar(60) not null,
 	IdDireccion int foreign key references Direccion(Id),
-	Deleted bit not null DEFAULT 0
-)
-
-create table Localidad
-(
-	Id int not null IDENTITY(1,1) primary key,
-	Nombre nvarchar(255) unique,
-	Deleted bit not null DEFAULT 0
-)
-create table Direccion
-(
-	Id int not null IDENTITY(1,1) primary key,
-	Domicilio nvarchar(255) not null,
-	NumeroCalle int not null,
-	Piso int not null,
-	Depto nvarchar(50) not null,
-	CodPostal int NOT NULL,
-	IdLocalidad int foreign key references Localidad(Id),
 	Deleted bit not null DEFAULT 0
 )
 
