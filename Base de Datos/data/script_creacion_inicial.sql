@@ -8,6 +8,8 @@ create table Usuario
 	Usuario char(20) not null unique,
 	Contrasenia varchar(256) not null DEFAULT 'Password',
 	IntentosFallidos int not null DEFAULT 0,
+	IdReferencia int not null,
+	Discriminante char not null,
 	Deleted bit not null DEFAULT 0
 )
 
@@ -50,7 +52,7 @@ create table Calificacion
 
 create table Cliente
 (
-	Id int NOT NULL primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	Apellido nvarchar(150) not null,
 	Nombre nvarchar(150) not null,
 	TipoDocumento char(4) not null,
@@ -65,7 +67,7 @@ create table Cliente
 
 create table Empresa
 (
-	Id int NOT NULL primary key,
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	RazonSocial nvarchar(255) not null unique,
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,
