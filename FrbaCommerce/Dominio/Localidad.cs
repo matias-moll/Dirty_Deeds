@@ -14,21 +14,19 @@ namespace Dominio
 
         // Properties con la convencion del DataAccessObject
         public int autoId { get; set; }
-        public int campoCodPostal { get; set; }
         public string campoNombre { get; set; }
         public bool campoDeleted { get; set; }
 
         #region Constructores
         public Localidad() { daoLocalidad = new DataAccessObject<Localidad>(); }
 
-        public Localidad(int codPostal, string nombre, bool p_deleted) : this()
+        public Localidad(string nombre, bool p_deleted) : this()
         {
-            campoCodPostal = codPostal;
             campoNombre = nombre;
             campoDeleted = p_deleted;
         }
 
-        public Localidad(int codPostal, string nombre) : this(codPostal,nombre, false) { }
+        public Localidad(string nombre) : this(nombre, false) { }
 
         #endregion
 

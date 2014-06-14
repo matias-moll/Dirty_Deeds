@@ -15,7 +15,7 @@ namespace ABMs
         public HorizontalAlign( Size tamaño)
                         : base(tamaño)
         {
-            this.sizeLabels = new Size(80, 25);
+            this.sizeLabels = new Size(76, 25);
             this.controlMasLargo.Size = new Size(1, 1);
         }
 

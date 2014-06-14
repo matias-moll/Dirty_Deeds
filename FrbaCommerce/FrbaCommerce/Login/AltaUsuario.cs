@@ -32,7 +32,7 @@ namespace FrbaCommerce
         private void gbAceptar_Click(object sender, EventArgs e)
         {
             // Grabamos el usuario y la relacion con el rol.
-            Usuario usuarioADarDeAlta = new Usuario(teUsuario.Text, teContrasenia.Text);
+            Usuario usuarioADarDeAlta = new Usuario(teUsuario.Text, Hash.getHashSha256(teContrasenia.Text));
             usuarioADarDeAlta.campoId = idUsuario;
             usuarioADarDeAlta.save();
 

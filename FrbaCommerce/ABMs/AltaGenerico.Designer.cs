@@ -36,7 +36,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(102, 431);
+            this.btnCancelar.Location = new System.Drawing.Point(102, 454);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 1;
@@ -46,7 +46,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(266, 431);
+            this.btnAceptar.Location = new System.Drawing.Point(266, 454);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 2;
@@ -56,9 +56,9 @@
             // 
             // gbDatos
             // 
-            this.gbDatos.Location = new System.Drawing.Point(30, 12);
+            this.gbDatos.Location = new System.Drawing.Point(25, 12);
             this.gbDatos.Name = "gbDatos";
-            this.gbDatos.Size = new System.Drawing.Size(370, 402);
+            this.gbDatos.Size = new System.Drawing.Size(384, 429);
             this.gbDatos.TabIndex = 0;
             this.gbDatos.TabStop = false;
             this.gbDatos.Text = "Datos";
@@ -68,7 +68,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Turquoise;
-            this.ClientSize = new System.Drawing.Size(434, 466);
+            this.ClientSize = new System.Drawing.Size(434, 492);
             this.Controls.Add(this.gbDatos);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);

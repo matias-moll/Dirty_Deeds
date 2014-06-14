@@ -48,7 +48,7 @@ namespace FrbaCommerce
                 {
                     idRolUsuario = altaUsuario.idRolUsuarioAlta;
 
-                    MessageBox.Show("Su usuario ha sido dado de alta exitosamente! Ahora ingresará al sistema");
+                    MessageBox.Show("Su usuario ha sido dado de alta exitosamente! Ahora podrá ingresar al sistema");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

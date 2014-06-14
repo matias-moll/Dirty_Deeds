@@ -23,12 +23,15 @@ namespace Dal
 
                 fillListaCamposYListaValoresFrom(ref listaCampos, ref listaValores, objetoAPersistir);
 
+                PropertyInfo claveAutoIncremental = getPropiedadClave(typeof(PersistentObject));
+
                 removeTheLast(ref listaCampos, ",");
                 removeTheLast(ref listaValores, ",");
 
                 string nombreTabla = objetoAPersistir.GetType().Name;
                 commandInsert = String.Format("insert into DIRTYDEEDS.{0} ({1}) values ({2})  {3}", 
-                                              nombreTabla, listaCampos, listaValores, returnIdentity());
+                                              nombreTabla, listaCampos, listaValores,
+                                              (claveAutoIncremental == null)? "" : returnIdentity()); // Salvedad para las clases sin id autoincremental, sino explota en sql el scope_identity.
 
                 return StaticDataAccess.executeInsert(commandInsert);
             }

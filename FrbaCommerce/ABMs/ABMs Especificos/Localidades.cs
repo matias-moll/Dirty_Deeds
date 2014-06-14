@@ -12,33 +12,31 @@ namespace ABMs
 {
     class Localidades : ABMEspecifico
     {
-        NumberEdit neCodPostal = new NumberEdit();
         TextEdit teNombre = new TextEdit();
 
         public override DataTable ejecutarBusqueda()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Localidad unRol = new Localidad(neCodPostal.Numero, teNombre.Text);
+            Localidad unRol = new Localidad(teNombre.Text);
             return unRol.upFullByPrototype();
         }
 
         public override void cargarTusDatos(int idClavePrimaria)
         {
             Localidad unaLocalidad = Localidad.get(idClavePrimaria);
-            neCodPostal.Numero = unaLocalidad.campoCodPostal;
             teNombre.Text = unaLocalidad.campoNombre;
         }
 
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Localidad unaLocalidad = new Localidad(neCodPostal.Numero, teNombre.Text);
+            Localidad unaLocalidad = new Localidad(teNombre.Text);
             unaLocalidad.save();
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-            Localidad unaLocalidad = new Localidad(neCodPostal.Numero, teNombre.Text);
+            Localidad unaLocalidad = new Localidad(teNombre.Text);
             unaLocalidad.autoId = idClaveObjetoAModificar;
             unaLocalidad.update();
         }
@@ -57,8 +55,7 @@ namespace ABMs
         public override Panel getPanel(Size tamañoPanel)
         {
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
-            builder.AddControlWithLabel("Código Postal", neCodPostal)
-                   .AddControlWithLabel("Nombre", teNombre)
+            builder.AddControlWithLabel("Nombre", teNombre)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

@@ -16,13 +16,15 @@ namespace ABMs
         TextEdit teDomicilio = new TextEdit();
         NumberEdit neNroCalle = new NumberEdit();
         NumberEdit nePiso = new NumberEdit();
+        NumberEdit neCodPostal = new NumberEdit();
         TextEdit teDepto = new TextEdit();
         ComboBox cbLocalidades = new ComboBox();
 
         public Direcciones()
         {
             List<Localidad> localidades = Localidad.upFull();
-            Localidad localidadVacia = new Localidad(0, "");
+            Localidad localidadVacia = new Localidad("");
+            localidadVacia.autoId = 0;
             localidades.Add(localidadVacia);
             // Cargamos la lista de localidades.
             cbLocalidades.DataSource = localidades;
@@ -42,6 +44,7 @@ namespace ABMs
             neNroCalle.Numero = unaDireccion.campoNumeroCalle;
             nePiso.Numero = unaDireccion.campoPiso;
             teDepto.Text = unaDireccion.campoDepto;
+            neCodPostal.Numero = unaDireccion.campoCodPostal;
             cbLocalidades.SelectedValue = unaDireccion.campoIdLocalidad;
         }
 
@@ -49,7 +52,7 @@ namespace ABMs
         {
             int idLocalidadSelected = (int)Soporte.notNull(cbLocalidades.SelectedValue, 0);
             return new Direccion(teDomicilio.Text, neNroCalle.Numero, nePiso.Numero,
-                                 teDepto.Text, idLocalidadSelected);
+                                 teDepto.Text, idLocalidadSelected,neCodPostal.Numero);
         }
 
         internal void agregaTusControles(PanelBuilder builder)
@@ -60,6 +63,7 @@ namespace ABMs
                    .AddControlWithLabel("Nro. Calle", neNroCalle)
                    .AddControlWithLabel("Piso", nePiso)
                    .AddControlWithLabel("Departamento", teDepto)
+                   .AddControlWithLabel("Código Postal", neCodPostal)
                    .AddControlWithLabel("Localidad", cbLocalidades);
         }
 
@@ -69,6 +73,7 @@ namespace ABMs
             unaDir.campoNumeroCalle = neNroCalle.Numero;
             unaDir.campoPiso = nePiso.Numero;
             unaDir.campoDepto = teDepto.Text;
+            unaDir.campoCodPostal = neCodPostal.Numero;
             unaDir.campoIdLocalidad = (int)Soporte.notNull(cbLocalidades.SelectedValue, 0);
         }
     }

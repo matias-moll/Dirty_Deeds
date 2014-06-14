@@ -51,7 +51,9 @@ namespace FrbaCommerce
 
         private void validarLogin(Usuario unUsuario, Rol rol, string contraseniaIngresada)
         {
-            // TODO: aca va el comparado de la contrasenia cifrada con la contrasenia del usuario.
+            // Validamos la contrasenia mediante el algoritmo Sha256
+            if (Hash.getHashSha256(contraseniaIngresada) != unUsuario.campoContrasenia)
+                throw new ContraseniaIncorrectaException();
 
             // Paso la validacion exitosamente.
             finalizarLoginExitosamente(rol.autoId);

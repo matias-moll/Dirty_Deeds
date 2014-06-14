@@ -45,14 +45,14 @@
             // 
             this.gbFiltros.Location = new System.Drawing.Point(21, 12);
             this.gbFiltros.Name = "gbFiltros";
-            this.gbFiltros.Size = new System.Drawing.Size(771, 221);
+            this.gbFiltros.Size = new System.Drawing.Size(770, 253);
             this.gbFiltros.TabIndex = 0;
             this.gbFiltros.TabStop = false;
             this.gbFiltros.Text = "Filtros";
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(111, 242);
+            this.btnLimpiar.Location = new System.Drawing.Point(112, 271);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 2;
@@ -62,7 +62,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(21, 242);
+            this.btnBuscar.Location = new System.Drawing.Point(22, 271);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 1;
@@ -74,15 +74,15 @@
             // 
             this.dgvGrilla.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dgvGrilla.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGrilla.Location = new System.Drawing.Point(21, 308);
+            this.dgvGrilla.Location = new System.Drawing.Point(21, 335);
             this.dgvGrilla.Name = "dgvGrilla";
             this.dgvGrilla.ReadOnly = true;
-            this.dgvGrilla.Size = new System.Drawing.Size(771, 222);
+            this.dgvGrilla.Size = new System.Drawing.Size(771, 207);
             this.dgvGrilla.TabIndex = 6;
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(414, 279);
+            this.btnAlta.Location = new System.Drawing.Point(413, 306);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(87, 23);
             this.btnAlta.TabIndex = 3;
@@ -92,7 +92,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(507, 279);
+            this.btnModificar.Location = new System.Drawing.Point(506, 306);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(87, 23);
             this.btnModificar.TabIndex = 4;
@@ -102,7 +102,7 @@
             // 
             // btnBorrar
             // 
-            this.btnBorrar.Location = new System.Drawing.Point(600, 279);
+            this.btnBorrar.Location = new System.Drawing.Point(599, 306);
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(87, 23);
             this.btnBorrar.TabIndex = 5;
@@ -112,7 +112,7 @@
             // 
             // btnBajaLogica
             // 
-            this.btnBajaLogica.Location = new System.Drawing.Point(693, 279);
+            this.btnBajaLogica.Location = new System.Drawing.Point(692, 306);
             this.btnBajaLogica.Name = "btnBajaLogica";
             this.btnBajaLogica.Size = new System.Drawing.Size(99, 23);
             this.btnBajaLogica.TabIndex = 7;
@@ -122,7 +122,7 @@
             // 
             // btnSeleccionar
             // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(21, 279);
+            this.btnSeleccionar.Location = new System.Drawing.Point(20, 306);
             this.btnSeleccionar.Name = "btnSeleccionar";
             this.btnSeleccionar.Size = new System.Drawing.Size(87, 23);
             this.btnSeleccionar.TabIndex = 8;
@@ -136,7 +136,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.ClientSize = new System.Drawing.Size(804, 542);
+            this.ClientSize = new System.Drawing.Size(804, 548);
             this.Controls.Add(this.btnSeleccionar);
             this.Controls.Add(this.btnBajaLogica);
             this.Controls.Add(this.btnBorrar);

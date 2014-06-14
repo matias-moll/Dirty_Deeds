@@ -17,6 +17,7 @@ namespace Dominio
         public string campoDomicilio { get; set; }
         public int campoNumeroCalle { get; set; }
         public int campoPiso { get; set; }
+        public int campoCodPostal { get; set; }
         public string campoDepto { get; set; }
         public int campoIdLocalidad { get; set; }
         public bool campoDeleted { get; set; }
@@ -25,18 +26,19 @@ namespace Dominio
         #region Constructores
         public Direccion() { daoDireccion = new DataAccessObject<Direccion>(); }
 
-        public Direccion(string domicilio, int numeroCalle, int piso, string depto, int idLocalidad, bool deleted): this()
+        public Direccion(string domicilio, int numeroCalle, int piso, string depto, int idLocalidad, int codPostal, bool deleted): this()
         {
             campoDomicilio = domicilio;
             campoNumeroCalle = numeroCalle;
             campoPiso = piso;
             campoDepto = depto;
             campoIdLocalidad = idLocalidad;
+            campoCodPostal = codPostal;
             campoDeleted = deleted;
         }
 
-        public Direccion(string domicilio, int numeroCalle,int piso, string depto, int idLocalidad)
-            : this(domicilio, numeroCalle, piso, depto, idLocalidad, false) { }
+        public Direccion(string domicilio, int numeroCalle,int piso, string depto, int idLocalidad, int codPostal)
+            : this(domicilio, numeroCalle, piso, depto, idLocalidad, codPostal, false) { }
 
         #endregion
 

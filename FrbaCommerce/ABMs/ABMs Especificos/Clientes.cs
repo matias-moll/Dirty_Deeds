@@ -114,7 +114,7 @@ namespace ABMs
                    .AddControlWithLabel("Mail", teMail)
                    .AddControlWithLabel("Teléfono", teTelefono);
             abmDirecciones.agregaTusControles(builder);
-            builder.centrarControlesEnElPanel();
+            //builder.centrarControlesEnElPanel();
 
             return builder.getPanel;
         }
