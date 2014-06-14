@@ -42,20 +42,15 @@ create table Usuario_Rol
 create table Calificacion
 (
 	Codigo int primary key,
+	IdCalificador int foreign key references Usuario(Id),
+	IdCalificado int foreign key references Usuario(Id),
 	Descripcion nvarchar(255) not null,
 	CantidadEstrellas int not null
 )
 
-create table Usuario_Calificacion
-(
-	IdUsuario int foreign key references Usuario(Id),
-	CodCalificacion int foreign key references Calificacion(Codigo),
-	primary key (IdUsuario, CodCalificacion)
-)
-
 create table Cliente
 (
-	Id int NOT NULL IDENTITY(1,1) primary key,
+	Id int NOT NULL primary key,
 	Apellido nvarchar(150) not null,
 	Nombre nvarchar(150) not null,
 	TipoDocumento char(4) not null,
@@ -70,7 +65,7 @@ create table Cliente
 
 create table Empresa
 (
-	Id int NOT NULL IDENTITY(1,1) primary key,
+	Id int NOT NULL primary key,
 	RazonSocial nvarchar(255) not null unique,
 	Cuit nvarchar(50) not null unique,
 	FechaIngreso datetime not null,

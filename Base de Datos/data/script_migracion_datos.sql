@@ -33,7 +33,7 @@ INSERT INTO DIRTYDEEDS.Direccion (Domicilio, NumeroCalle, Piso,Depto,CodPostal, 
 SELECT DISTINCT Publ_Empresa_Dom_Calle, Publ_Empresa_Nro_Calle, Publ_Empresa_Piso, Publ_Empresa_Depto,Publ_Empresa_Cod_Postal,Id FROM gd_esquema.Maestra,DIRTYDEEDS.Localidad
 WHERE Publ_Empresa_Dom_Calle IS NOT NULL
 
-INSERT INTO DIRTYDEEDS.Cliente(TipoDocumento,Documento,Nombre,Apellido,FechaNacimiento,Mail,IdDireccion,IdUsuario)
+INSERT INTO DIRTYDEEDS.Cliente(TipoDocumento,Documento,Nombre,Apellido,FechaNacimiento,Mail,IdDireccion,Id)
 SELECT DISTINCT 'DNI', Cli_Dni,Cli_Nombre,Cli_Apeliido,Cli_Fecha_Nac,Cli_Mail,dir.Id, usuario.Id
 FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir, DIRTYDEEDS.Usuario as usuario
 WHERE Cli_Dni IS NOT NULL 
@@ -41,7 +41,7 @@ AND Cli_Dom_Calle = Domicilio
 AND Cli_Nro_Calle = NumeroCalle
 AND CAST(Cli_Dni as CHAR(20))= usuario.Usuario
 
-INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto, Ciudad, IdDireccion, IdUsuario)
+INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto, Ciudad, IdDireccion, Id)
 SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion, Publ_Empresa_Mail, 'Sin Contacto', 'Buenos Aires',dir.Id, usuario.id
 FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir, DIRTYDEEDS.Usuario as usuario
 WHERE Publ_Empresa_Razon_Social IS NOT NULL
@@ -84,3 +84,10 @@ AND rubro.Descripcion = 'General'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND Publ_Empresa_Cuit = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
+
+INSERT INTO DIRTYDEEDS.Calificacion(Codigo,CantidadEstrellas,Descripcion,IdCalificador,IdCalificado)
+SELECT Calificacion_Codigo,Calificacion_Cant_Estrellas,Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado
+FROM gd_esquema.Maestra,DIRTYDEEDS.Usuario as calificador, DIRTYDEEDS.Usuario as calificado
+WHERE Calificacion_Codigo IS NOT NULL
+AND CAST(Cli_Dni as varchar(20))= calificador.Usuario
+AND (Publ_Empresa_Cuit = calificado.Usuario OR CAST(Publ_Cli_Dni as varchar(20)) = calificado.Usuario)
