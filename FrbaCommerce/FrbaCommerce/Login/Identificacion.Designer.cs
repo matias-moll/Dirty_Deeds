@@ -1,6 +1,6 @@
 ﻿namespace FrbaCommerce
 {
-    partial class SeleccionRol
+    partial class Identificacion
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Identificacion));
             this.xPanel1 = new TNGS.NetControls.XPanel();
-            this.gbAceptar = new TNGS.NetControls.GlassButton();
+            this.btnEmpresa = new System.Windows.Forms.Button();
+            this.btnCliente = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.gbCancelar = new TNGS.NetControls.GlassButton();
-            this.cbRoles = new System.Windows.Forms.ComboBox();
             this.xPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,9 +40,8 @@
             // 
             this.xPanel1.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.xPanel1.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(227)))), ((int)(((byte)(242)))));
-            this.xPanel1.Controls.Add(this.cbRoles);
-            this.xPanel1.Controls.Add(this.gbCancelar);
-            this.xPanel1.Controls.Add(this.gbAceptar);
+            this.xPanel1.Controls.Add(this.btnEmpresa);
+            this.xPanel1.Controls.Add(this.btnCliente);
             this.xPanel1.Controls.Add(this.label1);
             this.xPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xPanel1.Location = new System.Drawing.Point(0, 0);
@@ -52,49 +50,44 @@
             this.xPanel1.SkinFixed = true;
             this.xPanel1.TabIndex = 0;
             // 
-            // gbAceptar
+            // btnEmpresa
             // 
-            this.gbAceptar.FixedImage = TNGS.NetControls.FixedGlassButtons.Accept;
-            this.gbAceptar.Location = new System.Drawing.Point(180, 103);
-            this.gbAceptar.Name = "gbAceptar";
-            this.gbAceptar.Size = new System.Drawing.Size(81, 26);
-            this.gbAceptar.TabIndex = 5;
-            this.gbAceptar.Text = "Aceptar";
-            this.gbAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbAceptar.Click += new System.EventHandler(this.gbAceptar_Click);
+            this.btnEmpresa.BackColor = System.Drawing.Color.Transparent;
+            this.btnEmpresa.Image = ((System.Drawing.Image)(resources.GetObject("btnEmpresa.Image")));
+            this.btnEmpresa.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmpresa.Location = new System.Drawing.Point(165, 76);
+            this.btnEmpresa.Name = "btnEmpresa";
+            this.btnEmpresa.Size = new System.Drawing.Size(99, 34);
+            this.btnEmpresa.TabIndex = 8;
+            this.btnEmpresa.Text = "Empresa";
+            this.btnEmpresa.UseVisualStyleBackColor = false;
+            this.btnEmpresa.Click += new System.EventHandler(this.btnEmpresa_Click);
+            // 
+            // btnCliente
+            // 
+            this.btnCliente.BackColor = System.Drawing.Color.Transparent;
+            this.btnCliente.Image = ((System.Drawing.Image)(resources.GetObject("btnCliente.Image")));
+            this.btnCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCliente.Location = new System.Drawing.Point(20, 76);
+            this.btnCliente.Name = "btnCliente";
+            this.btnCliente.Size = new System.Drawing.Size(102, 34);
+            this.btnCliente.TabIndex = 7;
+            this.btnCliente.Text = "Cliente";
+            this.btnCliente.UseVisualStyleBackColor = false;
+            this.btnCliente.Click += new System.EventHandler(this.btnCliente_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(30, 30);
+            this.label1.Location = new System.Drawing.Point(98, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 18);
+            this.label1.Size = new System.Drawing.Size(71, 18);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Rol:";
+            this.label1.Text = "Usted es:";
             // 
-            // gbCancelar
-            // 
-            this.gbCancelar.FixedImage = TNGS.NetControls.FixedGlassButtons.Cancel;
-            this.gbCancelar.Location = new System.Drawing.Point(38, 103);
-            this.gbCancelar.Name = "gbCancelar";
-            this.gbCancelar.Size = new System.Drawing.Size(87, 26);
-            this.gbCancelar.TabIndex = 6;
-            this.gbCancelar.Text = "Cancelar";
-            this.gbCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbCancelar.Click += new System.EventHandler(this.gbCancelar_Click);
-            // 
-            // cbRoles
-            // 
-            this.cbRoles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRoles.FormattingEnabled = true;
-            this.cbRoles.Location = new System.Drawing.Point(71, 31);
-            this.cbRoles.Name = "cbRoles";
-            this.cbRoles.Size = new System.Drawing.Size(191, 21);
-            this.cbRoles.TabIndex = 7;
-            // 
-            // SeleccionRol
+            // Identificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -103,9 +96,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SeleccionRol";
+            this.Name = "Identificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Seleccion Rol";
+            this.Text = "Identificación";
             this.xPanel1.ResumeLayout(false);
             this.xPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -116,8 +109,7 @@
 
         private TNGS.NetControls.XPanel xPanel1;
         private System.Windows.Forms.Label label1;
-        private TNGS.NetControls.GlassButton gbAceptar;
-        private System.Windows.Forms.ComboBox cbRoles;
-        private TNGS.NetControls.GlassButton gbCancelar;
+        private System.Windows.Forms.Button btnEmpresa;
+        private System.Windows.Forms.Button btnCliente;
     }
 }

@@ -12,6 +12,8 @@ namespace FrbaCommerce
 {
     public partial class Login : Form
     {
+        public int idRolUsuario { get; set; }
+
         public Login()
         {
             InitializeComponent();
@@ -45,13 +47,14 @@ namespace FrbaCommerce
                 // Una vez elegido el rol, pasamos a validar el login.
                 validarLogin(unUsuario,elegirRol.rolElegido, teContrasenia.Text);
             }
-            
-            
         }
 
         private void validarLogin(Usuario unUsuario, Rol rol, string contraseniaIngresada)
         {
-            throw new NotImplementedException();
+            // TODO: aca va el comparado de la contrasenia cifrada con la contrasenia del usuario.
+
+            // Paso la validacion exitosamente.
+            finalizarLoginExitosamente(rol.autoId);
         }
 
         private void cancelarProcesoLogin(string mensajeAlUsuario)
@@ -72,7 +75,19 @@ namespace FrbaCommerce
 
         private void gbPrimerIngreso_Click(object sender, EventArgs e)
         {
+            Identificacion identificarse = new Identificacion(new Usuario(teUsuario.Text, teContrasenia.Text));
+            identificarse.ShowDialog(this);
 
+            if (identificarse.DialogResult == DialogResult.OK)
+                finalizarLoginExitosamente(identificarse.idRolUsuario);
+
+        }
+
+        private void finalizarLoginExitosamente(int idRol)
+        {
+            idRolUsuario = idRol;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
     }

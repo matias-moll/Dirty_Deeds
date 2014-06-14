@@ -40,6 +40,7 @@
             this.MaximizeBox = false;
             this.Name = "Mainframe";
             this.Text = "FRBA Commerce";
+            this.Load += new System.EventHandler(this.Mainframe_Load);
             this.ResumeLayout(false);
 
         }

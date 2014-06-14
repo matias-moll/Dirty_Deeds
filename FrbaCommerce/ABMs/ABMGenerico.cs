@@ -12,13 +12,43 @@ namespace ABMs
 {
     public partial class ABMGenerico : Form
     {
+        public enum modoPantalla { abm = 1, seleccion = 2 };
+
         ABMEspecifico resolver;
         Panel pnFiltros;
+
+        public int idClavePrimariaObjetoSeleccionado { get; set; }
 
         public ABMGenerico(ABMEspecifico resolverEspecifico)
         {
             InitializeComponent();
             resolver = resolverEspecifico;
+
+            estadoInicial(modoPantalla.abm);
+        }
+
+        public ABMGenerico(ABMEspecifico resolverEspecifico, modoPantalla modo)
+        {
+            InitializeComponent();
+            resolver = resolverEspecifico;
+
+            estadoInicial(modo);
+        }
+
+        private void estadoInicial(modoPantalla modo)
+        {
+            // Si pidio modo de seleccion para la pantalla
+            if (modo == modoPantalla.seleccion)
+            {
+                // Escondemos los botones de funcionalidad ABM y mostramos el de seleccion.
+                btnAlta.Visible = false;
+                btnBajaLogica.Visible = false;
+                btnBorrar.Visible = false;
+                btnModificar.Visible = false;
+
+                btnSeleccionar.Visible = true;
+                idClavePrimariaObjetoSeleccionado = 0;
+            }
         }
 
         private void ABMGenerico_Load(object sender, EventArgs e)
@@ -116,7 +146,6 @@ namespace ABMs
         #endregion
 
 
-
         #region Metodos Privados
 
         private void resetearControles()
@@ -191,6 +220,28 @@ namespace ABMs
 
                 // Actualizamos la grilla.
                 this.btnBuscar_Click(this, new EventArgs());
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+
+        }
+
+        private void btnSeleccionar_Click(object sender, EventArgs e)
+        {
+            if (dgvGrilla.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder seleccionarla");
+                return;
+            }
+            try
+            {
+                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
+                idClavePrimariaObjetoSeleccionado = Convert.ToInt32(dgvGrilla.SelectedRows[0].Cells[0].Value);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+                
             }
             catch (Exception excep)
             {

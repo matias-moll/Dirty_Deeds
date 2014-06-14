@@ -52,6 +52,11 @@ namespace Dominio
             return DataAccessObject<Rol>.upFullOnTableByPrototype(this);
         }
 
+        public static List<Rol> upFull()
+        {
+            return DataAccessObject<Rol>.upFull();
+        }
+
         public static void delete(int idClavePrimaria)
         {
             DataAccessObject<Rol>.delete(idClavePrimaria);

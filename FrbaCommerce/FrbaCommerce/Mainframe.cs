@@ -13,16 +13,16 @@ namespace FrbaCommerce
     public partial class Mainframe : Form
     {
         private DockPanel dockManager = null;
+        private bool debeCerrarse;
+        private int idRolUsuarioLoggeado;
 
         public Mainframe()
         {
             InitializeComponent();
             CreateDockManager();
+            debeCerrarse = false;
             // Esta rutina es recursiva hasta que logre hacer un login satisfactorio
             iniciarLogin();
-
-            // En este punto el usuario ya esta loggeado.
-
         }
 
         private void iniciarLogin()
@@ -31,6 +31,12 @@ namespace FrbaCommerce
             {
                 Login logeo = new Login();
                 logeo.ShowDialog(this);
+
+                if (logeo.DialogResult == DialogResult.OK)
+                    idRolUsuarioLoggeado = logeo.idRolUsuario;
+                else
+                    debeCerrarse = true;
+
             }
             catch (Exception excep)
             {
@@ -57,6 +63,15 @@ namespace FrbaCommerce
 
             // Lo agregamos a la ventana
             Controls.Add(dockManager);
+        }
+
+        private void Mainframe_Load(object sender, EventArgs e)
+        {
+            if (debeCerrarse)
+                this.Close();
+
+            // En este punto el usuario ya esta loggeado.
+            
         }
     }
 }

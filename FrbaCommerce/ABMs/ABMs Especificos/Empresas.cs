@@ -10,7 +10,7 @@ using TNGS.NetControls;
 
 namespace ABMs
 {
-    class Empresas : ABMEspecifico
+    public class Empresas : ABMEspecifico
     {
         // Campos para la empresa
         TextEdit teRazonSocial = new TextEdit();

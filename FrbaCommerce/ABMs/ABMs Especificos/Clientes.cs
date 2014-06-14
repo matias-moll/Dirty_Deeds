@@ -10,7 +10,7 @@ using TNGS.NetControls;
 
 namespace ABMs
 {
-    class Clientes : ABMEspecifico
+    public class Clientes : ABMEspecifico
     {
         // Campos para el Cliente
         TextEdit teApellido = new TextEdit();

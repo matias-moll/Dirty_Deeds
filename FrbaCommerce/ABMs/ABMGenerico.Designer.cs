@@ -37,6 +37,7 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBorrar = new System.Windows.Forms.Button();
             this.btnBajaLogica = new System.Windows.Forms.Button();
+            this.btnSeleccionar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrilla)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,12 +120,24 @@
             this.btnBajaLogica.UseVisualStyleBackColor = true;
             this.btnBajaLogica.Click += new System.EventHandler(this.btnBajaLogica_Click);
             // 
+            // btnSeleccionar
+            // 
+            this.btnSeleccionar.Location = new System.Drawing.Point(21, 279);
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.Size = new System.Drawing.Size(87, 23);
+            this.btnSeleccionar.TabIndex = 8;
+            this.btnSeleccionar.Text = "Seleccionar";
+            this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.btnSeleccionar.Visible = false;
+            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
+            // 
             // ABMGenerico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSkyBlue;
             this.ClientSize = new System.Drawing.Size(804, 542);
+            this.Controls.Add(this.btnSeleccionar);
             this.Controls.Add(this.btnBajaLogica);
             this.Controls.Add(this.btnBorrar);
             this.Controls.Add(this.btnModificar);
@@ -155,5 +168,6 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnBorrar;
         private System.Windows.Forms.Button btnBajaLogica;
+        private System.Windows.Forms.Button btnSeleccionar;
     }
 }

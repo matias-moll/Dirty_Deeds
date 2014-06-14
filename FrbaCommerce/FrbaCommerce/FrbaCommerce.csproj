@@ -56,6 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login\AltaUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\AltaUsuario.Designer.cs">
+      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calificar Vendedor\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +85,12 @@
     </Compile>
     <Compile Include="Facturar Publicaciones\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Identificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\Identificacion.Designer.cs">
+      <DependentUpon>Identificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\SeleccionRol.cs">
       <SubType>Form</SubType>
@@ -124,6 +136,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Login\AltaUsuario.resx">
+      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Identificacion.resx">
+      <DependentUpon>Identificacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\SeleccionRol.resx">
       <DependentUpon>SeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,6 +177,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ABMs\Tablas Generales.csproj">
+      <Project>{609E553C-6F43-4C32-86E1-5063DDBE5013}</Project>
+      <Name>Tablas Generales</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}</Project>
       <Name>Dal</Name>
