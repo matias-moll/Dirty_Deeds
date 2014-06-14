@@ -168,12 +168,12 @@ create table Publicacion_Pregunta
 
 create table OfertaCompra
 (
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	IdUsuario int foreign key references Usuario(Id),
 	CodPublicacion int foreign key references Publicacion(Codigo),
 	Fecha datetime not null,
 	Monto numeric(18, 2),
 	Cantidad int,
-	primary key (IdUsuario, CodPublicacion) 
 )
 
 
