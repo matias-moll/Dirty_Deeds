@@ -17,14 +17,6 @@ INSERT INTO DIRTYDEEDS.Visibilidad(Codigo,Descripcion,Porcentaje,Precio)
 SELECT DISTINCT Publicacion_Visibilidad_Cod,Publicacion_Visibilidad_Desc,Publicacion_Visibilidad_Porcentaje,Publicacion_Visibilidad_Precio
 FROM gd_esquema.Maestra
 
-INSERT INTO DIRTYDEEDS.Usuario(Usuario)
-Select DISTINCT Cli_DNI from gd_esquema.Maestra
-WHERE Cli_Dni IS NOT NULL
-
-INSERT INTO DIRTYDEEDS.Usuario(Usuario)
-SELECT DISTINCT Publ_Empresa_Cuit from gd_esquema.Maestra
-WHERE Publ_Empresa_Cuit IS NOT NULL
-
 INSERT INTO DIRTYDEEDS.Direccion(Domicilio,NumeroCalle,Piso,Depto,CodPostal,IdLocalidad, Deleted)
 SELECT DISTINCT Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal, Id, 0 FROM gd_esquema.Maestra, DIRTYDEEDS.Localidad
 WHERE Cli_Dni IS NOT NULL 
@@ -33,21 +25,29 @@ INSERT INTO DIRTYDEEDS.Direccion (Domicilio, NumeroCalle, Piso,Depto,CodPostal, 
 SELECT DISTINCT Publ_Empresa_Dom_Calle, Publ_Empresa_Nro_Calle, Publ_Empresa_Piso, Publ_Empresa_Depto,Publ_Empresa_Cod_Postal,Id FROM gd_esquema.Maestra,DIRTYDEEDS.Localidad
 WHERE Publ_Empresa_Dom_Calle IS NOT NULL
 
-INSERT INTO DIRTYDEEDS.Cliente(TipoDocumento,Documento,Nombre,Apellido,FechaNacimiento,Mail,IdDireccion,IdUsuario)
-SELECT DISTINCT 'DNI', Cli_Dni,Cli_Nombre,Cli_Apeliido,Cli_Fecha_Nac,Cli_Mail,dir.Id, usuario.Id
-FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir, DIRTYDEEDS.Usuario as usuario
+INSERT INTO DIRTYDEEDS.Cliente(TipoDocumento,Documento,Nombre,Apellido,FechaNacimiento,Mail,IdDireccion)
+SELECT DISTINCT 'DNI', Cli_Dni,Cli_Nombre,Cli_Apeliido,Cli_Fecha_Nac,Cli_Mail,dir.Id
+FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir
 WHERE Cli_Dni IS NOT NULL 
 AND Cli_Dom_Calle = Domicilio 
 AND Cli_Nro_Calle = NumeroCalle
-AND CAST(Cli_Dni as CHAR(20))= usuario.Usuario
 
-INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto, Ciudad, IdDireccion, IdUsuario)
-SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion, Publ_Empresa_Mail, 'Sin Contacto', 'Buenos Aires',dir.Id, usuario.id
-FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir, DIRTYDEEDS.Usuario as usuario
+INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante, IdReferencia)
+SELECT DISTINCT Cli_DNI,'C',Id from gd_esquema.Maestra, DIRTYDEEDS.Cliente
+WHERE Cli_Dni IS NOT NULL
+AND Cli_Dni = Documento
+
+INSERT INTO DIRTYDEEDS.Empresa (RazonSocial,Cuit,FechaIngreso,Mail,NombreContacto, Ciudad, IdDireccion)
+SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion, Publ_Empresa_Mail, 'Sin Contacto', 'Buenos Aires',dir.Id
+FROM gd_esquema.Maestra,DIRTYDEEDS.Direccion as dir
 WHERE Publ_Empresa_Razon_Social IS NOT NULL
 AND Publ_Empresa_Dom_Calle = Domicilio
 AND Publ_Empresa_Nro_Calle = NumeroCalle
-AND Publ_Empresa_Cuit = usuario.Usuario
+
+INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante,IdReferencia)
+SELECT DISTINCT Publ_Empresa_Cuit,'E',Id from gd_esquema.Maestra, DIRTYDEEDS.Empresa
+WHERE Publ_Empresa_Cuit IS NOT NULL
+AND Publ_Empresa_Cuit = Cuit
 
 INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Descripcion,Stock,Fecha,FechaVto,Precio,Tipo,IdEstado,IdRubro,IdVisibilidad,IdUsuario)
 SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'C', estado.Id, rubro.Id, visibilidad.Id, usuario.Id
@@ -84,3 +84,26 @@ AND rubro.Descripcion = 'General'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND Publ_Empresa_Cuit = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
+
+INSERT INTO DIRTYDEEDS.Calificacion(Codigo,CantidadEstrellas,Descripcion,IdCalificador,IdCalificado)
+SELECT Calificacion_Codigo,Calificacion_Cant_Estrellas,Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado
+FROM gd_esquema.Maestra,DIRTYDEEDS.Usuario as calificador, DIRTYDEEDS.Usuario as calificado
+WHERE Calificacion_Codigo IS NOT NULL
+AND CAST(Cli_Dni as varchar(20))= calificador.Usuario
+AND (Publ_Empresa_Cuit = calificado.Usuario OR CAST(Publ_Cli_Dni as varchar(20)) = calificado.Usuario)
+
+INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario)
+SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, NULL as Cantidad, usuario.id from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+WHERE Oferta_Fecha IS NOT NULL
+AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
+
+INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario)
+SELECT Publicacion_Cod, Compra_Fecha, NULL as Monto, Compra_Cantidad as Cantidad, usuario.id from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+WHERE Compra_Fecha IS NOT NULL
+AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
+
+INSERT INTO DIRTYDEEDS.Item(NumItem,Monto,Cantidad,NumFactura,Descripcion)
+SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, Item_Factura_Cantidad, Factura_Nro,'' as Descripcion
+FROM gd_esquema.Maestra
+WHERE Item_Factura_Monto IS NOT NULL
+ORDER BY Factura_Nro

@@ -1,5 +1,4 @@
 
-drop table DIRTYDEEDS.Usuario_Calificacion
 drop table DIRTYDEEDS.Rol_Funcionalidad
 drop table DIRTYDEEDS.Usuario_Rol
 drop table DIRTYDEEDS.Rol

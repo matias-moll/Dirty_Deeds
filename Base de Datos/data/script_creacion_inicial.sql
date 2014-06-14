@@ -8,6 +8,8 @@ create table Usuario
 	Usuario char(20) not null unique,
 	Contrasenia varchar(256) not null DEFAULT 'Password',
 	IntentosFallidos int not null DEFAULT 0,
+	IdReferencia int not null,
+	Discriminante char not null,
 	Deleted bit not null DEFAULT 0
 )
 
@@ -35,15 +37,10 @@ create table Usuario_Rol
 create table Calificacion
 (
 	Codigo int primary key,
+	IdCalificador int foreign key references Usuario(Id),
+	IdCalificado int foreign key references Usuario(Id),
 	Descripcion nvarchar(255) not null,
 	CantidadEstrellas int not null
-)
-
-create table Usuario_Calificacion
-(
-	IdUsuario int foreign key references Usuario(Id),
-	CodCalificacion int foreign key references Calificacion(Codigo),
-	primary key (IdUsuario, CodCalificacion)
 )
 
 create table Cliente
@@ -57,7 +54,6 @@ create table Cliente
 	Telefono nvarchar(40), 
 	Mail nvarchar(150) not null,
 	IdDireccion int foreign key references Direccion(Id),
-	IdUsuario int foreign key references Usuario(Id),
 	Deleted bit not null DEFAULT 0
 )
 
@@ -71,7 +67,6 @@ create table Empresa
 	Ciudad nvarchar(60) not null,
 	NombreContacto varchar(60) not null,
 	IdDireccion int foreign key references Direccion(Id),
-	IdUsuario int foreign key references Usuario(Id),
 	Deleted bit not null DEFAULT 0
 )
 
@@ -166,12 +161,12 @@ create table Publicacion_Pregunta
 
 create table OfertaCompra
 (
+	Id int NOT NULL IDENTITY(1,1) primary key,
 	IdUsuario int foreign key references Usuario(Id),
 	CodPublicacion int foreign key references Publicacion(Codigo),
 	Fecha datetime not null,
 	Monto numeric(18, 2),
 	Cantidad int,
-	primary key (IdUsuario, CodPublicacion) 
 )
 
 
