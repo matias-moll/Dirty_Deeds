@@ -24,6 +24,14 @@ namespace Dominio
         #region Constructores
         public Usuario() { daoUsuario = new DataAccessObject<Usuario>(); }
 
+        public Usuario(string usuario, int intentosFallidos): this()
+        {
+            campoUsuario = usuario;
+            campoContrasenia = "";
+            campoDiscriminante = "";
+            campoIntentosFallidos = intentosFallidos;
+        }
+
         public Usuario(string usuario, string contrasenia, bool p_deleted) : this()
         {
             campoUsuario = usuario;
@@ -65,6 +73,8 @@ namespace Dominio
             // La lista siempre devuelve un unico usuario porque el username es unique en la base.
             List<Usuario> usuarios = DataAccessObject<Usuario>.upFullByPrototype(new Usuario(strUsuario, ""));
 
+            usuarios = usuarios.Where(unUsuario => unUsuario.campoUsuario.Trim() == strUsuario.Trim()).ToList();
+
             // Validamos.
             if (usuarios.Count != 1)
                 throw new UsuarioNoEncontradoException(String.Format("El usuario {0} no fue encontrado en la base de datos", strUsuario));
@@ -95,6 +105,8 @@ namespace Dominio
         public void borradoLogico()
         {
             campoDeleted = !campoDeleted;
+            if (!campoDeleted)
+                campoIntentosFallidos = 0;
             update();
         }
 
@@ -111,6 +123,13 @@ namespace Dominio
                 "por lo tanto ha sido inhabilitado. Contactese con alguien que tenga permisos para volver a " +
                 "habilitar su usuario.");
             }
+        }
+
+        public void validarEstarHabilitado()
+        {
+            if (campoDeleted)
+                throw new Exception("Su usuario se encuentra inhabilitado. Contactese con alguien que tenga permisos para habilitar su usuario.");
+            
         }
     }
 }

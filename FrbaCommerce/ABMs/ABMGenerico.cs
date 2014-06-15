@@ -12,7 +12,7 @@ namespace ABMs
 {
     public partial class ABMGenerico : Form
     {
-        public enum modoPantalla { abm = 1, seleccion = 2 };
+        public enum modoPantalla { abm = 1, seleccion = 2, bajaLogicaYRecupero= 3 };
 
         ABMEspecifico resolver;
         Panel pnFiltros;
@@ -48,6 +48,13 @@ namespace ABMs
 
                 btnSeleccionar.Visible = true;
                 idClavePrimariaObjetoSeleccionado = 0;
+            }
+            else if (modo == modoPantalla.bajaLogicaYRecupero)
+            {
+                // Solo dejamos visible el boton de baja y recupero logico.
+                btnAlta.Visible = false;
+                btnBorrar.Visible = false;
+                btnModificar.Visible = false;
             }
         }
 
@@ -189,6 +196,9 @@ namespace ABMs
                 tablaAMostrar.Columns.Remove(tablaAMostrar.Columns["Deleted"]);
                 tablaAMostrar.Columns.Remove(tablaAMostrar.Columns["Id1"]);
             }
+
+            if (tablaAMostrar.Columns.Contains("IdReferencia"))
+                tablaAMostrar.Columns.Remove(tablaAMostrar.Columns["IdReferencia"]);
         }
 
         private bool esControlEdit(Type tipoControl)

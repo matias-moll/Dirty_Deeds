@@ -51,5 +51,12 @@ namespace ABMs
             ABMGenerico abmLocalidades = new ABMGenerico(new Localidades());
             abmLocalidades.Show(this);
         }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            ABMGenerico manejoUsuarios = new ABMGenerico(new Usuarios(), ABMGenerico.modoPantalla.bajaLogicaYRecupero);
+            manejoUsuarios.Show(this);
+        }
+
     }
 }
