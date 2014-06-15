@@ -19,6 +19,9 @@ drop table DIRTYDEEDS.Publicacion_Estado
 drop table DIRTYDEEDS.FormaPago
 drop table DIRTYDEEDS.Usuario
 
+drop view DIRTYDEEDS.Vendedores
+drop view DIRTYDEEDS.Calificacion_Vendedores
+
 DROP SCHEMA DIRTYDEEDS
 
 
