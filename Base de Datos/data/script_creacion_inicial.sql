@@ -138,6 +138,7 @@ create table Publicacion
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
+	AceptaPreguntas bit not null DEFAULT 1,
 	IdEstado int foreign key references Publicacion_Estado(Id),
 	IdVisibilidad int foreign key references Visibilidad(Id),
 	IdUsuario int foreign key references Usuario(Id) not null
