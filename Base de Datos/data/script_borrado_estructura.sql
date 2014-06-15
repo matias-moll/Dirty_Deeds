@@ -10,6 +10,7 @@ drop table DIRTYDEEDS.Localidad
 drop table DIRTYDEEDS.Item
 drop table DIRTYDEEDS.Factura
 drop table DIRTYDEEDS.Publicacion_Pregunta
+drop table DIRTYDEEDS.Publicacion_Rubro
 drop table DIRTYDEEDS.OfertaCompra
 drop table DIRTYDEEDS.Publicacion
 drop table DIRTYDEEDS.Rubro

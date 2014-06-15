@@ -139,9 +139,14 @@ create table Publicacion
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	IdEstado int foreign key references Publicacion_Estado(Id),
-	IdRubro int foreign key references Rubro(Id),
 	IdVisibilidad int foreign key references Visibilidad(Id),
 	IdUsuario int foreign key references Usuario(Id) not null
+)
+
+create table Publicacion_Rubro
+(
+	CodPublicacion int foreign key references Publicacion(Codigo),
+	IdRubro int foreign key references Rubro(Id) not null
 )
 
 create table Publicacion_Estado
