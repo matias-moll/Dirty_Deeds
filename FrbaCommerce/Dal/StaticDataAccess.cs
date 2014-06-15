@@ -14,6 +14,20 @@ namespace Dal
 
         }
 
+        public static int executeIntFunction(string nameFunction)
+        {
+            string nombreFuncionCompleto = String.Format("DIRTYDEEDS.{0}()", nameFunction);
+
+            SqlConnection conexion = DBConn.getDBConn();
+            conexion.Open();
+
+            SqlCommand command = conexion.CreateCommand();
+            command.CommandText = nombreFuncionCompleto;
+            command.Connection = conexion;
+
+            return (int)command.ExecuteScalar();
+        }
+
         public static DataTable executeQuery(string query)
         {
             DataTable table = new DataTable();

@@ -186,6 +186,7 @@
     <Compile Include="Generar Publicacion\Publicacion.Designer.cs">
       <DependentUpon>Publicacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generar Publicacion\TipoPublicacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ABMs\Tablas Generales.csproj">

@@ -56,6 +56,11 @@ namespace Dominio
             daoVisibilidad.update(this);
         }
 
+        public static List<Visibilidad> upFull()
+        {
+            return DataAccessObject<Visibilidad>.upFull();
+        }
+
         public DataTable upFullByPrototype()
         {
             return DataAccessObject<Visibilidad>.upFullOnTableByPrototype(this);

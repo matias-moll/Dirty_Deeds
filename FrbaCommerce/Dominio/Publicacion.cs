@@ -65,6 +65,8 @@ namespace Dominio
 
         public void save()
         {
+            // Obtenemos la clave que nos corresponde y grabamos.
+            this.campoCodigo = StaticDataAccess.executeIntFunction("GetSiguienteCodigoPublicacion");
             daoPublicacion.insert(this);
         }
 

@@ -197,3 +197,21 @@ GROUP BY IdCalificado, vendedores.vendedor
 
 GO
 
+
+-- Funciones
+-- Si ya existe lo borramos, asi podemos ejecutarlo N veces sin problemas.
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.GetSiguienteCodigoPublicacion'))
+begin
+   drop function DIRTYDEEDS.GetSiguienteCodigoPublicacion
+end
+go
+-- Creamos la funcion.
+create function DIRTYDEEDS.GetSiguienteCodigoPublicacion()
+returns int
+as
+begin
+	declare @ret int
+	select @ret = MAX(DIRTYDEEDS.Publicacion.Codigo) from DIRTYDEEDS.Publicacion
+	return @ret
+end
+go
