@@ -6,12 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
-namespace FrbaCommerce.Comprar_Ofertar
+namespace FrbaCommerce
 {
-    public partial class Form1 : Form
+    public partial class HistorialCliente : DockContent
     {
-        public Form1()
+        public HistorialCliente()
         {
             InitializeComponent();
         }

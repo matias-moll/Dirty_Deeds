@@ -6,12 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
-namespace FrbaCommerce.Facturar_Publicaciones
+namespace FrbaCommerce
 {
-    public partial class Form1 : Form
+    public partial class Facturacion : DockContent
     {
-        public Form1()
+        public Facturacion()
         {
             InitializeComponent();
         }

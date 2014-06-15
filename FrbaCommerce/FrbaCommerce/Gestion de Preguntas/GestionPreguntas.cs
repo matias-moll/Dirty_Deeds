@@ -6,12 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
-namespace FrbaCommerce.Listado_Estadistico
+namespace FrbaCommerce
 {
-    public partial class Form1 : Form
+    public partial class GestionPreguntas : DockContent
     {
-        public Form1()
+        public GestionPreguntas()
         {
             InitializeComponent();
         }
