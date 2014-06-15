@@ -42,7 +42,7 @@
             this.btnRoles.BackColor = System.Drawing.Color.Transparent;
             this.btnRoles.Image = ((System.Drawing.Image)(resources.GetObject("btnRoles.Image")));
             this.btnRoles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRoles.Location = new System.Drawing.Point(86, 65);
+            this.btnRoles.Location = new System.Drawing.Point(86, 73);
             this.btnRoles.Name = "btnRoles";
             this.btnRoles.Size = new System.Drawing.Size(117, 34);
             this.btnRoles.TabIndex = 1;
@@ -55,7 +55,7 @@
             this.btnClientes.BackColor = System.Drawing.Color.Transparent;
             this.btnClientes.Image = ((System.Drawing.Image)(resources.GetObject("btnClientes.Image")));
             this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Location = new System.Drawing.Point(86, 157);
+            this.btnClientes.Location = new System.Drawing.Point(86, 236);
             this.btnClientes.Name = "btnClientes";
             this.btnClientes.Size = new System.Drawing.Size(117, 34);
             this.btnClientes.TabIndex = 2;
@@ -68,7 +68,7 @@
             this.btnEmpresas.BackColor = System.Drawing.Color.Transparent;
             this.btnEmpresas.Image = ((System.Drawing.Image)(resources.GetObject("btnEmpresas.Image")));
             this.btnEmpresas.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEmpresas.Location = new System.Drawing.Point(326, 157);
+            this.btnEmpresas.Location = new System.Drawing.Point(326, 236);
             this.btnEmpresas.Name = "btnEmpresas";
             this.btnEmpresas.Size = new System.Drawing.Size(117, 34);
             this.btnEmpresas.TabIndex = 3;
@@ -81,7 +81,7 @@
             this.btnVisibilidades.BackColor = System.Drawing.Color.Transparent;
             this.btnVisibilidades.Image = ((System.Drawing.Image)(resources.GetObject("btnVisibilidades.Image")));
             this.btnVisibilidades.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnVisibilidades.Location = new System.Drawing.Point(326, 65);
+            this.btnVisibilidades.Location = new System.Drawing.Point(326, 73);
             this.btnVisibilidades.Name = "btnVisibilidades";
             this.btnVisibilidades.Size = new System.Drawing.Size(117, 34);
             this.btnVisibilidades.TabIndex = 5;
@@ -94,7 +94,7 @@
             this.btnLocalidades.BackColor = System.Drawing.Color.Transparent;
             this.btnLocalidades.Image = ((System.Drawing.Image)(resources.GetObject("btnLocalidades.Image")));
             this.btnLocalidades.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLocalidades.Location = new System.Drawing.Point(326, 250);
+            this.btnLocalidades.Location = new System.Drawing.Point(86, 151);
             this.btnLocalidades.Name = "btnLocalidades";
             this.btnLocalidades.Size = new System.Drawing.Size(117, 34);
             this.btnLocalidades.TabIndex = 6;
@@ -107,7 +107,7 @@
             this.btnUsuarios.BackColor = System.Drawing.Color.Transparent;
             this.btnUsuarios.Image = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.Image")));
             this.btnUsuarios.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUsuarios.Location = new System.Drawing.Point(86, 250);
+            this.btnUsuarios.Location = new System.Drawing.Point(326, 151);
             this.btnUsuarios.Name = "btnUsuarios";
             this.btnUsuarios.Size = new System.Drawing.Size(117, 34);
             this.btnUsuarios.TabIndex = 7;

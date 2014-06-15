@@ -13,18 +13,38 @@ namespace FrbaCommerce
 {
     public partial class Mainframe : Form
     {
+        // Miembros
         private DockPanel dockManager = null;
         private bool debeCerrarse;
         private int idRolUsuarioLoggeado;
+        private Usuario usuarioLoggeado;
 
+        ComprarOfertar dockComprarOfertar = new ComprarOfertar();
+
+        // Constructor y load de la pantalla.
         public Mainframe()
         {
             InitializeComponent();
-            CreateDockManager();
             debeCerrarse = false;
             // Esta rutina es recursiva hasta que logre hacer un login satisfactorio
             iniciarLogin();
         }
+
+        private void Mainframe_Load(object sender, EventArgs e)
+        {
+            // Si el usuario cancelo el login debemos cerrar la aplicacion.
+            if (debeCerrarse)
+                this.Close();
+
+            CreateDockManager();
+
+            // En este punto el usuario ya esta loggeado.
+            abrirDockeablesSegunFuncionalidadesHabilitadas();
+
+            abrirDockeablesSegunTipoUsuario();
+        }
+
+        #region Metodos Privados
 
         private void iniciarLogin()
         {
@@ -34,7 +54,10 @@ namespace FrbaCommerce
                 logeo.ShowDialog(this);
 
                 if (logeo.DialogResult == DialogResult.OK)
+                {
                     idRolUsuarioLoggeado = logeo.idRolUsuario;
+                    usuarioLoggeado = logeo.usuarioLoggeado;
+                }
                 else
                     debeCerrarse = true;
 
@@ -51,7 +74,7 @@ namespace FrbaCommerce
             // Creamos el DockManager
             dockManager = new DockPanel();
             dockManager.ActiveAutoHideContent = null;
-            dockManager.Location = new Point(0,0);
+            dockManager.Location = new Point(0, 0);
             dockManager.Name = "dockManagerControl";
             dockManager.Size = this.Size;
             dockManager.TabIndex = 10;
@@ -61,23 +84,28 @@ namespace FrbaCommerce
             dockManager.DocumentStyle = DocumentStyle.DockingMdi;
             BackgroundImage = null;
 
-
             // Lo agregamos a la ventana
             Controls.Add(dockManager);
+            Refresh();
         }
 
-        private void Mainframe_Load(object sender, EventArgs e)
-        {
-            if (debeCerrarse)
-                this.Close();
 
-            // En este punto el usuario ya esta loggeado.
-            abrirDockeablesSegunFuncionalidadesHabilitadas();
-
-            abrirDockeablesSegunTipoUsuario();
-        }
+        #region Metodos de apertura de dockeables
 
         private void abrirDockeablesSegunTipoUsuario()
+        {
+            if (usuarioLoggeado.campoDiscriminante == "C")
+                abrirDockeablesCliente();
+            else if (usuarioLoggeado.campoDiscriminante == "E")
+                abrirDockeablesEmpresa();
+        }
+
+        private void abrirDockeablesEmpresa()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void abrirDockeablesCliente()
         {
             throw new NotImplementedException();
         }
@@ -95,12 +123,17 @@ namespace FrbaCommerce
         {
             switch (unaFuncionalidad.campoIdFuncionalidad)
             {
-                case 1: this.addCon.Checked = true; break;
-                case 2: cbGenEditPublicacion.Checked = true; break;
-                case 3: cbFactPublicaciones.Checked = true; break;
-                case 4: cbHistorialCliente.Checked = true; break;
-                case 5: cbEstadisticas.Checked = true; break;
+                case 1: dockComprarOfertar.Show(dockManager); break;
+                case 2: new Publicacion().Show(dockManager); break;
+                case 3: new Facturacion().Show(dockManager); break;
+                case 4: new HistorialCliente().Show(dockManager); break;
+                case 5: new ListadoEstadistico().Show(dockManager); break;
             }
         }
+
+        #endregion
+
+        #endregion
+
     }
 }

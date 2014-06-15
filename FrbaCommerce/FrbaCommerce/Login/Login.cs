@@ -13,6 +13,7 @@ namespace FrbaCommerce
     public partial class Login : Form
     {
         public int idRolUsuario { get; set; }
+        public Usuario usuarioLoggeado { get; set; }
 
         public Login()
         {
@@ -59,6 +60,8 @@ namespace FrbaCommerce
                 unUsuario.sumateIntentoFallidoYValida();
                 throw new ContraseniaIncorrectaException();
             }
+
+            usuarioLoggeado = unUsuario;
 
             // Paso la validacion exitosamente.
             finalizarLoginExitosamente(rol.autoId);
