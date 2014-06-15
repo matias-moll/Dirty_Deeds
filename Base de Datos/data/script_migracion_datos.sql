@@ -85,8 +85,8 @@ AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND Publ_Empresa_Cuit = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
 
-INSERT INTO DIRTYDEEDS.Calificacion(Codigo,CantidadEstrellas,Descripcion,IdCalificador,IdCalificado)
-SELECT Calificacion_Codigo,Calificacion_Cant_Estrellas,Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado
+INSERT INTO DIRTYDEEDS.Calificacion(CodigoPublicacion,Codigo,CantidadEstrellas,Descripcion,IdCalificador,IdCalificado)
+SELECT Publicacion_Cod,Calificacion_Codigo,Calificacion_Cant_Estrellas,Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado
 FROM gd_esquema.Maestra,DIRTYDEEDS.Usuario as calificador, DIRTYDEEDS.Usuario as calificado
 WHERE Calificacion_Codigo IS NOT NULL
 AND CAST(Cli_Dni as varchar(20))= calificador.Usuario

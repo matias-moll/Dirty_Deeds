@@ -37,6 +37,7 @@ create table Usuario_Rol
 create table Calificacion
 (
 	Codigo int primary key,
+	CodigoPublicacion int foreign key references Publicacion(Codigo),
 	IdCalificador int foreign key references Usuario(Id),
 	IdCalificado int foreign key references Usuario(Id),
 	Descripcion nvarchar(255) not null,
