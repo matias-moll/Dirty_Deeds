@@ -174,6 +174,25 @@ create table OfertaCompra
 	Cantidad int,
 )
 
+-- VISTAS
+CREATE VIEW DIRTYDEEDS.Vendedores(IdUsuario,Vendedor)
+AS
+SELECT DISTINCT usuarios.Id as IdUsuario, CAST(clientes.Documento as varchar(20)) as Vendedor FROM DIRTYDEEDS.Cliente as clientes, DIRTYDEEDS.Usuario as usuarios, DIRTYDEEDS.Publicacion as publicaciones
+WHERE publicaciones.IdUsuario = usuarios.Id
+AND usuarios.IdReferencia = clientes.Id
+AND usuarios.Discriminante = 'C'
+UNION
+SELECT DISTINCT usuarios.Id,empresas.Cuit FROM DIRTYDEEDS.Empresa as empresas, DIRTYDEEDS.Usuario as usuarios, DIRTYDEEDS.Publicacion as publicaciones
+WHERE usuarios.IdReferencia = empresas.Id
+AND usuarios.Id = publicaciones.IdUsuario
+AND usuarios.Discriminante = 'E'
+
+-- Vendedores con calificacion Promedio
+CREATE VIEW DIRTYDEEDS.Calificacion_Vendedores(IdUsuario,Vendedor,CalificacionPromedio)
+AS
+SELECT IdCalificado, vendedores.vendedor, SUM(CantidadEstrellas) / COUNT(IdCalificado) as promedio FROM DIRTYDEEDS.Calificacion, DIRTYDEEDS.Vendedores as vendedores
+WHERE IdCalificado = vendedores.IdUsuario
+GROUP BY IdCalificado, vendedores.vendedor
 
 GO
 
