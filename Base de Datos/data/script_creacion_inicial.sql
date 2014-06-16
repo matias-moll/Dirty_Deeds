@@ -133,14 +133,14 @@ create table Rubro
 create table Publicacion
 (
 	Codigo int primary key,
-	Descripcion nvarchar(255) not null,
+	Presentacion nvarchar(255) not null,
 	Stock int not null,
 	Fecha datetime not null,
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	AceptaPreguntas bit not null DEFAULT 1,
-	IdEstado int foreign key references Publicacion_Estado(Id),
+	IdEstado int foreign key references Estado(Id),
 	IdVisibilidad int foreign key references Visibilidad(Id),
 	IdUsuario int foreign key references Usuario(Id) not null
 )
@@ -151,7 +151,7 @@ create table Publicacion_Rubro
 	IdRubro int foreign key references Rubro(Id) not null
 )
 
-create table Publicacion_Estado
+create table Estado
 (
 	Id int NOT NULL IDENTITY(1,1) primary key,
 	Descripcion varchar(50) not null
@@ -200,19 +200,12 @@ GO
 
 
 -- Funciones
--- Si ya existe lo borramos, asi podemos ejecutarlo N veces sin problemas.
-if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.GetSiguienteCodigoPublicacion'))
-begin
-   drop function DIRTYDEEDS.GetSiguienteCodigoPublicacion
-end
-go
--- Creamos la funcion.
 create function DIRTYDEEDS.GetSiguienteCodigoPublicacion()
 returns int
 as
 begin
 	declare @ret int
 	select @ret = MAX(DIRTYDEEDS.Publicacion.Codigo) from DIRTYDEEDS.Publicacion
-	return @ret
+	return @ret + 1
 end
 go

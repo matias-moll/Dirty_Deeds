@@ -17,7 +17,6 @@ namespace ABMs
 
         public override DataTable ejecutarBusqueda()
         {
-            // Creamos el rol y lo mandamos a grabar.
             Usuario unUsuario = new Usuario(teUsuario.Text, neIntentosFallidos.Numero);
             return unUsuario.upFullByPrototype();
         }

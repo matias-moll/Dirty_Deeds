@@ -45,6 +45,11 @@ namespace Dal
 
         public void update(PersistentObject objetoAActualizar)
         {
+            update(objetoAActualizar, "autoId");
+        }
+
+        public void update(PersistentObject objetoAActualizar, string nombrePropertyClave)
+        {
             string commandUpdate = "";
 
             try
@@ -60,7 +65,7 @@ namespace Dal
                 listaCamposValores = makeStringOfFieldValues(diccionarioCampoValor);
 
                 // TODO: cambiar esta condicion hardcoded por un metodo que busque todas las properties que compongan la clave y sus valores.
-                listaCondiciones = "Id = " + getValorProperty("autoId",objetoAActualizar).ToString();
+                listaCondiciones = getNombreCampoBase(nombrePropertyClave) + " = " + getValorProperty(nombrePropertyClave, objetoAActualizar).ToString();
 
                 string nombreTabla = objetoAActualizar.GetType().Name;
                 commandUpdate = String.Format("update DIRTYDEEDS.{0} set {1} where {2}", nombreTabla, listaCamposValores, listaCondiciones);
@@ -72,6 +77,12 @@ namespace Dal
                 throw new DataBaseException("Se produjo un error cuando se intentaba actualizar un registro en la base de datos.",
                                             commandUpdate, e.Message, e.StackTrace);
             }
+        }
+
+        private string getNombreCampoBase(string nombrePropertyClave)
+        {
+            int posComienzo = getPositionOfFirstUpperCaseChar(nombrePropertyClave);
+            return nombrePropertyClave.Substring(posComienzo, nombrePropertyClave.Length - posComienzo);
         }
 
         public static void delete(int idClavePrimaria)
@@ -97,12 +108,17 @@ namespace Dal
 
         public static PersistentObject get(int idClavePrimaria)
         {
+            return get(idClavePrimaria, "Id");
+        }
+
+        public static PersistentObject get(int idClavePrimaria, string nombreCampoClave)
+        {
             string query = "";
             try
             {
                 PersistentObject objetoAConstruir = new PersistentObject();
                 string nombreTabla = objetoAConstruir.GetType().Name;
-                query = String.Format("select * from DIRTYDEEDS.{0} where Id = {1}", nombreTabla, idClavePrimaria);
+                query = String.Format("select * from DIRTYDEEDS.{0} where {1} = {2}", nombreTabla, nombreCampoClave, idClavePrimaria);
                 DataTable dtEntidad = StaticDataAccess.executeQuery(query);
                 fillObject(dtEntidad.Rows[0], ref objetoAConstruir);
                 return objetoAConstruir;

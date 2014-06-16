@@ -15,7 +15,7 @@ drop table DIRTYDEEDS.OfertaCompra
 drop table DIRTYDEEDS.Publicacion
 drop table DIRTYDEEDS.Rubro
 drop table DIRTYDEEDS.Visibilidad
-drop table DIRTYDEEDS.Publicacion_Estado
+drop table DIRTYDEEDS.Estado
 drop table DIRTYDEEDS.FormaPago
 drop table DIRTYDEEDS.Usuario
 drop view DIRTYDEEDS.Vendedores

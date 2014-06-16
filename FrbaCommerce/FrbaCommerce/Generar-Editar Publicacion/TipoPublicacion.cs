@@ -28,5 +28,12 @@ namespace FrbaCommerce
             tipos.Add(tipoVacio);
         }
 
+
+        internal static void cargarComboTipos(System.Windows.Forms.ComboBox cbTipos)
+        {
+            cbTipos.DataSource = TipoPublicacion.tipos;
+            cbTipos.DisplayMember = "descripcion";
+            cbTipos.ValueMember = "tipo";
+        }
     }
 }

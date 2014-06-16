@@ -20,7 +20,7 @@ namespace Dal
 
         override internal bool esVacio(object valorProperty)
         {
-            return ((string)valorProperty) == "";
+            return ((string)valorProperty).Trim() == "";
         }
     }
 }

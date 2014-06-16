@@ -14,7 +14,7 @@ namespace Dominio
 
         // Properties con la convencion del DataAccessObject
         public int campoCodigo { get; set; }
-        public string campoDescripcion { get; set; }
+        public string campoPresentacion { get; set; }
         public int campoStock { get; set; }
         public DateTime campoFecha { get; set; }
         public DateTime campoFechaVto { get; set; }
@@ -39,7 +39,7 @@ namespace Dominio
                            char tipo, bool aceptaPreguntas) : this()
         {
             campoCodigo = codigo;
-            campoDescripcion = descripcion;
+            campoPresentacion = descripcion;
             campoStock = stock;
             campoFecha = fecha;
             campoFechaVto = fechaVto;
@@ -60,19 +60,21 @@ namespace Dominio
         //Metodos publicos
         public static Publicacion get(int idClavePrimaria)
         {
-            return DataAccessObject<Publicacion>.get(idClavePrimaria);
+            return DataAccessObject<Publicacion>.get(idClavePrimaria, "Codigo");
         }
 
         public void save()
         {
             // Obtenemos la clave que nos corresponde y grabamos.
             this.campoCodigo = StaticDataAccess.executeIntFunction("GetSiguienteCodigoPublicacion");
+            if (this.campoCodigo == 0)
+                throw new Exception("Error al intentar obtener el siguiente código de publicacion");
             daoPublicacion.insert(this);
         }
 
         public void update()
         {
-            daoPublicacion.update(this);
+            daoPublicacion.update(this, "campoCodigo");
         }
 
         public DataTable upFullByPrototype()

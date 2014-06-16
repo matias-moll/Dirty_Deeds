@@ -12,6 +12,7 @@ namespace ABMs
 {
     class Visibilidades : ABMEspecifico
     {
+        TextEdit teCodigo = new TextEdit();
         TextEdit teDescripcion = new TextEdit();
         DecimalEdit dcePrecio = new DecimalEdit();
         DecimalEdit dcePorcentaje = new DecimalEdit();
@@ -19,7 +20,7 @@ namespace ABMs
         public override DataTable ejecutarBusqueda()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unRol = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unRol = new Visibilidad(teCodigo.Text, teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
             return unRol.upFullByPrototype();
         }
 
@@ -34,13 +35,13 @@ namespace ABMs
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unaVisibilidad = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unaVisibilidad = new Visibilidad(teCodigo.Text,teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
             unaVisibilidad.save();
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-            Visibilidad unaVisibilidad = new Visibilidad(teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unaVisibilidad = new Visibilidad(teCodigo.Text,teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
             unaVisibilidad.autoId = idClaveObjetoAModificar;
             unaVisibilidad.update();
         }
@@ -61,7 +62,8 @@ namespace ABMs
             dcePrecio.ZeroValid = true;
             dcePorcentaje.ZeroValid = true;
             PanelBuilder builder = new PanelBuilder(tamañoPanel, PanelBuilder.Alineacion.Horizontal);
-            builder.AddControlWithLabel("Descripcion", teDescripcion)
+            builder.AddControlWithLabel("Código", teCodigo)
+                   .AddControlWithLabel("Descripcion", teDescripcion)
                    .AddControlWithLabel("Precio", dcePrecio)
                    .AddControlWithLabel("Porcentaje", dcePorcentaje)
                    .centrarControlesEnElPanel();

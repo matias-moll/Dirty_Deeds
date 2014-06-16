@@ -63,6 +63,15 @@
     <Compile Include="Calificar Vendedor\CalificarVendedor.Designer.cs">
       <DependentUpon>CalificarVendedor.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatosGlobales.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Borrador.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Activa.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Finalizada.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Pausada.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Nueva.cs" />
+    <Compile Include="Generar-Editar Publicacion\Estados\Estado.cs" />
+    <Compile Include="Generar-Editar Publicacion\PublicacionEnPantalla.cs" />
+    <Compile Include="Generar-Editar Publicacion\Publicaciones.cs" />
     <Compile Include="Soporte\Cifrado.cs" />
     <Compile Include="Comprar-Ofertar\ComprarOfertar.cs">
       <SubType>Form</SubType>
@@ -144,7 +153,7 @@
     <EmbeddedResource Include="Listado Estadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Generar Publicacion\Publicacion.resx">
+    <EmbeddedResource Include="Generar-Editar Publicacion\Publicacion.resx">
       <DependentUpon>Publicacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de Usuario\AltaUsuario.resx">
@@ -180,13 +189,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Generar Publicacion\Publicacion.cs">
+    <Compile Include="Generar-Editar Publicacion\Publicacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Generar Publicacion\Publicacion.Designer.cs">
+    <Compile Include="Generar-Editar Publicacion\Publicacion.Designer.cs">
       <DependentUpon>Publicacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Generar Publicacion\TipoPublicacion.cs" />
+    <Compile Include="Generar-Editar Publicacion\TipoPublicacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ABMs\Tablas Generales.csproj">

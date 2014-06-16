@@ -12,6 +12,7 @@ namespace Dominio
         private DataAccessObject<Visibilidad> daoVisibilidad;
 
         public int autoId { get; set; }
+        public string campoCodigo { get; set; }
         public string campoDescripcion { get; set; }
         public decimal campoPrecio { get; set; }
         public decimal campoPorcentaje { get; set; }
@@ -21,16 +22,17 @@ namespace Dominio
 
         public Visibilidad() { daoVisibilidad = new DataAccessObject<Visibilidad>(); }
 
-        public Visibilidad(string descripcion, decimal precio, decimal porcentaje, bool p_deleted) : this()
+        public Visibilidad(string codigo,string descripcion, decimal precio, decimal porcentaje, bool p_deleted) : this()
         {
+            campoCodigo = codigo;
             campoDescripcion = descripcion;
             campoPrecio = precio;
             campoPorcentaje = porcentaje;
             campoDeleted = p_deleted;
         }
 
-        public Visibilidad(string descripcion, decimal precio, decimal porcentaje) :
-            this(descripcion, precio, porcentaje, false) { }
+        public Visibilidad(string codigo,string descripcion, decimal precio, decimal porcentaje) :
+            this(codigo,descripcion, precio, porcentaje, false) { }
 
         #endregion
 

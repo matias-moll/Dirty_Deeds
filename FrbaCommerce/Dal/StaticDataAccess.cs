@@ -16,16 +16,13 @@ namespace Dal
 
         public static int executeIntFunction(string nameFunction)
         {
-            string nombreFuncionCompleto = String.Format("DIRTYDEEDS.{0}()", nameFunction);
+            string nombreFuncionCompleto = String.Format("select DIRTYDEEDS.{0}()", nameFunction);
 
-            SqlConnection conexion = DBConn.getDBConn();
-            conexion.Open();
+            DataTable dtResultado = executeQuery(nombreFuncionCompleto);
+            if ((dtResultado == null) ||(dtResultado.Rows.Count != 1))
+                return 0;
 
-            SqlCommand command = conexion.CreateCommand();
-            command.CommandText = nombreFuncionCompleto;
-            command.Connection = conexion;
-
-            return (int)command.ExecuteScalar();
+            return Convert.ToInt32(dtResultado.Rows[0][0]);
         }
 
         public static DataTable executeQuery(string query)

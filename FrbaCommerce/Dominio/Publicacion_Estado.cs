@@ -47,6 +47,11 @@ namespace Dominio
             return DataAccessObject<Publicacion_Estado>.upFullOnTableByPrototype(this);
         }
 
+        public static List<Publicacion_Estado> upFull()
+        {
+            return DataAccessObject<Publicacion_Estado>.upFull();
+        }
+
         public static Publicacion_Estado get(int idClavePrimaria)
         {
             return DataAccessObject<Publicacion_Estado>.get(idClavePrimaria);

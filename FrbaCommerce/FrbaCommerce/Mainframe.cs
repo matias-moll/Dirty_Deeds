@@ -39,6 +39,8 @@ namespace FrbaCommerce
             CreateDockManager();
 
             // En este punto el usuario ya esta loggeado.
+            DatosGlobales.seLoggeoElUsuario(usuarioLoggeado);
+
             abrirDockeablesSegunFuncionalidadesHabilitadas();
 
             abrirDockeablesSegunTipoUsuario();
@@ -83,6 +85,9 @@ namespace FrbaCommerce
             dockManager.SimAppWorkspace = false;
             dockManager.DocumentStyle = DocumentStyle.DockingMdi;
             BackgroundImage = null;
+            dockManager.AllowEndUserDocking = false;
+            dockManager.AllowDrop = false;
+            dockManager.AllowEndUserNestedDocking = false;
 
             // Lo agregamos a la ventana
             Controls.Add(dockManager);
@@ -102,12 +107,12 @@ namespace FrbaCommerce
 
         private void abrirDockeablesEmpresa()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void abrirDockeablesCliente()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void abrirDockeablesSegunFuncionalidadesHabilitadas()
