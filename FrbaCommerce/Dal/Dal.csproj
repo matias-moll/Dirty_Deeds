@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsultasDinamicas.cs" />
     <Compile Include="Strategy Acciones x Tipo\AccionesTipo.cs" />
     <Compile Include="Strategy Acciones x Tipo\AccionesString.cs" />
     <Compile Include="DataAccessObject.cs" />

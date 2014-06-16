@@ -9,9 +9,9 @@ namespace Dal
 {
     public static class StaticDataAccess
     {
-        public static void executeStoredProcedure(string nameSP)
+        public static DataTable executeStoredProcedureReturningDataTable(string nameSP)
         {
-
+            return executeQuery(nameSP);
         }
 
         public static int executeIntFunction(string nameFunction)

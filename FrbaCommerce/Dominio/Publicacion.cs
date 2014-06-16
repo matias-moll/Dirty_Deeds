@@ -57,6 +57,37 @@ namespace Dominio
         #endregion
 
 
+        public static DataTable getPrimerasNPublicaciones(int nroFilaInicio, int nroFilaFin, string whereFiltros)
+        {
+            return ConsultasDinamicas.getPrimerasNPublicaciones(nroFilaInicio, nroFilaFin, whereFiltros);
+        }
+
+        public static string armaWhereDescripcion(string descripcion)
+        {
+            return String.Format(" Presentacion like '%{0}%' and ", descripcion);
+        }
+
+        public static string armaWhereRubros(List<Rubro> rubros)
+        {
+            string whereArmado = "";
+            foreach (Rubro unRubro in rubros)
+                whereArmado += String.Format(" IdRubro = {0} or ",unRubro.autoId);
+            if (whereArmado != "")
+                // Quitamos el ultimo or y agregamos el and con el que terminan todas las condiciones (se quitan ante sde ejecutar)
+                return whereArmado.Substring(0, whereArmado.Length - 3) + " and " ;
+            else
+                return whereArmado;
+        }
+
+        public static int getCantidadPublicacionesSegunFiltro(string whereFiltros)
+        {
+            int cantidad = ConsultasDinamicas.getCantidadPublicacionesSegunFiltro(whereFiltros);
+            if (cantidad == 0)
+                throw new Exception("No se pudo obtener el conteo de las publicaciones segun su filtro");
+
+            return cantidad;
+        }
+
         //Metodos publicos
         public static Publicacion get(int idClavePrimaria)
         {

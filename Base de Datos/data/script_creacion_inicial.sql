@@ -197,7 +197,6 @@ SELECT IdCalificado, vendedores.vendedor, SUM(CantidadEstrellas) / COUNT(IdCalif
 WHERE IdCalificado = vendedores.IdUsuario
 GROUP BY IdCalificado, vendedores.vendedor
 
-GO
 
 
 -- Funciones
@@ -210,3 +209,27 @@ begin
 	return @ret + 1
 end
 go
+
+
+-- Stored Procedures
+create procedure DIRTYDEEDS.Publicaciones_A_Mostrar
+as
+begin  
+	SELECT  subquery.Codigo, subquery.Presentacion, subquery.Stock, subquery.Fecha, subquery.FechaVto, 
+			subquery.Precio, subquery.Tipo, subquery.AceptaPreguntas
+	FROM    (
+			SELECT  Publicacion.Codigo, Publicacion.Presentacion, Publicacion.Stock,  Visibilidad.Precio,Publicacion.Fecha, 
+			Publicacion.FechaVto, Publicacion.Tipo, Publicacion.AceptaPreguntas, ROW_NUMBER() OVER (ORDER BY Visibilidad.Precio) AS numero_row
+			FROM    DIRTYDEEDS.Publicacion
+			join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id
+			join DIRTYDEEDS.Estado on Publicacion.IdEstado = Estado.Id 
+			where Publicacion.IdEstado = 1 -- Solo las publicaciones Activas
+			and Publicacion.Stock > 0 -- Solo las que tengan stock
+			) subquery
+	where numero_row between 56000 and 57000
+	ORDER BY
+			subquery.Precio
+end
+go
+
+
