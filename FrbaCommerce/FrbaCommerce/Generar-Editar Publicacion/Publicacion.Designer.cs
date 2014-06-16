@@ -35,6 +35,7 @@
             this.gbEditarPublicacion = new TNGS.NetControls.GlassButton();
             this.gbNuevaPublicacion = new TNGS.NetControls.GlassButton();
             this.imgPublicacion = new TNGS.NetControls.ImgGroup();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.gbActiva = new TNGS.NetControls.GlassButton();
             this.lblEstado = new System.Windows.Forms.Label();
@@ -55,6 +56,9 @@
             this.cbTipos = new System.Windows.Forms.ComboBox();
             this.dcePrecio = new TNGS.NetControls.DecimalEdit();
             this.neStock = new TNGS.NetControls.NumberEdit();
+            this.cbRubros = new System.Windows.Forms.ComboBox();
+            this.gbAgregarRubro = new TNGS.NetControls.GlassButton();
+            this.lbRubrosElegidos = new System.Windows.Forms.ListBox();
             this.xPanel1.SuspendLayout();
             this.imgModo.SuspendLayout();
             this.imgPublicacion.SuspendLayout();
@@ -132,6 +136,10 @@
             this.imgPublicacion.BackgroundGradientMode = TNGS.NetControls.ImgGroup.GroupBoxGradientMode.ForwardDiagonal;
             this.imgPublicacion.BorderColor = System.Drawing.Color.Black;
             this.imgPublicacion.BorderThickness = 1F;
+            this.imgPublicacion.Controls.Add(this.lbRubrosElegidos);
+            this.imgPublicacion.Controls.Add(this.gbAgregarRubro);
+            this.imgPublicacion.Controls.Add(this.cbRubros);
+            this.imgPublicacion.Controls.Add(this.label8);
             this.imgPublicacion.Controls.Add(this.label7);
             this.imgPublicacion.Controls.Add(this.gbActiva);
             this.imgPublicacion.Controls.Add(this.lblEstado);
@@ -169,11 +177,21 @@
             this.imgPublicacion.SkinFixed = true;
             this.imgPublicacion.TabIndex = 1;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(581, 147);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(61, 20);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Rubros";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(19, 352);
+            this.label7.Location = new System.Drawing.Point(19, 367);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(127, 20);
             this.label7.TabIndex = 19;
@@ -182,7 +200,7 @@
             // gbActiva
             // 
             this.gbActiva.FixedImage = TNGS.NetControls.FixedGlassButtons.End;
-            this.gbActiva.Location = new System.Drawing.Point(333, 350);
+            this.gbActiva.Location = new System.Drawing.Point(333, 365);
             this.gbActiva.Name = "gbActiva";
             this.gbActiva.Size = new System.Drawing.Size(104, 26);
             this.gbActiva.TabIndex = 18;
@@ -213,7 +231,7 @@
             // gbPausar
             // 
             this.gbPausar.FixedImage = TNGS.NetControls.FixedGlassButtons.Subs;
-            this.gbPausar.Location = new System.Drawing.Point(472, 350);
+            this.gbPausar.Location = new System.Drawing.Point(472, 365);
             this.gbPausar.Name = "gbPausar";
             this.gbPausar.Size = new System.Drawing.Size(104, 26);
             this.gbPausar.TabIndex = 15;
@@ -224,7 +242,7 @@
             // gbFinalizar
             // 
             this.gbFinalizar.FixedImage = TNGS.NetControls.FixedGlassButtons.Pay;
-            this.gbFinalizar.Location = new System.Drawing.Point(600, 350);
+            this.gbFinalizar.Location = new System.Drawing.Point(600, 365);
             this.gbFinalizar.Name = "gbFinalizar";
             this.gbFinalizar.Size = new System.Drawing.Size(104, 26);
             this.gbFinalizar.TabIndex = 14;
@@ -235,7 +253,7 @@
             // gbBorrador
             // 
             this.gbBorrador.FixedImage = TNGS.NetControls.FixedGlassButtons.Notepad;
-            this.gbBorrador.Location = new System.Drawing.Point(194, 350);
+            this.gbBorrador.Location = new System.Drawing.Point(194, 365);
             this.gbBorrador.Name = "gbBorrador";
             this.gbBorrador.Size = new System.Drawing.Size(104, 26);
             this.gbBorrador.TabIndex = 13;
@@ -270,7 +288,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(315, 143);
+            this.label5.Location = new System.Drawing.Point(174, 147);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 20);
             this.label5.TabIndex = 10;
@@ -281,7 +299,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(421, 105);
+            this.label4.Location = new System.Drawing.Point(390, 96);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 18);
             this.label4.TabIndex = 9;
@@ -291,7 +309,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(35, 104);
+            this.label3.Location = new System.Drawing.Point(53, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 18);
             this.label3.TabIndex = 8;
@@ -302,7 +320,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(289, 54);
+            this.label2.Location = new System.Drawing.Point(309, 54);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 18);
             this.label2.TabIndex = 7;
@@ -323,20 +341,20 @@
             this.teDescripcion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.teDescripcion.BackColor = System.Drawing.SystemColors.Window;
-            this.teDescripcion.Location = new System.Drawing.Point(23, 166);
+            this.teDescripcion.Location = new System.Drawing.Point(23, 170);
             this.teDescripcion.MaxLength = 250;
             this.teDescripcion.Multiline = true;
             this.teDescripcion.Name = "teDescripcion";
-            this.teDescripcion.Size = new System.Drawing.Size(697, 168);
+            this.teDescripcion.Size = new System.Drawing.Size(479, 184);
             this.teDescripcion.TabIndex = 5;
             // 
             // cbVisibilidades
             // 
             this.cbVisibilidades.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVisibilidades.FormattingEnabled = true;
-            this.cbVisibilidades.Location = new System.Drawing.Point(503, 105);
+            this.cbVisibilidades.Location = new System.Drawing.Point(472, 96);
             this.cbVisibilidades.Name = "cbVisibilidades";
-            this.cbVisibilidades.Size = new System.Drawing.Size(217, 21);
+            this.cbVisibilidades.Size = new System.Drawing.Size(232, 21);
             this.cbVisibilidades.TabIndex = 4;
             // 
             // rbAceptaPreguntas
@@ -344,7 +362,7 @@
             this.rbAceptaPreguntas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rbAceptaPreguntas.AutoSize = true;
             this.rbAceptaPreguntas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbAceptaPreguntas.Location = new System.Drawing.Point(547, 55);
+            this.rbAceptaPreguntas.Location = new System.Drawing.Point(571, 54);
             this.rbAceptaPreguntas.Name = "rbAceptaPreguntas";
             this.rbAceptaPreguntas.Size = new System.Drawing.Size(133, 20);
             this.rbAceptaPreguntas.TabIndex = 2;
@@ -355,7 +373,7 @@
             // cbTipos
             // 
             this.cbTipos.FormattingEnabled = true;
-            this.cbTipos.Location = new System.Drawing.Point(82, 105);
+            this.cbTipos.Location = new System.Drawing.Point(100, 96);
             this.cbTipos.Name = "cbTipos";
             this.cbTipos.Size = new System.Drawing.Size(202, 21);
             this.cbTipos.TabIndex = 3;
@@ -364,7 +382,7 @@
             // 
             this.dcePrecio.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.dcePrecio.BackColor = System.Drawing.SystemColors.Window;
-            this.dcePrecio.Location = new System.Drawing.Point(350, 55);
+            this.dcePrecio.Location = new System.Drawing.Point(370, 55);
             this.dcePrecio.MaxLength = 13;
             this.dcePrecio.Name = "dcePrecio";
             this.dcePrecio.Size = new System.Drawing.Size(100, 20);
@@ -379,6 +397,37 @@
             this.neStock.Size = new System.Drawing.Size(100, 20);
             this.neStock.TabIndex = 0;
             this.neStock.Text = "0";
+            // 
+            // cbRubros
+            // 
+            this.cbRubros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbRubros.FormattingEnabled = true;
+            this.cbRubros.Location = new System.Drawing.Point(524, 179);
+            this.cbRubros.Name = "cbRubros";
+            this.cbRubros.Size = new System.Drawing.Size(196, 21);
+            this.cbRubros.TabIndex = 22;
+            // 
+            // gbAgregarRubro
+            // 
+            this.gbAgregarRubro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbAgregarRubro.FixedImage = TNGS.NetControls.FixedGlassButtons.Add;
+            this.gbAgregarRubro.Location = new System.Drawing.Point(636, 206);
+            this.gbAgregarRubro.Name = "gbAgregarRubro";
+            this.gbAgregarRubro.Size = new System.Drawing.Size(84, 26);
+            this.gbAgregarRubro.TabIndex = 23;
+            this.gbAgregarRubro.Text = "Agregar";
+            this.gbAgregarRubro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbAgregarRubro.ToolTipCheckedText = "Activa la publicación";
+            this.gbAgregarRubro.Click += new System.EventHandler(this.gbAgregarRubro_Click);
+            // 
+            // lbRubrosElegidos
+            // 
+            this.lbRubrosElegidos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbRubrosElegidos.FormattingEnabled = true;
+            this.lbRubrosElegidos.Location = new System.Drawing.Point(522, 238);
+            this.lbRubrosElegidos.Name = "lbRubrosElegidos";
+            this.lbRubrosElegidos.Size = new System.Drawing.Size(198, 108);
+            this.lbRubrosElegidos.TabIndex = 24;
             // 
             // Publicacion
             // 
@@ -430,5 +479,9 @@
         internal System.Windows.Forms.Label label6;
         internal TNGS.NetControls.GlassButton gbActiva;
         internal System.Windows.Forms.Label label7;
+        internal System.Windows.Forms.Label label8;
+        internal System.Windows.Forms.ListBox lbRubrosElegidos;
+        internal TNGS.NetControls.GlassButton gbAgregarRubro;
+        internal System.Windows.Forms.ComboBox cbRubros;
     }
 }

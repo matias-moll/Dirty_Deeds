@@ -18,6 +18,9 @@ namespace FrbaCommerce
             formPublicacion.cbVisibilidades.Enabled = true;
             formPublicacion.neStock.Enabled = true;
             formPublicacion.teDescripcion.Enabled = true;
+            formPublicacion.cbRubros.Enabled = true;
+            formPublicacion.gbAgregarRubro.Enabled = true;
+            formPublicacion.lbRubrosElegidos.Enabled = true;
 
             formPublicacion.gbBorrador.Enabled = false;
             formPublicacion.gbActiva.Enabled = true;

@@ -16,12 +16,18 @@ namespace ABMs
         TextEdit teDescripcion = new TextEdit();
         DecimalEdit dcePrecio = new DecimalEdit();
         DecimalEdit dcePorcentaje = new DecimalEdit();
+        NumberEdit neDiasActiva = new NumberEdit();
 
         public override DataTable ejecutarBusqueda()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unRol = new Visibilidad(teCodigo.Text, teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unRol = crearVisibilidadFromControlesGUI();
             return unRol.upFullByPrototype();
+        }
+
+        private Visibilidad crearVisibilidadFromControlesGUI()
+        {
+            return new Visibilidad(teCodigo.Text, teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal, neDiasActiva.Numero);
         }
 
         public override void cargarTusDatos(int idClavePrimaria)
@@ -35,13 +41,13 @@ namespace ABMs
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.
-            Visibilidad unaVisibilidad = new Visibilidad(teCodigo.Text,teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unaVisibilidad = crearVisibilidadFromControlesGUI();
             unaVisibilidad.save();
         }
 
         protected override void grabarModificacion(int idClaveObjetoAModificar)
         {
-            Visibilidad unaVisibilidad = new Visibilidad(teCodigo.Text,teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal);
+            Visibilidad unaVisibilidad = crearVisibilidadFromControlesGUI();
             unaVisibilidad.autoId = idClaveObjetoAModificar;
             unaVisibilidad.update();
         }
@@ -66,6 +72,7 @@ namespace ABMs
                    .AddControlWithLabel("Descripcion", teDescripcion)
                    .AddControlWithLabel("Precio", dcePrecio)
                    .AddControlWithLabel("Porcentaje", dcePorcentaje)
+                   .AddControlWithLabel("Dias Activa", neDiasActiva)
                    .centrarControlesEnElPanel();
 
             return builder.getPanel;

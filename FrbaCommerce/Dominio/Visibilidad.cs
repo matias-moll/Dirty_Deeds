@@ -16,23 +16,25 @@ namespace Dominio
         public string campoDescripcion { get; set; }
         public decimal campoPrecio { get; set; }
         public decimal campoPorcentaje { get; set; }
+        public int campoDiasActiva { get; set; }
         public bool campoDeleted { get; set; }
 
         #region Constructores
 
         public Visibilidad() { daoVisibilidad = new DataAccessObject<Visibilidad>(); }
 
-        public Visibilidad(string codigo,string descripcion, decimal precio, decimal porcentaje, bool p_deleted) : this()
+        public Visibilidad(string codigo,string descripcion, decimal precio, decimal porcentaje, int diasActiva, bool p_deleted) : this()
         {
             campoCodigo = codigo;
             campoDescripcion = descripcion;
             campoPrecio = precio;
             campoPorcentaje = porcentaje;
+            campoDiasActiva = diasActiva;
             campoDeleted = p_deleted;
         }
 
-        public Visibilidad(string codigo,string descripcion, decimal precio, decimal porcentaje) :
-            this(codigo,descripcion, precio, porcentaje, false) { }
+        public Visibilidad(string codigo, string descripcion, decimal precio, decimal porcentaje, int diasActiva) :
+            this(codigo,descripcion, precio, porcentaje, diasActiva, false) { }
 
         #endregion
 

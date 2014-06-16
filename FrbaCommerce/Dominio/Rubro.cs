@@ -46,6 +46,11 @@ namespace Dominio
             update();
         }
 
+        public static List<Rubro> upFull()
+        {
+            return DataAccessObject<Rubro>.upFull();
+        }
+
         public void update()
         {
             daoRubro.update(this);

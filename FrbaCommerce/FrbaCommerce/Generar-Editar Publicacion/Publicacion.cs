@@ -16,6 +16,7 @@ namespace FrbaCommerce
     {
         PublicacionEnPantalla publicacionEnEdicion;
         Visibilidad visibilidadVacia;
+        List<Dominio.Rubro> rubros;
 
         public Publicacion()
         {
@@ -31,6 +32,14 @@ namespace FrbaCommerce
             cbVisibilidades.DataSource = Visibilidad.upFull();
             cbVisibilidades.DisplayMember = "campoDescripcion";
             cbVisibilidades.ValueMember = "autoId";
+
+            rubros = Rubro.upFull();
+            cbRubros.DataSource = rubros;
+            cbRubros.DisplayMember = "campoDescripcion";
+            cbRubros.ValueMember = "autoId";
+
+            lbRubrosElegidos.DisplayMember = "campoDescripcion";
+            lbRubrosElegidos.ValueMember = "autoId";
         }
 
         #region Operaciones (eventos de click)
@@ -142,8 +151,10 @@ namespace FrbaCommerce
             Dominio.Publicacion publicacionAGrabar = publicacionEnEdicion.objeto;
             actualizarCamposComunesAAmbosModos(publicacionAGrabar);
 
+            Visibilidad visibilidadElegida = (Visibilidad)cbVisibilidades.SelectedItem;
+
             publicacionAGrabar.campoFecha = DateTime.Now;
-            publicacionAGrabar.campoFechaVto = new DateTime(1900, 1, 1);
+            publicacionAGrabar.campoFechaVto = publicacionAGrabar.campoFecha .AddDays(visibilidadElegida.cam
 
             return publicacionAGrabar;
         }
@@ -229,6 +240,18 @@ namespace FrbaCommerce
             publicacionEnEdicion.estado = Estado.estados["Finalizada"];
             publicacionEnEdicion.estado.habilitaControlesCorrespondientes(this);
             lblEstado.Text = "Finalizada";
+        }
+
+        private void gbAgregarRubro_Click(object sender, EventArgs e)
+        {
+            Dominio.Rubro rubroElegido = (Dominio.Rubro)cbRubros.SelectedItem;
+            if (lbRubrosElegidos.Items.Contains(rubroElegido))
+            {
+                MessageBox.Show("No se puede agregar dos veces el mismo rubro a la publicacion");
+                return;
+            }
+
+            lbRubrosElegidos.Items.Add(rubroElegido);
         }
 
 

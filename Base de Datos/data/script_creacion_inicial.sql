@@ -120,6 +120,7 @@ create table Visibilidad
 	Descripcion nvarchar(255) not null,
 	Precio numeric(18, 2) not null,
 	Porcentaje numeric(18, 2) not null,
+	DiasActiva int not null DEFAULT 30,
 	Deleted bit not null DEFAULT 0
 )
 
