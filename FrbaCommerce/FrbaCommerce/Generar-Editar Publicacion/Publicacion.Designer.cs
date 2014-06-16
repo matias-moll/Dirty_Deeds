@@ -35,6 +35,9 @@
             this.gbEditarPublicacion = new TNGS.NetControls.GlassButton();
             this.gbNuevaPublicacion = new TNGS.NetControls.GlassButton();
             this.imgPublicacion = new TNGS.NetControls.ImgGroup();
+            this.lbRubrosElegidos = new System.Windows.Forms.ListBox();
+            this.gbAgregarRubro = new TNGS.NetControls.GlassButton();
+            this.cbRubros = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.gbActiva = new TNGS.NetControls.GlassButton();
@@ -56,9 +59,6 @@
             this.cbTipos = new System.Windows.Forms.ComboBox();
             this.dcePrecio = new TNGS.NetControls.DecimalEdit();
             this.neStock = new TNGS.NetControls.NumberEdit();
-            this.cbRubros = new System.Windows.Forms.ComboBox();
-            this.gbAgregarRubro = new TNGS.NetControls.GlassButton();
-            this.lbRubrosElegidos = new System.Windows.Forms.ListBox();
             this.xPanel1.SuspendLayout();
             this.imgModo.SuspendLayout();
             this.imgPublicacion.SuspendLayout();
@@ -177,6 +177,36 @@
             this.imgPublicacion.SkinFixed = true;
             this.imgPublicacion.TabIndex = 1;
             // 
+            // lbRubrosElegidos
+            // 
+            this.lbRubrosElegidos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbRubrosElegidos.FormattingEnabled = true;
+            this.lbRubrosElegidos.Location = new System.Drawing.Point(522, 238);
+            this.lbRubrosElegidos.Name = "lbRubrosElegidos";
+            this.lbRubrosElegidos.Size = new System.Drawing.Size(198, 108);
+            this.lbRubrosElegidos.TabIndex = 24;
+            // 
+            // gbAgregarRubro
+            // 
+            this.gbAgregarRubro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbAgregarRubro.FixedImage = TNGS.NetControls.FixedGlassButtons.Add;
+            this.gbAgregarRubro.Location = new System.Drawing.Point(636, 206);
+            this.gbAgregarRubro.Name = "gbAgregarRubro";
+            this.gbAgregarRubro.Size = new System.Drawing.Size(84, 26);
+            this.gbAgregarRubro.TabIndex = 23;
+            this.gbAgregarRubro.Text = "Agregar";
+            this.gbAgregarRubro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbAgregarRubro.Click += new System.EventHandler(this.gbAgregarRubro_Click);
+            // 
+            // cbRubros
+            // 
+            this.cbRubros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbRubros.FormattingEnabled = true;
+            this.cbRubros.Location = new System.Drawing.Point(524, 179);
+            this.cbRubros.Name = "cbRubros";
+            this.cbRubros.Size = new System.Drawing.Size(196, 21);
+            this.cbRubros.TabIndex = 22;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -206,7 +236,6 @@
             this.gbActiva.TabIndex = 18;
             this.gbActiva.Text = "Activa";
             this.gbActiva.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbActiva.ToolTipCheckedText = "Activa la publicación";
             this.gbActiva.Click += new System.EventHandler(this.gbActiva_Click);
             // 
             // lblEstado
@@ -270,7 +299,6 @@
             this.gbAceptar.TabIndex = 12;
             this.gbAceptar.Text = "Aceptar";
             this.gbAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbAceptar.ToolTipCheckedText = "Activa la publicación";
             this.gbAceptar.Click += new System.EventHandler(this.gbConfirmar_Click);
             // 
             // gbCancelar
@@ -397,37 +425,6 @@
             this.neStock.Size = new System.Drawing.Size(100, 20);
             this.neStock.TabIndex = 0;
             this.neStock.Text = "0";
-            // 
-            // cbRubros
-            // 
-            this.cbRubros.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRubros.FormattingEnabled = true;
-            this.cbRubros.Location = new System.Drawing.Point(524, 179);
-            this.cbRubros.Name = "cbRubros";
-            this.cbRubros.Size = new System.Drawing.Size(196, 21);
-            this.cbRubros.TabIndex = 22;
-            // 
-            // gbAgregarRubro
-            // 
-            this.gbAgregarRubro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbAgregarRubro.FixedImage = TNGS.NetControls.FixedGlassButtons.Add;
-            this.gbAgregarRubro.Location = new System.Drawing.Point(636, 206);
-            this.gbAgregarRubro.Name = "gbAgregarRubro";
-            this.gbAgregarRubro.Size = new System.Drawing.Size(84, 26);
-            this.gbAgregarRubro.TabIndex = 23;
-            this.gbAgregarRubro.Text = "Agregar";
-            this.gbAgregarRubro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbAgregarRubro.ToolTipCheckedText = "Activa la publicación";
-            this.gbAgregarRubro.Click += new System.EventHandler(this.gbAgregarRubro_Click);
-            // 
-            // lbRubrosElegidos
-            // 
-            this.lbRubrosElegidos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbRubrosElegidos.FormattingEnabled = true;
-            this.lbRubrosElegidos.Location = new System.Drawing.Point(522, 238);
-            this.lbRubrosElegidos.Name = "lbRubrosElegidos";
-            this.lbRubrosElegidos.Size = new System.Drawing.Size(198, 108);
-            this.lbRubrosElegidos.TabIndex = 24;
             // 
             // Publicacion
             // 

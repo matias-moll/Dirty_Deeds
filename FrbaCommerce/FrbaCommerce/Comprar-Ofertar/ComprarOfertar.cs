@@ -16,7 +16,8 @@ namespace FrbaCommerce
         private int nroPagina;
         private int cantPaginas;
         private int cantidadRegistrosPorPagina;
-        private string whereFiltros;
+        private string whereDescripcion;
+        private string whereRubros;
         // Property que mantiene actualizado el lbl de pantalla.
         private int numeroPagina 
         { 
@@ -42,7 +43,7 @@ namespace FrbaCommerce
             lbRubrosElegidos.ValueMember = "autoId";
 
             numeroPagina = 1;
-            whereFiltros = "";
+            whereDescripcion = whereRubros = "";
             cantidadRegistrosPorPagina = 20;
         }
 
@@ -119,7 +120,8 @@ namespace FrbaCommerce
 
         private void cargarPublicaciones()
         {
-            dgvPublicaciones.DataSource = Dominio.Publicacion.getPrimerasNPublicaciones(getFilaInicio(), getFilaFin(), whereFiltros);
+            dgvPublicaciones.DataSource = Dominio.Publicacion.getPrimerasNPublicaciones(getFilaInicio(), getFilaFin(), 
+                                                                                        whereRubros, whereDescripcion);
             if (dgvPublicaciones.Rows.Count == 0)
             {
                 MessageBox.Show("No hay mas publicaciones para mostrar con esos filtros elegidos");
@@ -146,7 +148,7 @@ namespace FrbaCommerce
         {
             try
             {
-                int cantidadPublicaciones = Dominio.Publicacion.getCantidadPublicacionesSegunFiltro(whereFiltros);
+                int cantidadPublicaciones = Dominio.Publicacion.getCantidadPublicacionesSegunFiltro(whereRubros, whereDescripcion);
                 return (cantidadPublicaciones / cantidadRegistrosPorPagina) + 1;
             }
             catch (Exception excep)
@@ -164,9 +166,9 @@ namespace FrbaCommerce
             List<Rubro> rubros = new List<Rubro>();
             foreach(object unRubro in lbRubrosElegidos.Items)
                 rubros.Add((Rubro)unRubro);
-            whereFiltros = Dominio.Publicacion.armaWhereRubros(rubros);
+            whereRubros = Dominio.Publicacion.armaWhereRubros(rubros);
 
-            whereFiltros += Dominio.Publicacion.armaWhereDescripcion(teDescripcion.Text);
+            whereDescripcion = Dominio.Publicacion.armaWhereDescripcion(teDescripcion.Text);
 
             cantidadPaginas = obtenerCantidadPaginas();
             cargarPublicaciones();
@@ -174,7 +176,7 @@ namespace FrbaCommerce
 
         private void gbQuitarFiltro_Click(object sender, EventArgs e)
         {
-            whereFiltros = "";
+            whereRubros = whereDescripcion = "";
             lbRubrosElegidos.Items.Clear();
             teDescripcion.Text = "";
             cantidadPaginas = obtenerCantidadPaginas();

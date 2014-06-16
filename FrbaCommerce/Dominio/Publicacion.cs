@@ -57,14 +57,14 @@ namespace Dominio
         #endregion
 
 
-        public static DataTable getPrimerasNPublicaciones(int nroFilaInicio, int nroFilaFin, string whereFiltros)
+        public static DataTable getPrimerasNPublicaciones(int nroFilaInicio, int nroFilaFin, string whereRubros, string whereDescripcion)
         {
-            return ConsultasDinamicas.getPrimerasNPublicaciones(nroFilaInicio, nroFilaFin, whereFiltros);
+            return ConsultasDinamicas.getPrimerasNPublicaciones(nroFilaInicio, nroFilaFin, whereRubros, whereDescripcion);
         }
 
         public static string armaWhereDescripcion(string descripcion)
         {
-            return String.Format(" Presentacion like '%{0}%' and ", descripcion);
+            return String.Format(" Presentacion like '%{0}%' ", descripcion);
         }
 
         public static string armaWhereRubros(List<Rubro> rubros)
@@ -73,15 +73,15 @@ namespace Dominio
             foreach (Rubro unRubro in rubros)
                 whereArmado += String.Format(" IdRubro = {0} or ",unRubro.autoId);
             if (whereArmado != "")
-                // Quitamos el ultimo or y agregamos el and con el que terminan todas las condiciones (se quitan ante sde ejecutar)
-                return whereArmado.Substring(0, whereArmado.Length - 3) + " and " ;
+                // Quitamos el ultimo or 
+                return whereArmado.Substring(0, whereArmado.Length - 3) ;
             else
                 return whereArmado;
         }
 
-        public static int getCantidadPublicacionesSegunFiltro(string whereFiltros)
+        public static int getCantidadPublicacionesSegunFiltro(string whereRubros, string whereDescripcion)
         {
-            int cantidad = ConsultasDinamicas.getCantidadPublicacionesSegunFiltro(whereFiltros);
+            int cantidad = ConsultasDinamicas.getCantidadPublicacionesSegunFiltro(whereRubros, whereDescripcion);
             if (cantidad == 0)
                 throw new Exception("No se pudo obtener el conteo de las publicaciones segun su filtro");
 

@@ -224,7 +224,6 @@
             this.gbQuitarRubro.Size = new System.Drawing.Size(26, 24);
             this.gbQuitarRubro.TabIndex = 30;
             this.gbQuitarRubro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbQuitarRubro.ToolTipCheckedText = "Activa la publicación";
             this.gbQuitarRubro.Click += new System.EventHandler(this.gbQuitarRubro_Click);
             // 
             // label1
@@ -272,7 +271,9 @@
             this.gbAgregarRubro.Size = new System.Drawing.Size(26, 24);
             this.gbAgregarRubro.TabIndex = 27;
             this.gbAgregarRubro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbAgregarRubro.ToolTipCheckedText = "Activa la publicación";
+            this.gbAgregarRubro.ToolTipCheckedText = "El filtro de rubros es incluyentes, es decir, agregar más rubros traerá más publi" +
+                "caciones (todas aquellas que estén marcadas con al menos uno de los rubros elegi" +
+                "dos).";
             this.gbAgregarRubro.Click += new System.EventHandler(this.gbAgregarRubro_Click);
             // 
             // teDescripcion
