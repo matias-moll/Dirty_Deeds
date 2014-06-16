@@ -106,3 +106,13 @@ SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, 
 FROM gd_esquema.Maestra
 WHERE Item_Factura_Monto IS NOT NULL
 ORDER BY Factura_Nro
+
+
+-- Agregado de Configuracion del Sistema
+
+--Estados
+insert into DIRTYDEEDS.Estado values ('Borrador')
+insert into DIRTYDEEDS.Estado values ('Pausada')
+insert into DIRTYDEEDS.Estado values ('Finalizada')
+
+--Roles (TODO).

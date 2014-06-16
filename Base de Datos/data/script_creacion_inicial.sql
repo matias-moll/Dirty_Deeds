@@ -70,7 +70,7 @@ create table Cliente
 	TipoDocumento char(4) not null,
 	Documento int not null,
 	FechaNacimiento datetime not null,
-	Telefono nvarchar(40), 
+	Telefono nvarchar(40) not null DEFAULT '', 
 	Mail nvarchar(150) not null,
 	IdDireccion int foreign key references Direccion(Id),
 	Deleted bit not null DEFAULT 0

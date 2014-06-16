@@ -105,114 +105,13 @@ namespace FrbaCommerce
             }
         }
 
-        private bool comboSinSeleccionar(ComboBox combo)
-        {
-            return combo.SelectedValue.ToString().Trim() == "";
-        }
-
         private void gbCancelar_Click(object sender, EventArgs e)
         {
             limpiarControlesGUI();
             habilitarSeleccionOperacion();
         }
 
-        #endregion
-
-        #region Metodos soporte (privados)
-
-        private void grabarPublicacion()
-        {
-            Dominio.Publicacion publicacionAGrabar;
-            if (publicacionEnEdicion.esNueva)
-            {
-                publicacionAGrabar = crearPublicacionFromControlesGUI();
-                publicacionAGrabar.save();
-            }
-            else
-            {
-                publicacionAGrabar = actualizarPublicacionFromControlesGUI();
-                publicacionAGrabar.update();
-            }
-        }
-
-        private Dominio.Publicacion actualizarPublicacionFromControlesGUI()
-        {
-            Dominio.Publicacion publicacionAGrabar = publicacionEnEdicion.objeto;
-            actualizarCamposComunesAAmbosModos(publicacionAGrabar);
-
-            if (Estado.esEstadoFinalizada(publicacionEnEdicion.estado))
-                publicacionAGrabar.campoFechaVto = DateTime.Now;
-
-            return publicacionAGrabar;
-        }
-
-        private Dominio.Publicacion crearPublicacionFromControlesGUI()
-        {
-            Dominio.Publicacion publicacionAGrabar = publicacionEnEdicion.objeto;
-            actualizarCamposComunesAAmbosModos(publicacionAGrabar);
-
-            Visibilidad visibilidadElegida = (Visibilidad)cbVisibilidades.SelectedItem;
-
-            publicacionAGrabar.campoFecha = DateTime.Now;
-            publicacionAGrabar.campoFechaVto = publicacionAGrabar.campoFecha .AddDays(visibilidadElegida.cam
-
-            return publicacionAGrabar;
-        }
-
-        private void actualizarCamposComunesAAmbosModos(Dominio.Publicacion publicacionAGrabar)
-        {
-            publicacionAGrabar.campoTipo = cbTipos.SelectedValue.ToString();
-            publicacionAGrabar.campoStock = neStock.Numero;
-            publicacionAGrabar.campoPrecio = dcePrecio.Decimal;
-            publicacionAGrabar.campoPresentacion = teDescripcion.Text;
-            publicacionAGrabar.campoAceptaPreguntas = rbAceptaPreguntas.Checked;
-
-            publicacionAGrabar.foraneaIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
-            publicacionAGrabar.foraneaIdEstado = publicacionEnEdicion.estado.id;
-            publicacionAGrabar.foraneaIdVisibilidad = (int)cbVisibilidades.SelectedValue;
-        }
-
-        private void cargarAPantalla(Dominio.Publicacion publicacionAEditar)
-        {
-            neStock.Numero = publicacionAEditar.campoStock;
-            dcePrecio.Decimal = publicacionAEditar.campoPrecio;
-            rbAceptaPreguntas.Checked = publicacionAEditar.campoAceptaPreguntas;
-            cbTipos.SelectedValue = Convert.ToChar(publicacionAEditar.campoTipo);
-            cbVisibilidades.SelectedValue = publicacionAEditar.foraneaIdVisibilidad;
-            teDescripcion.Text = publicacionAEditar.campoPresentacion;
-        }
-
-        private void limpiarControlesGUI()
-        {
-            neStock.Numero = 0;
-            dcePrecio.Decimal = 0.00M;
-            rbAceptaPreguntas.Checked = false;
-            cbTipos.SelectedItem = TipoPublicacion.tipoVacio;
-            cbVisibilidades.SelectedItem = visibilidadVacia;
-            teDescripcion.Text = "";
-            lblEstado.Text = "";
-        }
-
-        private void habilitarCargaPublicacion()
-        {
-            imgModo.Enabled = false;
-            imgPublicacion.Enabled = true;
-
-            publicacionEnEdicion.estado.habilitaControlesCorrespondientes(this);
-
-            Refresh();
-        }
-
-        private void habilitarSeleccionOperacion()
-        {
-            publicacionEnEdicion = null;
-            imgModo.Enabled = true;
-            imgPublicacion.Enabled = false;
-
-            Refresh();
-        }
-
-        #endregion
+        #region Eventos de botones de cambio de estado
 
         private void gbBorrador_Click(object sender, EventArgs e)
         {
@@ -242,6 +141,8 @@ namespace FrbaCommerce
             lblEstado.Text = "Finalizada";
         }
 
+        #endregion 
+
         private void gbAgregarRubro_Click(object sender, EventArgs e)
         {
             Dominio.Rubro rubroElegido = (Dominio.Rubro)cbRubros.SelectedItem;
@@ -253,6 +154,147 @@ namespace FrbaCommerce
 
             lbRubrosElegidos.Items.Add(rubroElegido);
         }
+
+        #endregion
+
+        #region Metodos soporte (privados)
+
+        private void grabarPublicacion()
+        {
+            Dominio.Publicacion publicacionAGrabar;
+            int codigoPublicacion;
+            if (publicacionEnEdicion.esNueva)
+            {
+                publicacionAGrabar = crearPublicacionFromControlesGUI();
+                codigoPublicacion = publicacionAGrabar.save();
+            }
+            else
+            {
+                publicacionAGrabar = actualizarPublicacionFromControlesGUI();
+                codigoPublicacion = publicacionAGrabar.campoCodigo;
+                publicacionAGrabar.update();
+            }
+
+            grabarRubrosAsociados(codigoPublicacion);
+        }
+
+        private void grabarRubrosAsociados(int codPublicacion)
+        {
+            // Borramos las que tuviera.
+            Publicacion_Rubro.delete(codPublicacion);
+
+            // Y mandamos a grabar las nuevas.
+            Publicacion_Rubro relacionRubro = new Publicacion_Rubro();
+            relacionRubro.campoCodPublicacion = codPublicacion;
+            Rubro unRubro;
+
+            foreach (object rubro in lbRubrosElegidos.Items)
+            {
+                unRubro = (Rubro)rubro;
+                relacionRubro.campoIdRubro = unRubro.autoId;
+                relacionRubro.save();
+            }
+        }
+
+        private Dominio.Publicacion actualizarPublicacionFromControlesGUI()
+        {
+            Dominio.Publicacion publicacionAGrabar = publicacionEnEdicion.objeto;
+            actualizarCamposComunesAAmbosModos(publicacionAGrabar);
+
+            if (Estado.esEstadoFinalizada(publicacionEnEdicion.estado))
+                publicacionAGrabar.campoFechaVto = DateTime.Now;
+
+            return publicacionAGrabar;
+        }
+
+        private Dominio.Publicacion crearPublicacionFromControlesGUI()
+        {
+            Dominio.Publicacion publicacionAGrabar = publicacionEnEdicion.objeto;
+            actualizarCamposComunesAAmbosModos(publicacionAGrabar);
+
+            Visibilidad visibilidadElegida = (Visibilidad)cbVisibilidades.SelectedItem;
+
+            publicacionAGrabar.campoFecha = DateTime.Now;
+            publicacionAGrabar.campoFechaVto = publicacionAGrabar.campoFecha.AddDays(visibilidadElegida.campoDiasActiva);
+
+            return publicacionAGrabar;
+        }
+
+        private void actualizarCamposComunesAAmbosModos(Dominio.Publicacion publicacionAGrabar)
+        {
+            publicacionAGrabar.campoTipo = cbTipos.SelectedValue.ToString();
+            publicacionAGrabar.campoStock = neStock.Numero;
+            publicacionAGrabar.campoPrecio = dcePrecio.Decimal;
+            publicacionAGrabar.campoPresentacion = teDescripcion.Text;
+            publicacionAGrabar.campoAceptaPreguntas = rbAceptaPreguntas.Checked;
+
+            publicacionAGrabar.foraneaIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
+            publicacionAGrabar.foraneaIdEstado = publicacionEnEdicion.estado.id;
+            publicacionAGrabar.foraneaIdVisibilidad = (int)cbVisibilidades.SelectedValue;
+        }
+
+        private void cargarAPantalla(Dominio.Publicacion publicacionAEditar)
+        {
+            neStock.Numero = publicacionAEditar.campoStock;
+            dcePrecio.Decimal = publicacionAEditar.campoPrecio;
+            rbAceptaPreguntas.Checked = publicacionAEditar.campoAceptaPreguntas;
+            cbTipos.SelectedValue = Convert.ToChar(publicacionAEditar.campoTipo);
+            cbVisibilidades.SelectedValue = publicacionAEditar.foraneaIdVisibilidad;
+            teDescripcion.Text = publicacionAEditar.campoPresentacion;
+
+            cargarAPantallaLosRubros(publicacionAEditar);
+        }
+
+        private void cargarAPantallaLosRubros(Dominio.Publicacion publicacionAEditar)
+        {
+            Publicacion_Rubro unaRelacionRubro = new Publicacion_Rubro();
+            unaRelacionRubro.campoCodPublicacion = publicacionAEditar.campoCodigo;
+            List<Publicacion_Rubro> rubros = unaRelacionRubro.getListByPrototype();
+            foreach (Publicacion_Rubro rubroElegido in rubros)
+            {
+                // Simulamos las elecciones del usuario seteando el item y disparando el evento del click del add.
+                cbRubros.SelectedValue = rubroElegido.campoIdRubro;
+                gbAgregarRubro_Click(this, null);
+            }
+        }
+
+        private bool comboSinSeleccionar(ComboBox combo)
+        {
+            return combo.SelectedValue.ToString().Trim() == "";
+        }
+
+        private void limpiarControlesGUI()
+        {
+            neStock.Numero = 0;
+            dcePrecio.Decimal = 0.00M;
+            rbAceptaPreguntas.Checked = false;
+            cbTipos.SelectedItem = TipoPublicacion.tipoVacio;
+            cbVisibilidades.SelectedItem = visibilidadVacia;
+            teDescripcion.Text = "";
+            lblEstado.Text = "";
+            lbRubrosElegidos.Items.Clear();
+        }
+
+        private void habilitarCargaPublicacion()
+        {
+            imgModo.Enabled = false;
+            imgPublicacion.Enabled = true;
+
+            publicacionEnEdicion.estado.habilitaControlesCorrespondientes(this);
+
+            Refresh();
+        }
+
+        private void habilitarSeleccionOperacion()
+        {
+            publicacionEnEdicion = null;
+            imgModo.Enabled = true;
+            imgPublicacion.Enabled = false;
+
+            Refresh();
+        }
+
+        #endregion
 
 
     }

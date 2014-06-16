@@ -19,7 +19,7 @@ namespace Dal
             string nombreFuncionCompleto = String.Format("select DIRTYDEEDS.{0}()", nameFunction);
 
             DataTable dtResultado = executeQuery(nombreFuncionCompleto);
-            if ((dtResultado == null) ||(dtResultado.Rows.Count != 1))
+            if ((dtResultado == null) ||(dtResultado.Rows.Count != 1) || (dtResultado.Rows[0][0].GetType() == typeof(DBNull)))
                 return 0;
 
             return Convert.ToInt32(dtResultado.Rows[0][0]);

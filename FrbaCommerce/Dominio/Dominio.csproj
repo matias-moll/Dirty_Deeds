@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cliente.cs" />
+    <Compile Include="Publicacion_Rubro.cs" />
     <Compile Include="Publicacion_Estado.cs" />
     <Compile Include="Publicacion.cs" />
     <Compile Include="Funcionalidad.cs" />

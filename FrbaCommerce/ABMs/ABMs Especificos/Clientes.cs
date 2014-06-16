@@ -46,6 +46,7 @@ namespace ABMs
             neDocumento.Numero = unCliente.campoDocumento;
             deFechaNacimiento.Fecha = unCliente.campoFechaNacimiento;
             teMail.Text = unCliente.campoMail;
+            teTelefono.Text = unCliente.campoTelefono;
 
             Direccion unaDireccion = Direccion.get(unCliente.foraneaIdDireccion);
             abmDirecciones.cargarTusDatos(unaDireccion);

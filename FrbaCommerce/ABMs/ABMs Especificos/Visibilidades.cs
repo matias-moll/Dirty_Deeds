@@ -33,9 +33,11 @@ namespace ABMs
         public override void cargarTusDatos(int idClavePrimaria)
         {
             Visibilidad unaVisibilidad = Visibilidad.get(idClavePrimaria);
+            teCodigo.Text = unaVisibilidad.campoCodigo;
             teDescripcion.Text = unaVisibilidad.campoDescripcion;
             dcePrecio.Decimal = unaVisibilidad.campoPrecio;
             dcePorcentaje.Decimal = unaVisibilidad.campoPorcentaje;
+            neDiasActiva.Numero = unaVisibilidad.campoDiasActiva;
         }
 
         protected override void grabarAlta()

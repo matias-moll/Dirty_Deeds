@@ -63,13 +63,14 @@ namespace Dominio
             return DataAccessObject<Publicacion>.get(idClavePrimaria, "Codigo");
         }
 
-        public void save()
+        public int save()
         {
             // Obtenemos la clave que nos corresponde y grabamos.
             this.campoCodigo = StaticDataAccess.executeIntFunction("GetSiguienteCodigoPublicacion");
             if (this.campoCodigo == 0)
                 throw new Exception("Error al intentar obtener el siguiente código de publicacion");
             daoPublicacion.insert(this);
+            return campoCodigo;
         }
 
         public void update()
