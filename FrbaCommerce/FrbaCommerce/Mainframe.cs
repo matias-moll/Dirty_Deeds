@@ -40,8 +40,6 @@ namespace FrbaCommerce
             DatosGlobales.seLoggeoElUsuario(usuarioLoggeado);
 
             abrirDockeablesSegunFuncionalidadesHabilitadas();
-
-            abrirDockeablesSegunTipoUsuario();
         }
 
         #region Metodos Privados
@@ -95,24 +93,6 @@ namespace FrbaCommerce
 
         #region Metodos de apertura de dockeables
 
-        private void abrirDockeablesSegunTipoUsuario()
-        {
-            if (usuarioLoggeado.campoDiscriminante == "C")
-                abrirDockeablesCliente();
-            else if (usuarioLoggeado.campoDiscriminante == "E")
-                abrirDockeablesEmpresa();
-        }
-
-        private void abrirDockeablesEmpresa()
-        {
-            
-        }
-
-        private void abrirDockeablesCliente()
-        {
-            
-        }
-
         private void abrirDockeablesSegunFuncionalidadesHabilitadas()
         {
             Rol_Funcionalidad unPrototipo = new Rol_Funcionalidad();
@@ -127,7 +107,16 @@ namespace FrbaCommerce
             switch (unaFuncionalidad.campoIdFuncionalidad)
             {
                 // Solo los clientes pueden comprar.
-                case 1: if (usuarioLoggeado.campoDiscriminante == "C") new ComprarOfertar().Show(dockManager); break;
+                case 1:
+                    {
+                        if (usuarioLoggeado.campoDiscriminante == "C")
+                        {
+                            // Si puede comprar, tambien tiene que poder calificar a un vendedor.
+                            new ComprarOfertar().Show(dockManager);
+                            new CalificarVendedor().Show(dockManager);
+                        } 
+                        break;
+                    }
                 // Si puede publicar tiene que poder responder preguntas.
                 case 2: new Publicacion().Show(dockManager); new GestionPreguntas().Show(dockManager); break;
                 case 3: new Facturacion().Show(dockManager); break;
