@@ -107,7 +107,7 @@ create table Item
 (
 	NumFactura int foreign key references Factura(Numero),
 	NumItem int not null,
-	Descripcion varchar(60) not null,
+	Descripcion varchar(255) not null,
 	Monto numeric(18, 2) not null,
 	Cantidad int not null,
 	primary key (NumFactura,NumItem)
@@ -210,6 +210,17 @@ begin
 	return @ret + 1
 end
 go
+
+create function DIRTYDEEDS.GetSiguienteCodigoFactura()
+returns int
+as
+begin
+	declare @ret int
+	select @ret = MAX(DIRTYDEEDS.Factura.Numero) from DIRTYDEEDS.Factura
+	return @ret + 1
+end
+go
+
 
 
 -- Stored Procedures

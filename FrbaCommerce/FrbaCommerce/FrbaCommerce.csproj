@@ -70,6 +70,12 @@
       <DependentUpon>Calificar.cs</DependentUpon>
     </Compile>
     <Compile Include="DatosGlobales.cs" />
+    <Compile Include="Facturar Publicaciones\DatosParaFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar Publicaciones\DatosParaFactura.Designer.cs">
+      <DependentUpon>DatosParaFactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="Generar-Editar Publicacion\Estados\Borrador.cs" />
     <Compile Include="Generar-Editar Publicacion\Estados\Activa.cs" />
     <Compile Include="Generar-Editar Publicacion\Estados\Finalizada.cs" />
@@ -167,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar-Ofertar\ComprarOfertar.resx">
       <DependentUpon>ComprarOfertar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturar Publicaciones\DatosParaFactura.resx">
+      <DependentUpon>DatosParaFactura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar Publicaciones\Facturacion.resx">
       <DependentUpon>Facturacion.cs</DependentUpon>

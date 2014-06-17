@@ -47,6 +47,9 @@
   <ItemGroup>
     <Compile Include="Cliente.cs" />
     <Compile Include="Calificacion.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="Factura.cs" />
+    <Compile Include="FormaPago.cs" />
     <Compile Include="OfertaCompra.cs" />
     <Compile Include="Publicacion_Pregunta.cs" />
     <Compile Include="Publicacion_Rubro.cs" />
