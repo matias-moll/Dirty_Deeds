@@ -34,7 +34,7 @@
             this.lblPaginaActual = new System.Windows.Forms.Label();
             this.lblCantidadPaginas = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.gbVerPublicacion = new TNGS.NetControls.GlassButton();
+            this.gbComprar = new TNGS.NetControls.GlassButton();
             this.gbUltimaPagina = new TNGS.NetControls.GlassButton();
             this.gbAvanzar = new TNGS.NetControls.GlassButton();
             this.gbRetroceder = new TNGS.NetControls.GlassButton();
@@ -50,6 +50,8 @@
             this.teDescripcion = new TNGS.NetControls.TextEdit();
             this.gbQuitarFiltro = new TNGS.NetControls.GlassButton();
             this.gbAgregarFiltro = new TNGS.NetControls.GlassButton();
+            this.gbOfertar = new TNGS.NetControls.GlassButton();
+            this.gbPreguntar = new TNGS.NetControls.GlassButton();
             this.xPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPublicaciones)).BeginInit();
             this.imgFiltros.SuspendLayout();
@@ -59,11 +61,13 @@
             // 
             this.xPanel1.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.xPanel1.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(227)))), ((int)(((byte)(242)))));
+            this.xPanel1.Controls.Add(this.gbPreguntar);
+            this.xPanel1.Controls.Add(this.gbOfertar);
             this.xPanel1.Controls.Add(this.label4);
             this.xPanel1.Controls.Add(this.lblPaginaActual);
             this.xPanel1.Controls.Add(this.lblCantidadPaginas);
             this.xPanel1.Controls.Add(this.label12);
-            this.xPanel1.Controls.Add(this.gbVerPublicacion);
+            this.xPanel1.Controls.Add(this.gbComprar);
             this.xPanel1.Controls.Add(this.gbUltimaPagina);
             this.xPanel1.Controls.Add(this.gbAvanzar);
             this.xPanel1.Controls.Add(this.gbRetroceder);
@@ -119,15 +123,16 @@
             this.label12.TabIndex = 13;
             this.label12.Text = "Página:";
             // 
-            // gbVerPublicacion
+            // gbComprar
             // 
-            this.gbVerPublicacion.FixedImage = TNGS.NetControls.FixedGlassButtons.Zoom;
-            this.gbVerPublicacion.Location = new System.Drawing.Point(330, 493);
-            this.gbVerPublicacion.Name = "gbVerPublicacion";
-            this.gbVerPublicacion.Size = new System.Drawing.Size(129, 26);
-            this.gbVerPublicacion.TabIndex = 12;
-            this.gbVerPublicacion.Text = "Ver Publicación";
-            this.gbVerPublicacion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbComprar.FixedImage = TNGS.NetControls.FixedGlassButtons.Money;
+            this.gbComprar.Location = new System.Drawing.Point(484, 494);
+            this.gbComprar.Name = "gbComprar";
+            this.gbComprar.Size = new System.Drawing.Size(104, 26);
+            this.gbComprar.TabIndex = 12;
+            this.gbComprar.Text = "Comprar";
+            this.gbComprar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbComprar.Click += new System.EventHandler(this.gbVerPublicacion_Click);
             // 
             // gbUltimaPagina
             // 
@@ -307,6 +312,27 @@
             this.gbAgregarFiltro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gbAgregarFiltro.Click += new System.EventHandler(this.gbAgregarFiltro_Click);
             // 
+            // gbOfertar
+            // 
+            this.gbOfertar.FixedImage = TNGS.NetControls.FixedGlassButtons.Pay;
+            this.gbOfertar.Location = new System.Drawing.Point(628, 494);
+            this.gbOfertar.Name = "gbOfertar";
+            this.gbOfertar.Size = new System.Drawing.Size(104, 26);
+            this.gbOfertar.TabIndex = 17;
+            this.gbOfertar.Text = "Ofertar";
+            this.gbOfertar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // gbPreguntar
+            // 
+            this.gbPreguntar.FixedImage = TNGS.NetControls.FixedGlassButtons.Help;
+            this.gbPreguntar.Location = new System.Drawing.Point(44, 494);
+            this.gbPreguntar.Name = "gbPreguntar";
+            this.gbPreguntar.Size = new System.Drawing.Size(104, 26);
+            this.gbPreguntar.TabIndex = 18;
+            this.gbPreguntar.Text = "Preguntar";
+            this.gbPreguntar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbPreguntar.Click += new System.EventHandler(this.gbPreguntar_Click);
+            // 
             // ComprarOfertar
             // 
             this.AllowEndUserDocking = false;
@@ -340,7 +366,7 @@
         private TNGS.NetControls.GlassButton gbQuitarFiltro;
         private TNGS.NetControls.GlassButton gbAgregarFiltro;
         private System.Windows.Forms.DataGridView dgvPublicaciones;
-        private TNGS.NetControls.GlassButton gbVerPublicacion;
+        private TNGS.NetControls.GlassButton gbComprar;
         private TNGS.NetControls.GlassButton gbUltimaPagina;
         private TNGS.NetControls.GlassButton gbAvanzar;
         private TNGS.NetControls.GlassButton gbRetroceder;
@@ -355,5 +381,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblPaginaActual;
+        private TNGS.NetControls.GlassButton gbPreguntar;
+        private TNGS.NetControls.GlassButton gbOfertar;
     }
 }

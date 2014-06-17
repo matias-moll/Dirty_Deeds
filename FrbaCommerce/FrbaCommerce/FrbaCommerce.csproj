@@ -72,6 +72,12 @@
     <Compile Include="Generar-Editar Publicacion\Estados\Estado.cs" />
     <Compile Include="Generar-Editar Publicacion\PublicacionEnPantalla.cs" />
     <Compile Include="Generar-Editar Publicacion\Publicaciones.cs" />
+    <Compile Include="Comprar-Ofertar\RealizarPregunta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar-Ofertar\RealizarPregunta.Designer.cs">
+      <DependentUpon>RealizarPregunta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Soporte\Cifrado.cs" />
     <Compile Include="Comprar-Ofertar\ComprarOfertar.cs">
       <SubType>Form</SubType>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Generar-Editar Publicacion\Publicacion.resx">
       <DependentUpon>Publicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar-Ofertar\RealizarPregunta.resx">
+      <DependentUpon>RealizarPregunta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de Usuario\AltaUsuario.resx">
       <DependentUpon>AltaUsuario.cs</DependentUpon>

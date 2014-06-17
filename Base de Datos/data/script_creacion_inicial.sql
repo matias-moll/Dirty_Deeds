@@ -162,8 +162,8 @@ create table Publicacion_Pregunta
 (
 	CodPublicacion int foreign key references Publicacion(Codigo),
 	NumPregunta int,
-	Pregunta nvarchar(255) not null,
-	Respuesta nvarchar(255),
+	Pregunta nvarchar(255) not null default '',
+	Respuesta nvarchar(255)not null default '',
 	primary key (CodPublicacion, NumPregunta)
 )
 

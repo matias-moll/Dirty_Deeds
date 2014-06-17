@@ -122,6 +122,7 @@ namespace FrbaCommerce
         {
             dgvPublicaciones.DataSource = Dominio.Publicacion.getPrimerasNPublicaciones(getFilaInicio(), getFilaFin(), 
                                                                                         whereRubros, whereDescripcion);
+
             if (dgvPublicaciones.Rows.Count == 0)
             {
                 MessageBox.Show("No hay mas publicaciones para mostrar con esos filtros elegidos");
@@ -181,6 +182,49 @@ namespace FrbaCommerce
             teDescripcion.Text = "";
             cantidadPaginas = obtenerCantidadPaginas();
             cargarPublicaciones();
+        }
+
+        private void gbVerPublicacion_Click(object sender, EventArgs e)
+        {
+            if (dgvPublicaciones.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder seleccionarla");
+                return;
+            }
+            try
+            {
+                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
+                int codigoPublicacionElegida = Convert.ToInt32(dgvPublicaciones.SelectedRows[0].Cells[0].Value);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+            }
+        }
+
+        private void gbPreguntar_Click(object sender, EventArgs e)
+        {
+            if (dgvPublicaciones.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una publicación (clickeando en la fila correspondiente) para poder seleccionarla");
+                return;
+            }
+
+            bool aceptaPreguntas = ((string)dgvPublicaciones.SelectedRows[0].Cells["Acepta_Preguntas"].Value) == "Si";
+
+            if (!aceptaPreguntas)
+            {
+                MessageBox.Show("No puede realizar una pregunta sobre una publicacion que no las acepta.");
+                return;
+            }
+
+            RealizarPregunta preguntar = new RealizarPregunta((int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value);
+            preguntar.ShowDialog(this);
+
         }
     }
 }
