@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using Dominio;
 
 namespace FrbaCommerce
 {
@@ -21,8 +22,11 @@ namespace FrbaCommerce
 
         private void gbCompras_Click(object sender, EventArgs e)
         {
-            // TODO: obtener compras.
-            dgvHistorial.DataSource = null;
+            // Armamos el prototipo de lo que es una compra para este usuario y obtenemos el upFull y lo cargamos a pantalla.
+            OfertaCompra compra = new OfertaCompra();
+            compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
+            compra.campoDiscriminante = "C";
+            dgvHistorial.DataSource = compra.upFullByPrototype(); ;
 
             estadoGrillaOperacional();
         }

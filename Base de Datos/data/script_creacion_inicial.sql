@@ -175,6 +175,7 @@ create table OfertaCompra
 	Fecha datetime not null,
 	Monto numeric(18, 2) not null,
 	Cantidad int not null ,
+	Discriminante char(1) not null 
 )
 
 -- VISTAS

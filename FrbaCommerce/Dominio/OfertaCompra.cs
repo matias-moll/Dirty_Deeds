@@ -12,23 +12,25 @@ namespace Dominio
         private DataAccessObject<OfertaCompra> daoOfertaCompra;
 
         public int autoid { get; set; }
-        public int foraneaIdUsuario { get; set; }
+        public int campoIdUsuario { get; set; }
         public int campoCodPublicacion { get; set; }
         public DateTime campoFecha { get; set; }
         public decimal campoMonto { get; set; }
         public int campoCantidad { get; set; }
+        public string campoDiscriminante{ get; set; }
 
         #region Constructores
 
         public OfertaCompra() { daoOfertaCompra = new DataAccessObject<OfertaCompra>(); }
 
-        public OfertaCompra(int idUsuario,int codPublicacion, DateTime fecha, decimal monto, int cantidad) : this()
+        public OfertaCompra(int idUsuario,int codPublicacion, DateTime fecha, decimal monto, int cantidad, string discriminante) : this()
         {
-            foraneaIdUsuario = idUsuario;
+            campoIdUsuario = idUsuario;
             campoCodPublicacion = codPublicacion;
             campoFecha = fecha;
             campoMonto = monto;
             campoCantidad = cantidad;
+            campoDiscriminante = discriminante;
         }
 
 

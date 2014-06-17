@@ -74,7 +74,7 @@ namespace FrbaCommerce
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
             compra.campoFecha = DateTime.Now;
-            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
+            compra.campoIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
             // TODO: ver tema de monto y cantidad en la migracion.
             compra.campoMonto = 0;
             // TODO: deberia ver de dejarle elegir cuantos quiere comprar.
@@ -86,7 +86,7 @@ namespace FrbaCommerce
             publicacionVendida.campoStock -= 1;
             publicacionVendida.update();
 
-            Usuario usuarioVendedor = Usuario.get(compra.foraneaIdUsuario);
+            Usuario usuarioVendedor = Usuario.get(compra.campoIdUsuario);
 
             MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse.");
             string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
@@ -139,7 +139,7 @@ namespace FrbaCommerce
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
             compra.campoFecha = DateTime.Now;
-            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
+            compra.campoIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
             // TODO: ver tema de monto y cantidad en la migracion.
             compra.campoMonto = ofertar.ofertaRealizada;
             compra.campoCantidad = 1;
