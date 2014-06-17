@@ -31,7 +31,7 @@ namespace Dominio
 
         public static DataTable getPreguntasAResponder(int idUsuario)
         {
-            DataTable dtPreguntas = StaticDataAccess.executeSPPreguntas("DIRTYDEEDS.Preguntas", idUsuario);
+            DataTable dtPreguntas = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.Preguntas", idUsuario);
             DataRow[] drsPreguntas = dtPreguntas.Select("Respuesta = ''");
 
             if (drsPreguntas.Count() < 1)
@@ -42,7 +42,7 @@ namespace Dominio
 
         public static DataTable getRespuestas(int idUsuario)
         {
-            DataTable dtRespuestas = StaticDataAccess.executeSPPreguntas("DIRTYDEEDS.Preguntas", idUsuario);
+            DataTable dtRespuestas = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.Preguntas", idUsuario);
             DataRow[] drsRespuestas = dtRespuestas.Select("Respuesta <> ''");
             if (drsRespuestas.Count() < 1)
                 throw new Exception("No cuenta con ninguna pregunta respondida");

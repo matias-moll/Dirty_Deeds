@@ -238,7 +238,20 @@ begin
 end
 go
 
-
+-- Historial de Calificaciones otorgadas y recibidas
+create procedure DIRTYDEEDS.Calificaciones(@IdUsuarioLoggeado int)
+as
+begin  
+	select CASE WHEN Calificacion.IdCalificado = @IdUsuarioLoggeado THEN 'Fuiste Calificado' 
+																	else 'Calificaste' end as Tipo , 
+	Calificacion.CantidadEstrellas as Cantidad_Estrellas, Calificacion.Descripcion as Comentario_Calificacion, 
+	Calificacion.CodigoPublicacion as Codigo_Publicacion, Publicacion.Presentacion
+	from DIRTYDEEDS.Calificacion
+	join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Calificacion.CodigoPublicacion
+	where IdCalificado = @IdUsuarioLoggeado or IdCalificador = @IdUsuarioLoggeado
+	order by CodigoPublicacion desc 
+end
+go
 
 
 -- Indices

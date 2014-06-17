@@ -74,10 +74,9 @@ namespace FrbaCommerce
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
             compra.campoFecha = DateTime.Now;
+            compra.campoDiscriminante = "C";
             compra.campoIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
-            // TODO: ver tema de monto y cantidad en la migracion.
             compra.campoMonto = 0;
-            // TODO: deberia ver de dejarle elegir cuantos quiere comprar.
             compra.campoCantidad = 1;
             compra.save();
 
@@ -139,8 +138,8 @@ namespace FrbaCommerce
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
             compra.campoFecha = DateTime.Now;
+            compra.campoDiscriminante = "S";
             compra.campoIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
-            // TODO: ver tema de monto y cantidad en la migracion.
             compra.campoMonto = ofertar.ofertaRealizada;
             compra.campoCantidad = 1;
             compra.save();

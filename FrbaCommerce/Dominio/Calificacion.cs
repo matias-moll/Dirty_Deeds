@@ -25,6 +25,16 @@ namespace Dominio
 
         #endregion
 
+        public static DataTable getCalificacionesDadasYRecibidas(int idUsuario)
+        {
+            DataTable dtCalificaciones = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.Calificaciones", idUsuario);
+            if (dtCalificaciones.Rows.Count < 1)
+                throw new Exception("No cuenta con ninguna calificación (otorgada ni recibida)");
+            else
+                return dtCalificaciones;
+        }
+
+
         //Metodos publicos
         public void save()
         {

@@ -51,7 +51,7 @@ namespace Dal
             return command.ExecuteNonQuery();
         }
 
-        public static DataTable executeSPPreguntas(string nameSP, int idUsuario)
+        public static DataTable executeSPConParametroUsuarioLoggeado(string nameSP, int idUsuario)
         {
             DataTable table = new DataTable();
             SqlConnection conexion = DBConn.getDBConn();

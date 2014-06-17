@@ -42,6 +42,12 @@ begin
 end
 go
 
+-- Si existe borramos el sp
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.Calificaciones'))
+begin
+   drop procedure DIRTYDEEDS.Calificaciones
+end
+go
 
 
 

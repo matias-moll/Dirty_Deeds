@@ -41,8 +41,7 @@ namespace FrbaCommerce
 
         private void gbCalificaciones_Click(object sender, EventArgs e)
         {
-            // TODO: obtener Calificaciones.
-            dgvHistorial.DataSource = null;
+            dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.autoId);
 
             estadoGrillaOperacional();
         }
