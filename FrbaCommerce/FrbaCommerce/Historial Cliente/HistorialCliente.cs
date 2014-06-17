@@ -22,11 +22,19 @@ namespace FrbaCommerce
 
         private void gbCompras_Click(object sender, EventArgs e)
         {
-            // Armamos el prototipo de lo que es una compra para este usuario y obtenemos el upFull y lo cargamos a pantalla.
-            OfertaCompra compra = new OfertaCompra();
-            compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
-            compra.campoDiscriminante = "C";
-            dgvHistorial.DataSource = compra.upFullByPrototype(); ;
+            try
+            {
+                // Armamos el prototipo de lo que es una compra para este usuario y obtenemos el upFull y lo cargamos a pantalla.
+                OfertaCompra compra = new OfertaCompra();
+                compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
+                compra.campoDiscriminante = "C";
+                dgvHistorial.DataSource = compra.upFullByPrototype();
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                return;
+            }
 
             estadoGrillaOperacional();
         }
@@ -41,8 +49,17 @@ namespace FrbaCommerce
 
         private void gbCalificaciones_Click(object sender, EventArgs e)
         {
-            dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.autoId);
+            try
+            {
 
+                dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.campoIdReferencia);
+
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                return;
+            }
             estadoGrillaOperacional();
         }
 

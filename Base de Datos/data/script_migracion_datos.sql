@@ -121,14 +121,14 @@ INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Empresa')
 INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Administrativo') 
 INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Cliente') 
 
+-- Empresa
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,2)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,3)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,4)
-
+-- Admin
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(2,5)
+-- Cliente
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,1)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,2)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,3)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,4)
-
---Roles (TODO).

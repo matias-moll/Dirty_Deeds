@@ -64,8 +64,6 @@ end
 go
 
 
-
-
 DROP SCHEMA DIRTYDEEDS
 
 

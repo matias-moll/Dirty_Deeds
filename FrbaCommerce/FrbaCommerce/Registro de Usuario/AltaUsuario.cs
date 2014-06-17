@@ -12,19 +12,21 @@ namespace FrbaCommerce
 {
     public partial class AltaUsuario : Form
     {
+        Usuario usuarioADarDeAlta { get; set; }
         public int idRolUsuarioAlta { get; set; }
         private int idReferencia;
         private char tipo;
 
-        public AltaUsuario(Usuario usuarioADarDeAlta, int idUsuarioAGrabar, char tipoUsuario)
+        public AltaUsuario(Usuario p_usuarioADarDeAlta, int idClienteOEmpresa, char tipoUsuario)
         {
             InitializeComponent();
-            idReferencia = idUsuarioAGrabar;
+            idReferencia = idClienteOEmpresa;
             tipo = tipoUsuario;
+            usuarioADarDeAlta = p_usuarioADarDeAlta;
 
             // En caso de que ya haya cargado usuario y contrasenia evitamos que tenga que repetirlos.
-            teUsuario.Text = usuarioADarDeAlta.campoUsuario;
-            teContrasenia.Text = usuarioADarDeAlta.campoContrasenia;
+            teUsuario.Text = p_usuarioADarDeAlta.campoUsuario;
+            teContrasenia.Text = p_usuarioADarDeAlta.campoContrasenia;
 
             cbRoles.DataSource = Rol.upFull();
             cbRoles.DisplayMember = "campoNombre";
@@ -33,11 +35,25 @@ namespace FrbaCommerce
 
         private void gbAceptar_Click(object sender, EventArgs e)
         {
+            int idUsuarioGrabado;
             // Grabamos el usuario y la relacion con el rol.
-            Usuario usuarioADarDeAlta = new Usuario(teUsuario.Text, Hash.getHashSha256(teContrasenia.Text));
-            usuarioADarDeAlta.campoIdReferencia = idReferencia;
-            usuarioADarDeAlta.campoDiscriminante = tipo.ToString();
-            int idUsuarioGrabado = usuarioADarDeAlta.save();
+            if (usuarioADarDeAlta.autoId == 0) // Si el usuario no existia, lo damos de alta
+            {
+                usuarioADarDeAlta = new Usuario(teUsuario.Text, Hash.getHashSha256(teContrasenia.Text));
+                usuarioADarDeAlta.campoIdReferencia = idReferencia;
+                usuarioADarDeAlta.campoDiscriminante = tipo.ToString();
+                idUsuarioGrabado = usuarioADarDeAlta.save();
+            }
+            else
+            {
+                // Si ya existia es un update con el nombre y la clave nuevos
+                usuarioADarDeAlta.campoUsuario = teUsuario.Text;
+                usuarioADarDeAlta.campoContrasenia = Hash.getHashSha256(teContrasenia.Text);
+                usuarioADarDeAlta.campoIdReferencia = idReferencia;
+                usuarioADarDeAlta.campoDiscriminante = tipo.ToString();
+                idUsuarioGrabado = usuarioADarDeAlta.autoId;
+                usuarioADarDeAlta.update();
+            }
 
             Usuario_Rol relacionUsuarioRol = new Usuario_Rol();
             relacionUsuarioRol.campoIdUsuario = idUsuarioGrabado;

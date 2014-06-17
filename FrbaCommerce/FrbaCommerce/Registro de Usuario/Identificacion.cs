@@ -41,6 +41,12 @@ namespace FrbaCommerce
 
             if (seleccion.DialogResult == DialogResult.OK)
             {
+                // Si ya existe un usuario para ese cliente/empresa elegido, entonces le cargamos el auto id para que luego
+                // se actualice en vez de darse de alta.
+                Usuario usuarioParaVerificarExistencia = Usuario.checkAndGetUserByIdReferencia(seleccion.idClavePrimariaObjetoSeleccionado, tipoUsuario);
+                if (usuarioParaVerificarExistencia != null)
+                    usuario.autoId = usuarioParaVerificarExistencia.autoId;
+
                 AltaUsuario altaUsuario = new AltaUsuario(usuario, seleccion.idClavePrimariaObjetoSeleccionado, tipoUsuario);
                 altaUsuario.ShowDialog(this);
 

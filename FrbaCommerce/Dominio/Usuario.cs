@@ -24,6 +24,14 @@ namespace Dominio
         #region Constructores
         public Usuario() { daoUsuario = new DataAccessObject<Usuario>(); }
 
+        public Usuario(int idReferencia, char tipo) :this()
+        {
+            campoIdReferencia = idReferencia;
+            campoContrasenia = "";
+            campoDiscriminante = tipo.ToString();
+            campoUsuario = "";
+        }
+
         public Usuario(string usuario, int intentosFallidos): this()
         {
             campoUsuario = usuario;
@@ -78,6 +86,18 @@ namespace Dominio
             // Validamos.
             if (usuarios.Count != 1)
                 throw new UsuarioNoEncontradoException(String.Format("El usuario {0} no fue encontrado en la base de datos", strUsuario));
+
+            return usuarios[0];
+        }
+
+        public static Usuario checkAndGetUserByIdReferencia(int idReferencia, char tipo)
+        {
+            // La lista siempre devuelve un unico usuario porque el username es unique en la base.
+            List<Usuario> usuarios = DataAccessObject<Usuario>.upFullByPrototype(new Usuario(idReferencia, tipo));
+
+            // Validamos.   
+            if (usuarios.Count == 0)
+                return null;
 
             return usuarios[0];
         }

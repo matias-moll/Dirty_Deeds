@@ -21,7 +21,7 @@ namespace Dominio
 
         #region Constructores
 
-        public OfertaCompra() { daoOfertaCompra = new DataAccessObject<OfertaCompra>(); }
+        public OfertaCompra() { daoOfertaCompra = new DataAccessObject<OfertaCompra>(); campoFecha = new DateTime(1900, 1, 1); }
 
         public OfertaCompra(int idUsuario,int codPublicacion, DateTime fecha, decimal monto, int cantidad, string discriminante) : this()
         {
