@@ -84,6 +84,12 @@
     <Compile Include="Comprar-Ofertar\RealizarOferta.Designer.cs">
       <DependentUpon>RealizarOferta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gestion de Preguntas\ResponderPregunta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gestion de Preguntas\ResponderPregunta.Designer.cs">
+      <DependentUpon>ResponderPregunta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Soporte\Cifrado.cs" />
     <Compile Include="Comprar-Ofertar\ComprarOfertar.cs">
       <SubType>Form</SubType>
@@ -193,6 +199,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gestion de Preguntas\ResponderPregunta.resx">
+      <DependentUpon>ResponderPregunta.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

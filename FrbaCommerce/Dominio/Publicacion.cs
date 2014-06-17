@@ -106,7 +106,7 @@ namespace Dominio
 
         public void update()
         {
-            daoPublicacion.update(this, "campoCodigo");
+            daoPublicacion.update(this, "campoCodigo", "");
         }
 
         public DataTable upFullByPrototype()

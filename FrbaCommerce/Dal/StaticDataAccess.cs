@@ -9,10 +9,6 @@ namespace Dal
 {
     public static class StaticDataAccess
     {
-        public static DataTable executeStoredProcedureReturningDataTable(string nameSP)
-        {
-            return executeQuery(nameSP);
-        }
 
         public static int executeIntFunction(string nameFunction)
         {
@@ -53,6 +49,26 @@ namespace Dal
             command.Connection = conexion;
 
             return command.ExecuteNonQuery();
+        }
+
+        public static DataTable executeSPPreguntas(string nameSP, int idUsuario)
+        {
+            DataTable table = new DataTable();
+            SqlConnection conexion = DBConn.getDBConn();
+            SqlCommand command = new SqlCommand(nameSP, conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@IdUsuarioLoggeado", SqlDbType.Int).Value = idUsuario;
+            conexion.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+
+            // El fill ejecuta el query y llena la data table.
+            da.Fill(table);
+
+            conexion.Close();
+            da.Dispose();
+
+            return table;
         }
 
         public static int executeInsert(string stringInsert)

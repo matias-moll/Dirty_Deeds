@@ -19,8 +19,6 @@ namespace FrbaCommerce
         private int idRolUsuarioLoggeado;
         private Usuario usuarioLoggeado;
 
-        ComprarOfertar dockComprarOfertar = new ComprarOfertar();
-
         // Constructor y load de la pantalla.
         public Mainframe()
         {
@@ -128,8 +126,10 @@ namespace FrbaCommerce
         {
             switch (unaFuncionalidad.campoIdFuncionalidad)
             {
-                case 1: dockComprarOfertar.Show(dockManager); break;
-                case 2: new Publicacion().Show(dockManager); break;
+                // Solo los clientes pueden comprar.
+                case 1: if (usuarioLoggeado.campoDiscriminante == "C") new ComprarOfertar().Show(dockManager); break;
+                // Si puede publicar tiene que poder responder preguntas.
+                case 2: new Publicacion().Show(dockManager); new GestionPreguntas().Show(dockManager); break;
                 case 3: new Facturacion().Show(dockManager); break;
                 case 4: new HistorialCliente().Show(dockManager); break;
                 case 5: new ListadoEstadistico().Show(dockManager); break;

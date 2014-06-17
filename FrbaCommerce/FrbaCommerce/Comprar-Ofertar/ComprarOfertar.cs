@@ -50,8 +50,10 @@ namespace FrbaCommerce
 
         private void ComprarOfertar_Load(object sender, EventArgs e)
         {
+            /* TODO: Decidir si vamos a cargar al comienzo o tiene que tocar un boton.
             cantidadPaginas = obtenerCantidadPaginas();
             cargarPublicaciones();
+             */
         }
 
         #region Operaciones (eventos click)

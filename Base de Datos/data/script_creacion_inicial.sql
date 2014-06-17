@@ -212,25 +212,20 @@ go
 
 
 -- Stored Procedures
-create procedure DIRTYDEEDS.Publicaciones_A_Mostrar
+-- Preguntas a ser respndidas dado un usuario
+create procedure DIRTYDEEDS.Preguntas(@IdUsuarioLoggeado int)
 as
 begin  
-	SELECT  subquery.Codigo, subquery.Presentacion, subquery.Stock, subquery.Fecha, subquery.FechaVto, 
-			subquery.Precio, subquery.Tipo, subquery.AceptaPreguntas
-	FROM    (
-			SELECT  Publicacion.Codigo, Publicacion.Presentacion, Publicacion.Stock,  Visibilidad.Precio,Publicacion.Fecha, 
-			Publicacion.FechaVto, Publicacion.Tipo, Publicacion.AceptaPreguntas, ROW_NUMBER() OVER (ORDER BY Visibilidad.Precio) AS numero_row
-			FROM    DIRTYDEEDS.Publicacion
-			join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id
-			join DIRTYDEEDS.Estado on Publicacion.IdEstado = Estado.Id 
-			where Publicacion.IdEstado = 1 -- Solo las publicaciones Activas
-			and Publicacion.Stock > 0 -- Solo las que tengan stock
-			) subquery
-	where numero_row between 56000 and 57000
-	ORDER BY
-			subquery.Precio
+	select CodPublicacion as Codigo_Publicacion, NumPregunta as Numero_Pregunta, Pregunta, 
+			Respuesta, Presentacion as Descripcion_Publicacion, Stock, Fecha, Precio 
+	from DIRTYDEEDS.Publicacion_Pregunta 
+		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Publicacion_Pregunta.CodPublicacion
+		join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario
+	where IdUsuario = @IdUsuarioLoggeado 
 end
 go
+
+
 
 
 -- Indices

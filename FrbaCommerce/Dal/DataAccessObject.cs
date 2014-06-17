@@ -45,10 +45,10 @@ namespace Dal
 
         public void update(PersistentObject objetoAActualizar)
         {
-            update(objetoAActualizar, "autoId");
+            update(objetoAActualizar, "autoId", "");
         }
 
-        public void update(PersistentObject objetoAActualizar, string nombrePropertyClave)
+        public void update(PersistentObject objetoAActualizar, string nombrePropertyClave, string condicionesPrecalculadas)
         {
             string commandUpdate = "";
 
@@ -63,9 +63,10 @@ namespace Dal
 
                 // Convertimos el diccionario en una string para el sql.
                 listaCamposValores = makeStringOfFieldValues(diccionarioCampoValor);
-
-                // TODO: cambiar esta condicion hardcoded por un metodo que busque todas las properties que compongan la clave y sus valores.
-                listaCondiciones = getNombreCampoBase(nombrePropertyClave) + " = " + getValorProperty(nombrePropertyClave, objetoAActualizar).ToString();
+                if (condicionesPrecalculadas.Trim() == "")
+                    listaCondiciones = getNombreCampoBase(nombrePropertyClave) + " = " + getValorProperty(nombrePropertyClave, objetoAActualizar).ToString();
+                else
+                    listaCondiciones = condicionesPrecalculadas;
 
                 string nombreTabla = objetoAActualizar.GetType().Name;
                 commandUpdate = String.Format("update DIRTYDEEDS.{0} set {1} where {2}", nombreTabla, listaCamposValores, listaCondiciones);

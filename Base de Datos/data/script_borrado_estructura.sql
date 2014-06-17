@@ -29,6 +29,16 @@ begin
 end
 go
 
+-- Si existe borramos el sp
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.Preguntas'))
+begin
+   drop procedure DIRTYDEEDS.Preguntas
+end
+go
+
+
+
+
 DROP SCHEMA DIRTYDEEDS
 
 
