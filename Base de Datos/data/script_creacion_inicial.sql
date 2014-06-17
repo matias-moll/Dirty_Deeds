@@ -238,6 +238,44 @@ begin
 end
 go
 
+CREATE Procedure DIRTYDEEDS.OfertasGanadoras
+AS
+BEGIN
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#OfertasMaximas')) BEGIN DROP TABLE #OfertasMaximas END
+	
+	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #OfertasMaximas
+	FROM DIRTYDEEDS.OfertaCompra 
+	WHERE Monto != 0 
+	GROUP By CodPublicacion
+	
+	SELECT oferta.Id,oferta.IdUsuario,oferta.CodPublicacion,oferta.Fecha,oferta.Monto,oferta.Cantidad FROM DIRTYDEEDS.OfertaCompra as oferta, #OfertasMaximas as maximas
+	WHERE oferta.Monto != 0
+	AND oferta.CodPublicacion = maximas.CodPublicacion
+	AND Fecha = maximas.FechaMaxima
+	AND Monto = maximas.MontoMaximo
+	ORDER BY oferta.CodPublicacion,oferta.Monto DESC
+END
+GO
+
+CREATE Procedure DIRTYDEEDS.ComprasYOfertasGanadas
+AS 
+BEGIN
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#ComprasYOfertasGanadas')) BEGIN DROP TABLE #ComprasYOfertasGanadas END
+	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #ComprasYOfertasGanadas
+	FROM DIRTYDEEDS.OfertaCompra 
+	WHERE Monto != 0 
+	GROUP By CodPublicacion
+	
+	SELECT oferta.Id,oferta.IdUsuario,oferta.CodPublicacion,oferta.Fecha,oferta.Monto,oferta.Cantidad FROM DIRTYDEEDS.OfertaCompra as oferta, #ComprasYOfertasGanadas as maximas
+	WHERE oferta.Monto != 0
+	AND oferta.CodPublicacion = maximas.CodPublicacion
+	AND Fecha = maximas.FechaMaxima
+	AND Monto = maximas.MontoMaximo
+	UNION
+	SELECT Id,IdUsuario,CodPublicacion,Fecha,Monto,Cantidad FROM DIRTYDEEDS.OfertaCompra WHERE Monto = 0
+	ORDER BY oferta.CodPublicacion,oferta.Monto DESC
+END
+
 
 
 
