@@ -9,6 +9,7 @@ drop table DIRTYDEEDS.Direccion
 drop table DIRTYDEEDS.Localidad
 drop table DIRTYDEEDS.Item
 drop table DIRTYDEEDS.Factura
+drop table DIRTYDEEDS.OfertaCompra
 drop table DIRTYDEEDS.Publicacion_Pregunta
 drop table DIRTYDEEDS.Publicacion_Rubro
 drop table DIRTYDEEDS.Publicacion
@@ -17,6 +18,7 @@ drop table DIRTYDEEDS.Visibilidad
 drop table DIRTYDEEDS.Estado
 drop table DIRTYDEEDS.FormaPago
 drop table DIRTYDEEDS.Usuario
+
 drop view DIRTYDEEDS.Vendedores
 drop view DIRTYDEEDS.Calificacion_Vendedores
 
@@ -39,6 +41,18 @@ go
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.Preguntas'))
 begin
    drop procedure DIRTYDEEDS.Preguntas
+end
+go
+
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.OfertasGanadoras'))
+begin
+   drop procedure DIRTYDEEDS.OfertasGanadoras
+end
+go
+
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ComprasYOfertasGanadas'))
+begin
+   drop procedure DIRTYDEEDS.ComprasYOfertasGanadas
 end
 go
 

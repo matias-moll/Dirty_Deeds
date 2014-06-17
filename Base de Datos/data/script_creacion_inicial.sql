@@ -222,8 +222,6 @@ begin
 end
 go
 
-
-
 -- Stored Procedures
 -- Preguntas a ser respndidas dado un usuario
 create procedure DIRTYDEEDS.Preguntas(@IdUsuarioLoggeado int)
@@ -275,9 +273,7 @@ BEGIN
 	SELECT Id,IdUsuario,CodPublicacion,Fecha,Monto,Cantidad FROM DIRTYDEEDS.OfertaCompra WHERE Monto = 0
 	ORDER BY oferta.CodPublicacion,oferta.Monto DESC
 END
-
-
-
+GO
 
 -- Indices
 CREATE INDEX IdVisibilidad
