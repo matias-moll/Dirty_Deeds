@@ -18,7 +18,8 @@ namespace FrbaCommerce
         private int cantidadRegistrosPorPagina;
         private string whereDescripcion;
         private string whereRubros;
-        // Property que mantiene actualizado el lbl de pantalla.
+
+        // Property que mantiene actualizado los lbls de pantalla.
         private int numeroPagina 
         { 
             get{ return nroPagina;} 
@@ -54,6 +55,101 @@ namespace FrbaCommerce
         }
 
         #region Operaciones (eventos click)
+
+        // Eventos de compra, oferta y pregunta
+
+        private void gbComprar_Click(object sender, EventArgs e)
+        {
+            // Validamos
+            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
+                return;
+            if (dgvPublicaciones.SelectedRows[0].Cells["Tipo"].Value.ToString().Trim() == "Subasta")
+            {
+                MessageBox.Show("La opcion de compra es solo para publicaciones de tipo Compra Inmediata, y la publicacion elegida es de tipo Subasta.");
+                return;
+            }
+
+            OfertaCompra compra = new OfertaCompra();
+            compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
+            compra.campoFecha = DateTime.Now;
+            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
+            // TODO: ver tema de monto y cantidad en la migracion.
+            compra.campoMonto = 0;
+            // TODO: deberia ver de dejarle elegir cuantos quiere comprar.
+            compra.campoCantidad = 1;
+            compra.save();
+
+            // Actualizamos el stock de la publicacion vendida.
+            Dominio.Publicacion publicacionVendida = Dominio.Publicacion.get(compra.campoCodPublicacion);
+            publicacionVendida.campoStock -= 1;
+            publicacionVendida.update();
+
+            Usuario usuarioVendedor = Usuario.get(compra.foraneaIdUsuario);
+
+            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse.");
+            string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
+            ABMs.AltaGenerico vendedor;
+            // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
+            if (discriminante == "Empresa")
+                vendedor = new ABMs.AltaGenerico(new ABMs.Empresas(), usuarioVendedor.campoIdReferencia, true);
+            else
+                vendedor = new ABMs.AltaGenerico(new ABMs.Clientes(), usuarioVendedor.campoIdReferencia, true);
+
+            vendedor.ShowDialog(this);
+
+        }
+
+        private void gbPreguntar_Click(object sender, EventArgs e)
+        {
+            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
+                return;
+
+            bool aceptaPreguntas = ((string)dgvPublicaciones.SelectedRows[0].Cells["Acepta_Preguntas"].Value) == "Si";
+
+            if (!aceptaPreguntas)
+            {
+                MessageBox.Show("No puede realizar una pregunta sobre una publicacion que no las acepta.");
+                return;
+            }
+
+            RealizarPregunta preguntar = new RealizarPregunta((int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value);
+            preguntar.ShowDialog(this);
+
+        }
+
+        private void gbOfertar_Click(object sender, EventArgs e)
+        {
+            // Validamos
+            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
+                return;
+            if (dgvPublicaciones.SelectedRows[0].Cells["Tipo"].Value.ToString().Trim() != "Subasta")
+            {
+                MessageBox.Show("La opcion de oferta es solo para publicaciones de tipo Subasta, y la publicacion elegida es de tipo Compra Inmediata.");
+                return;
+            }
+
+            RealizarOferta ofertar = new RealizarOferta((decimal)dgvPublicaciones.SelectedRows[0].Cells["Precio"].Value);
+            ofertar.ShowDialog(this);
+
+            if (ofertar.DialogResult == DialogResult.Cancel)
+                return;
+
+            OfertaCompra compra = new OfertaCompra();
+            compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
+            compra.campoFecha = DateTime.Now;
+            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
+            // TODO: ver tema de monto y cantidad en la migracion.
+            compra.campoMonto = ofertar.ofertaRealizada;
+            compra.campoCantidad = 1;
+            compra.save();
+
+            // Actualizamos a la ultima oferta en la subasta.
+            Dominio.Publicacion publicacionOfertada = Dominio.Publicacion.get(compra.campoCodPublicacion);
+            publicacionOfertada.campoPrecio = compra.campoMonto;
+            publicacionOfertada.update();
+
+            MessageBox.Show("Su oferta fue realizada exitosamente! Suerte con la subasta!. Si actualiza la página verá su oferta reflejada.");
+        }
 
         // Eventos para modificacion en grilla paginada
         private void gbAvanzar_Click(object sender, EventArgs e)
@@ -114,9 +210,56 @@ namespace FrbaCommerce
             lbRubrosElegidos.Items.Remove(lbRubrosElegidos.SelectedItem);
         }
 
+        private void gbAgregarFiltro_Click(object sender, EventArgs e)
+        {
+            // Armamos la string de where de filtros.
+            List<Rubro> rubros = new List<Rubro>();
+            foreach (object unRubro in lbRubrosElegidos.Items)
+                rubros.Add((Rubro)unRubro);
+            whereRubros = Dominio.Publicacion.armaWhereRubros(rubros);
+
+            whereDescripcion = Dominio.Publicacion.armaWhereDescripcion(teDescripcion.Text);
+
+            cantidadPaginas = obtenerCantidadPaginas();
+            numeroPagina = 1;
+            cargarPublicaciones();
+        }
+
+        private void gbQuitarFiltro_Click(object sender, EventArgs e)
+        {
+            whereRubros = whereDescripcion = "";
+            lbRubrosElegidos.Items.Clear();
+            teDescripcion.Text = "";
+            cantidadPaginas = obtenerCantidadPaginas();
+            numeroPagina = 1;
+            cargarPublicaciones();
+        }
+
         #endregion
 
         #region Metodos soporte (privados)
+
+
+        private bool validacionNoElegirseAUnoMismo()
+        {
+            if (((int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value) == DatosGlobales.usuarioLoggeado.autoId)
+            {
+                MessageBox.Show("No se pueden realizar acciones sobre publicaciones propias.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool validacionRegistroSeleccionado()
+        {
+            if (dgvPublicaciones.SelectedRows.Count != 1)
+            {
+                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder seleccionarla");
+                return false;
+            }
+            return true;
+        }
+
 
         private void cargarPublicaciones()
         {
@@ -161,99 +304,5 @@ namespace FrbaCommerce
 
         #endregion
 
-        private void gbAgregarFiltro_Click(object sender, EventArgs e)
-        {
-            // Armamos la string de where de filtros.
-            List<Rubro> rubros = new List<Rubro>();
-            foreach(object unRubro in lbRubrosElegidos.Items)
-                rubros.Add((Rubro)unRubro);
-            whereRubros = Dominio.Publicacion.armaWhereRubros(rubros);
-
-            whereDescripcion = Dominio.Publicacion.armaWhereDescripcion(teDescripcion.Text);
-
-            cantidadPaginas = obtenerCantidadPaginas();
-            cargarPublicaciones();
-        }
-
-        private void gbQuitarFiltro_Click(object sender, EventArgs e)
-        {
-            whereRubros = whereDescripcion = "";
-            lbRubrosElegidos.Items.Clear();
-            teDescripcion.Text = "";
-            cantidadPaginas = obtenerCantidadPaginas();
-            cargarPublicaciones();
-        }
-
-        private void gbComprar_Click(object sender, EventArgs e)
-        {
-            // Validamos
-            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
-                return;
-            if (dgvPublicaciones.SelectedRows[0].Cells["Tipo"].Value.ToString().Trim() == "Subasta")
-            {
-                MessageBox.Show("La opcion de compra es solo para publicaciones de tipo Compra Inmediata, y la publicacion elegida es de tipo Subasta.");
-                return;
-            }
-
-            OfertaCompra compra = new OfertaCompra();
-            compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
-            compra.campoFecha = DateTime.Now;
-            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
-            // TODO: ver tema de monto y cantidad en la migracion.
-            compra.campoMonto = (decimal)dgvPublicaciones.SelectedRows[0].Cells["Precio"].Value;
-            compra.campoCantidad = 1;
-            compra.save();
-            Usuario usuarioVendedor = Usuario.get(compra.foraneaIdUsuario);
-
-            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse.");
-            string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
-            ABMs.AltaGenerico vendedor;
-            // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
-            if (discriminante == "Empresa")
-                vendedor = new ABMs.AltaGenerico(new ABMs.Empresas(), usuarioVendedor.campoIdReferencia, true);
-            else
-                vendedor = new ABMs.AltaGenerico(new ABMs.Clientes(), usuarioVendedor.campoIdReferencia, true);
-
-            vendedor.ShowDialog(this);
-
-        }
-
-        private bool validacionNoElegirseAUnoMismo()
-        {
-            if (((int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value) == DatosGlobales.usuarioLoggeado.autoId)
-            {
-                MessageBox.Show("No se pueden realizar acciones sobre publicaciones propias.");
-                return false;
-            }
-            return true;
-        }
-
-        private bool validacionRegistroSeleccionado()
-        {
-            if (dgvPublicaciones.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder seleccionarla");
-                return false;
-            }
-            return true;
-        }
-
-        private void gbPreguntar_Click(object sender, EventArgs e)
-        {
-            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
-                return;
-
-            bool aceptaPreguntas = ((string)dgvPublicaciones.SelectedRows[0].Cells["Acepta_Preguntas"].Value) == "Si";
-
-            if (!aceptaPreguntas)
-            {
-                MessageBox.Show("No puede realizar una pregunta sobre una publicacion que no las acepta.");
-                return;
-            }
-
-            RealizarPregunta preguntar = new RealizarPregunta((int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value);
-            preguntar.ShowDialog(this);
-
-        }
     }
 }

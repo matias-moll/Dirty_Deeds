@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComprarOfertar));
             this.xPanel1 = new TNGS.NetControls.XPanel();
+            this.gbPreguntar = new TNGS.NetControls.GlassButton();
+            this.gbOfertar = new TNGS.NetControls.GlassButton();
             this.label4 = new System.Windows.Forms.Label();
             this.lblPaginaActual = new System.Windows.Forms.Label();
             this.lblCantidadPaginas = new System.Windows.Forms.Label();
@@ -50,8 +52,6 @@
             this.teDescripcion = new TNGS.NetControls.TextEdit();
             this.gbQuitarFiltro = new TNGS.NetControls.GlassButton();
             this.gbAgregarFiltro = new TNGS.NetControls.GlassButton();
-            this.gbOfertar = new TNGS.NetControls.GlassButton();
-            this.gbPreguntar = new TNGS.NetControls.GlassButton();
             this.xPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPublicaciones)).BeginInit();
             this.imgFiltros.SuspendLayout();
@@ -80,6 +80,28 @@
             this.xPanel1.Size = new System.Drawing.Size(767, 541);
             this.xPanel1.SkinFixed = true;
             this.xPanel1.TabIndex = 1;
+            // 
+            // gbPreguntar
+            // 
+            this.gbPreguntar.FixedImage = TNGS.NetControls.FixedGlassButtons.Help;
+            this.gbPreguntar.Location = new System.Drawing.Point(44, 494);
+            this.gbPreguntar.Name = "gbPreguntar";
+            this.gbPreguntar.Size = new System.Drawing.Size(104, 26);
+            this.gbPreguntar.TabIndex = 18;
+            this.gbPreguntar.Text = "Preguntar";
+            this.gbPreguntar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbPreguntar.Click += new System.EventHandler(this.gbPreguntar_Click);
+            // 
+            // gbOfertar
+            // 
+            this.gbOfertar.FixedImage = TNGS.NetControls.FixedGlassButtons.Pay;
+            this.gbOfertar.Location = new System.Drawing.Point(628, 494);
+            this.gbOfertar.Name = "gbOfertar";
+            this.gbOfertar.Size = new System.Drawing.Size(104, 26);
+            this.gbOfertar.TabIndex = 17;
+            this.gbOfertar.Text = "Ofertar";
+            this.gbOfertar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbOfertar.Click += new System.EventHandler(this.gbOfertar_Click);
             // 
             // label4
             // 
@@ -311,27 +333,6 @@
             this.gbAgregarFiltro.Text = "Agregar Filtro";
             this.gbAgregarFiltro.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gbAgregarFiltro.Click += new System.EventHandler(this.gbAgregarFiltro_Click);
-            // 
-            // gbOfertar
-            // 
-            this.gbOfertar.FixedImage = TNGS.NetControls.FixedGlassButtons.Pay;
-            this.gbOfertar.Location = new System.Drawing.Point(628, 494);
-            this.gbOfertar.Name = "gbOfertar";
-            this.gbOfertar.Size = new System.Drawing.Size(104, 26);
-            this.gbOfertar.TabIndex = 17;
-            this.gbOfertar.Text = "Ofertar";
-            this.gbOfertar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // gbPreguntar
-            // 
-            this.gbPreguntar.FixedImage = TNGS.NetControls.FixedGlassButtons.Help;
-            this.gbPreguntar.Location = new System.Drawing.Point(44, 494);
-            this.gbPreguntar.Name = "gbPreguntar";
-            this.gbPreguntar.Size = new System.Drawing.Size(104, 26);
-            this.gbPreguntar.TabIndex = 18;
-            this.gbPreguntar.Text = "Preguntar";
-            this.gbPreguntar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbPreguntar.Click += new System.EventHandler(this.gbPreguntar_Click);
             // 
             // ComprarOfertar
             // 
