@@ -236,6 +236,23 @@ begin
 end
 go
 
+<<<<<<< HEAD
+-- Historial de Calificaciones otorgadas y recibidas
+create procedure DIRTYDEEDS.Calificaciones(@IdUsuarioLoggeado int)
+as
+begin  
+	select CASE WHEN Calificacion.IdCalificado = @IdUsuarioLoggeado THEN 'Fuiste Calificado' 
+																	else 'Calificaste' end as Tipo , 
+	Calificacion.CantidadEstrellas as Cantidad_Estrellas, Calificacion.Descripcion as Comentario_Calificacion, 
+	Calificacion.CodigoPublicacion as Codigo_Publicacion, Publicacion.Presentacion
+	from DIRTYDEEDS.Calificacion
+	join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Calificacion.CodigoPublicacion
+	where IdCalificado = @IdUsuarioLoggeado or IdCalificador = @IdUsuarioLoggeado
+	order by CodigoPublicacion desc 
+end
+go
+
+=======
 CREATE Procedure DIRTYDEEDS.OfertasGanadoras
 AS
 BEGIN
@@ -274,26 +291,7 @@ BEGIN
 	ORDER BY oferta.CodPublicacion,oferta.Monto DESC
 END
 GO
-
-
-
-
-
--- Historial de Calificaciones otorgadas y recibidas
-create procedure DIRTYDEEDS.Calificaciones(@IdUsuarioLoggeado int)
-as
-begin  
-	select CASE WHEN Calificacion.IdCalificado = @IdUsuarioLoggeado THEN 'Fuiste Calificado' 
-									else 'Calificaste' end as Tipo , 
-	Calificacion.CantidadEstrellas as Cantidad_Estrellas, Calificacion.Descripcion as Comentario_Calificacion, 
-	Calificacion.CodigoPublicacion as Codigo_Publicacion, Publicacion.Presentacion
-	from DIRTYDEEDS.Calificacion
-	join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Calificacion.CodigoPublicacion
-	where IdCalificado = @IdUsuarioLoggeado or IdCalificador = @IdUsuarioLoggeado
-	order by CodigoPublicacion desc 
-end
-go
-
+>>>>>>> 766f09b9841bb66b92a9d5d9fed5391141425c96
 
 -- Indices
 CREATE INDEX IdVisibilidad

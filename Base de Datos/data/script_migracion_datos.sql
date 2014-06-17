@@ -92,13 +92,13 @@ WHERE Calificacion_Codigo IS NOT NULL
 AND CAST(Cli_Dni as varchar(20))= calificador.Usuario
 AND (Publ_Empresa_Cuit = calificado.Usuario OR CAST(Publ_Cli_Dni as varchar(20)) = calificado.Usuario)
 
-INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario)
-SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, 1 as Cantidad, usuario.id from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
+SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, 1 as Cantidad, usuario.id,'S' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
 WHERE Oferta_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
 
-INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario)
-SELECT Publicacion_Cod, Compra_Fecha, 0 as Monto, Compra_Cantidad as Cantidad, usuario.id from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
+SELECT Publicacion_Cod, Compra_Fecha, 0 as Monto, Compra_Cantidad as Cantidad, usuario.id,'C' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
 WHERE Compra_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
 
@@ -115,5 +115,20 @@ ORDER BY Factura_Nro
 insert into DIRTYDEEDS.Estado(Descripcion) values ('Borrador')
 insert into DIRTYDEEDS.Estado(Descripcion) values ('Pausada')
 insert into DIRTYDEEDS.Estado(Descripcion) values ('Finalizada')
+
+
+INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Empresa') 
+INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Administrativo') 
+INSERT INTO DIRTYDEEDS.Rol(Nombre) VALUES('Cliente') 
+
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,2)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,3)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,4)
+
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(2,5)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,1)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,2)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,3)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,4)
 
 --Roles (TODO).
