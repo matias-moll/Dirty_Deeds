@@ -216,9 +216,8 @@ namespace FrbaCommerce
                         List<OfertaCompra> ofertasDeEstaPublicacion = prototipoOferta.getListByPrototype();
                         if (ofertasDeEstaPublicacion.Count < 1)
                             return publicacionAGrabar;
-                        // Ordenamos por fecha y nos quedamos con la ultima.
-                        ofertasDeEstaPublicacion.OrderBy(unaOferta => unaOferta.campoFecha);
-                        OfertaCompra ofertaAMarcarGanadora = ofertasDeEstaPublicacion[0];
+                        // Nos quedamos con la ultima oferta.
+                        OfertaCompra ofertaAMarcarGanadora = ofertasDeEstaPublicacion[ofertasDeEstaPublicacion.Count-1];
                         // La marcamos como ganadora y la actualizamos(todas las demas dicen 0 en cantidad.
                         ofertaAMarcarGanadora.campoCantidad = 1;
                         ofertaAMarcarGanadora.update();

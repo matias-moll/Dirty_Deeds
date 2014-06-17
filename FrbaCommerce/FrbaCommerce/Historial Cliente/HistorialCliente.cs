@@ -41,8 +41,20 @@ namespace FrbaCommerce
 
         private void gbOfertas_Click(object sender, EventArgs e)
         {
-            // TODO: obtener ofertas.
-            dgvHistorial.DataSource = null;
+            try
+            {
+                // Armamos el prototipo de lo que es una oferta ganadora de subasta y pedimos todas las que cumplan el prototipo.
+                OfertaCompra oferta = new OfertaCompra();
+                oferta.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
+                oferta.campoDiscriminante = "S";
+                oferta.campoCantidad = 1;
+                dgvHistorial.DataSource = oferta.upFullByPrototype();
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                return;
+            }
 
             estadoGrillaOperacional();
         }
@@ -51,9 +63,7 @@ namespace FrbaCommerce
         {
             try
             {
-
                 dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.campoIdReferencia);
-
             }
             catch (Exception excep)
             {

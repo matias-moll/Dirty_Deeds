@@ -87,7 +87,7 @@ namespace FrbaCommerce
 
             Usuario usuarioVendedor = Usuario.get(compra.campoIdUsuario);
 
-            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse.");
+            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse. Deberá volver a ejecutar la busqueda para ver los nuevos datos.");
             string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
             ABMs.AltaGenerico vendedor;
             // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
@@ -98,6 +98,9 @@ namespace FrbaCommerce
 
             vendedor.ShowDialog(this);
 
+            dgvPublicaciones.DataSource = null;
+            numeroPagina = 1;
+            cantidadPaginas = 1;
         }
 
         private void gbPreguntar_Click(object sender, EventArgs e)
@@ -141,7 +144,7 @@ namespace FrbaCommerce
             compra.campoDiscriminante = "S";
             compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
             compra.campoMonto = ofertar.ofertaRealizada;
-            compra.campoCantidad = 1;
+            compra.campoCantidad = 0;
             compra.save();
 
             // Actualizamos a la ultima oferta en la subasta.
@@ -149,7 +152,11 @@ namespace FrbaCommerce
             publicacionOfertada.campoPrecio = compra.campoMonto;
             publicacionOfertada.update();
 
-            MessageBox.Show("Su oferta fue realizada exitosamente! Suerte con la subasta!. Si actualiza la página verá su oferta reflejada.");
+            MessageBox.Show("Su oferta fue realizada exitosamente! Suerte con la subasta!. Deberá volver a ejecutar la busqueda para ver los nuevos datos.");
+
+            dgvPublicaciones.DataSource = null;
+            numeroPagina = 1;
+            cantidadPaginas = 1;
         }
 
         // Eventos para modificacion en grilla paginada
@@ -260,7 +267,6 @@ namespace FrbaCommerce
             }
             return true;
         }
-
 
         private void cargarPublicaciones()
         {

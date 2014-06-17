@@ -11,7 +11,7 @@ namespace Dominio
     {
         private DataAccessObject<OfertaCompra> daoOfertaCompra;
 
-        public int autoid { get; set; }
+        public int autoId { get; set; }
         public int campoIdUsuario { get; set; }
         public int campoCodPublicacion { get; set; }
         public DateTime campoFecha { get; set; }
