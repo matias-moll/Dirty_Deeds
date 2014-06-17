@@ -93,7 +93,7 @@ AND CAST(Cli_Dni as varchar(20))= calificador.Usuario
 AND (Publ_Empresa_Cuit = calificado.Usuario OR CAST(Publ_Cli_Dni as varchar(20)) = calificado.Usuario)
 
 INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
-SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, 1 as Cantidad, usuario.id,'S' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, 0 as Cantidad, usuario.id,'S' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
 WHERE Oferta_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
 

@@ -202,7 +202,34 @@ namespace FrbaCommerce
             actualizarCamposComunesAAmbosModos(publicacionAGrabar);
 
             if (Estado.esEstadoFinalizada(publicacionEnEdicion.estado))
+            {
                 publicacionAGrabar.campoFechaVto = DateTime.Now;
+                // Si es una subasta, hay que actualizar la oferta para marcar que fue ganadora.
+                if (publicacionEnEdicion.objeto.campoTipo == "S")
+                {
+                    try
+                    {
+                        // Obtenemos todas las ofertas que tuvo esta subasta.
+                        OfertaCompra prototipoOferta = new OfertaCompra();
+                        prototipoOferta.campoCodPublicacion = publicacionEnEdicion.objeto.campoCodigo;
+                        prototipoOferta.campoDiscriminante = "S";
+                        List<OfertaCompra> ofertasDeEstaPublicacion = prototipoOferta.getListByPrototype();
+                        if (ofertasDeEstaPublicacion.Count < 1)
+                            return publicacionAGrabar;
+                        // Ordenamos por fecha y nos quedamos con la ultima.
+                        ofertasDeEstaPublicacion.OrderBy(unaOferta => unaOferta.campoFecha);
+                        OfertaCompra ofertaAMarcarGanadora = ofertasDeEstaPublicacion[0];
+                        // La marcamos como ganadora y la actualizamos(todas las demas dicen 0 en cantidad.
+                        ofertaAMarcarGanadora.campoCantidad = 1;
+                        ofertaAMarcarGanadora.update();
+                    }
+                    catch (Exception excep)
+                    {
+                        return publicacionAGrabar;
+                    }
+
+                }
+            }
 
             return publicacionAGrabar;
         }
