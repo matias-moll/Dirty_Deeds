@@ -41,7 +41,8 @@ create table Calificacion
 	IdCalificador int foreign key references Usuario(Id),
 	IdCalificado int foreign key references Usuario(Id),
 	Descripcion nvarchar(255) not null,
-	CantidadEstrellas int not null
+	CantidadEstrellas int not null,
+	IdCompra int foreign key references OfertaCompra(Id)
 )
 
 create table Localidad

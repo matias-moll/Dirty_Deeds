@@ -85,22 +85,31 @@ AND estado.Descripcion = Publicacion_Estado
 INSERT INTO DIRTYDEEDS.Publicacion_Rubro(CodPublicacion,IdRubro)
 SELECT publicacion.Codigo, rubro.Id FROM DIRTYDEEDS.Rubro as rubro, DIRTYDEEDS.Publicacion as publicacion
 
+INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
+SELECT Publicacion_Cod, Compra_Fecha, 0 as Monto, Compra_Cantidad as Cantidad, usuario.id,'C' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
+WHERE Compra_Fecha IS NOT NULL
+AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
+and Calificacion_Codigo is not null
+order by Publicacion_Cod,Compra_Fecha, Cantidad
+
 INSERT INTO DIRTYDEEDS.Calificacion(CodigoPublicacion,Codigo,CantidadEstrellas,Descripcion,IdCalificador,IdCalificado)
-SELECT Publicacion_Cod,Calificacion_Codigo,Calificacion_Cant_Estrellas,Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado
-FROM gd_esquema.Maestra,DIRTYDEEDS.Usuario as calificador, DIRTYDEEDS.Usuario as calificado
-WHERE Calificacion_Codigo IS NOT NULL
+SELECT Publicacion_Cod,Calificacion_Codigo,Calificacion_Cant_Estrellas,
+	Calificacion_Descripcion,calificador.id as IdCalificador,calificado.id  as IdCalificado,
+	ROW_NUMBER() over (order by Publicacion_Cod,Compra_Fecha, gd_esquema.Maestra.Compra_Cantidad) as IdCompra
+from gd_esquema.Maestra, DIRTYDEEDS.Usuario as calificador, DIRTYDEEDS.Usuario as calificado
+WHERE Compra_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20))= calificador.Usuario
 AND (Publ_Empresa_Cuit = calificado.Usuario OR CAST(Publ_Cli_Dni as varchar(20)) = calificado.Usuario)
+and Calificacion_Codigo is not null
+order by gd_Esquema.Maestra.Publicacion_Cod,Compra_Fecha, Compra_Cantidad
 
-INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
-SELECT Publicacion_Cod, Oferta_Fecha, Oferta_Monto, 0 as Cantidad, usuario.id,'S' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
-WHERE Oferta_Fecha IS NOT NULL
-AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
 
 INSERT INTO DIRTYDEEDS.OfertaCompra(CodPublicacion,Fecha,Monto,Cantidad,IdUsuario,Discriminante)
 SELECT Publicacion_Cod, Compra_Fecha, 0 as Monto, Compra_Cantidad as Cantidad, usuario.id,'C' from gd_esquema.Maestra, DIRTYDEEDS.Usuario as usuario
 WHERE Compra_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
+and Calificacion_Codigo is null
+order by Publicacion_Cod,Compra_Fecha, Cantidad
 
 INSERT INTO DIRTYDEEDS.Item(NumItem,Monto,Cantidad,NumFactura,Descripcion)
 SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, Item_Factura_Cantidad, Factura_Nro,'' as Descripcion
