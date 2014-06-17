@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
+using Dominio;
 
 namespace FrbaCommerce
 {
@@ -17,6 +18,44 @@ namespace FrbaCommerce
             InitializeComponent();
             estadoBotonera();
         }
+
+        #region Operaciones
+
+
+        private void gbCalificar_Click(object sender, EventArgs e)
+        {
+            if (!validacionRegistroSeleccionado())
+                return;
+
+            Calificar calificar = new Calificar();
+            calificar.ShowDialog(this);
+
+            if (calificar.DialogResult == DialogResult.Cancel)
+                return;
+
+            Calificacion calificacionObtenida = new Calificacion();
+            // TODO: aca tengo que obtener los datos de la grilla para completar la calificacion.
+            calificacionObtenida.campoCantidadEstrellas = calificar.estrellasObtenidas;
+            calificacionObtenida.campoDescripcion = calificar.comentarioObtenido;
+            calificacionObtenida.save();
+
+            MessageBox.Show("Su calificación fue guardada exitosamente!");
+
+            // Actualizamos la grilla.
+            gbCargarCompras_Click(this, null);
+        }
+
+        private void gbCargarCompras_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbAceptar_Click(object sender, EventArgs e)
+        {
+            estadoBotonera();
+        }
+
+        #endregion
 
         #region Metodos Privados (soporte)
 
@@ -44,5 +83,6 @@ namespace FrbaCommerce
         }
 
         #endregion
+
     }
 }
