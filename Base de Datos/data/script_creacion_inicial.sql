@@ -189,6 +189,7 @@ SELECT DISTINCT usuarios.Id,empresas.Cuit FROM DIRTYDEEDS.Empresa as empresas, D
 WHERE usuarios.IdReferencia = empresas.Id
 AND usuarios.Id = publicaciones.IdUsuario
 AND usuarios.Discriminante = 'E'
+GO
 
 -- Vendedores con calificacion Promedio
 CREATE VIEW DIRTYDEEDS.Calificacion_Vendedores(IdUsuario,Vendedor,CalificacionPromedio)
@@ -196,7 +197,7 @@ AS
 SELECT IdCalificado, vendedores.vendedor, SUM(CantidadEstrellas) / COUNT(IdCalificado) as promedio FROM DIRTYDEEDS.Calificacion, DIRTYDEEDS.Vendedores as vendedores
 WHERE IdCalificado = vendedores.IdUsuario
 GROUP BY IdCalificado, vendedores.vendedor
-
+GO
 
 
 -- Funciones

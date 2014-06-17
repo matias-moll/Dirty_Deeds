@@ -16,6 +16,7 @@ SELECT DISTINCT Publicacion_Estado from gd_esquema.Maestra
 INSERT INTO DIRTYDEEDS.Visibilidad(Codigo,Descripcion,Porcentaje,Precio)
 SELECT DISTINCT Publicacion_Visibilidad_Cod,Publicacion_Visibilidad_Desc,Publicacion_Visibilidad_Porcentaje,Publicacion_Visibilidad_Precio
 FROM gd_esquema.Maestra
+ORDER BY Publicacion_Visibilidad_Precio DESC
 
 INSERT INTO DIRTYDEEDS.Direccion(Domicilio,NumeroCalle,Piso,Depto,CodPostal,IdLocalidad, Deleted)
 SELECT DISTINCT Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal, Id, 0 FROM gd_esquema.Maestra, DIRTYDEEDS.Localidad
@@ -111,8 +112,8 @@ ORDER BY Factura_Nro
 -- Agregado de Configuracion del Sistema
 
 --Estados
-insert into DIRTYDEEDS.Estado values ('Borrador')
-insert into DIRTYDEEDS.Estado values ('Pausada')
-insert into DIRTYDEEDS.Estado values ('Finalizada')
+insert into DIRTYDEEDS.Estado(Descripcion) values ('Borrador')
+insert into DIRTYDEEDS.Estado(Descripcion) values ('Pausada')
+insert into DIRTYDEEDS.Estado(Descripcion) values ('Finalizada')
 
 --Roles (TODO).
