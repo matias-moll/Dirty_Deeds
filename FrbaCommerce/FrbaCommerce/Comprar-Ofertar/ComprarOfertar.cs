@@ -44,7 +44,7 @@ namespace FrbaCommerce
 
             numeroPagina = 1;
             whereDescripcion = whereRubros = "";
-            cantidadRegistrosPorPagina = 20;
+            cantidadRegistrosPorPagina = 10;
         }
 
         private void ComprarOfertar_Load(object sender, EventArgs e)
@@ -132,7 +132,7 @@ namespace FrbaCommerce
 
         private int getFilaFin()
         {
-            return numeroPagina * 20;
+            return numeroPagina * cantidadRegistrosPorPagina;
         }
 
         private int getFilaInicio()
