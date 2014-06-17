@@ -13,6 +13,7 @@ namespace ABMs
     {
         ABMEspecifico resolver;
         private int idClaveObjeto;
+        bool controlesSoloLectura = false;
 
         public AltaGenerico(ABMEspecifico p_resolver, int idClaveObjetoModificacion)
         {
@@ -21,13 +22,22 @@ namespace ABMs
             idClaveObjeto = idClaveObjetoModificacion;
         }
 
+        public AltaGenerico(ABMEspecifico p_resolver, int idClaveObjetoModificacion, bool soloLectura) : this(p_resolver, idClaveObjetoModificacion)
+        {
+            controlesSoloLectura = soloLectura;
+        }
+
         private void AltaGenerico_Load(object sender, EventArgs e)
         {
             this.Text = resolver.GetType().Name.ToString();
             gbDatos.Controls.Add(resolver.getPanelAlta());
             if (idClaveObjeto != 0)
                 resolver.cargarTusDatos(idClaveObjeto);
+
+            if (controlesSoloLectura)
+                gbDatos.Enabled = false;
         }
+
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {

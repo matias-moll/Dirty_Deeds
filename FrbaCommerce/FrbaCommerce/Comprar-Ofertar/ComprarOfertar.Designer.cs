@@ -132,7 +132,7 @@
             this.gbComprar.TabIndex = 12;
             this.gbComprar.Text = "Comprar";
             this.gbComprar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gbComprar.Click += new System.EventHandler(this.gbVerPublicacion_Click);
+            this.gbComprar.Click += new System.EventHandler(this.gbComprar_Click);
             // 
             // gbUltimaPagina
             // 

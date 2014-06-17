@@ -173,8 +173,8 @@ create table OfertaCompra
 	IdUsuario int foreign key references Usuario(Id),
 	CodPublicacion int foreign key references Publicacion(Codigo),
 	Fecha datetime not null,
-	Monto numeric(18, 2),
-	Cantidad int,
+	Monto numeric(18, 2) not null,
+	Cantidad int not null ,
 )
 
 -- VISTAS
@@ -233,3 +233,6 @@ end
 go
 
 
+-- Indices
+CREATE INDEX IdVisibilidad
+ON DIRTYDEEDS.Publicacion (IdVisibilidad)

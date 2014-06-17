@@ -184,35 +184,64 @@ namespace FrbaCommerce
             cargarPublicaciones();
         }
 
-        private void gbVerPublicacion_Click(object sender, EventArgs e)
+        private void gbComprar_Click(object sender, EventArgs e)
+        {
+            // Validamos
+            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
+                return;
+            if (dgvPublicaciones.SelectedRows[0].Cells["Tipo"].Value.ToString().Trim() == "Subasta")
+            {
+                MessageBox.Show("La opcion de compra es solo para publicaciones de tipo Compra Inmediata, y la publicacion elegida es de tipo Subasta.");
+                return;
+            }
+
+            OfertaCompra compra = new OfertaCompra();
+            compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
+            compra.campoFecha = DateTime.Now;
+            compra.foraneaIdUsuario = (int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value;
+            // TODO: ver tema de monto y cantidad en la migracion.
+            compra.campoMonto = (decimal)dgvPublicaciones.SelectedRows[0].Cells["Precio"].Value;
+            compra.campoCantidad = 1;
+            compra.save();
+            Usuario usuarioVendedor = Usuario.get(compra.foraneaIdUsuario);
+
+            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse.");
+            string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
+            ABMs.AltaGenerico vendedor;
+            // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
+            if (discriminante == "Empresa")
+                vendedor = new ABMs.AltaGenerico(new ABMs.Empresas(), usuarioVendedor.campoIdReferencia, true);
+            else
+                vendedor = new ABMs.AltaGenerico(new ABMs.Clientes(), usuarioVendedor.campoIdReferencia, true);
+
+            vendedor.ShowDialog(this);
+
+        }
+
+        private bool validacionNoElegirseAUnoMismo()
+        {
+            if (((int)dgvPublicaciones.SelectedRows[0].Cells["Id_Usuario"].Value) == DatosGlobales.usuarioLoggeado.autoId)
+            {
+                MessageBox.Show("No se pueden realizar acciones sobre publicaciones propias.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool validacionRegistroSeleccionado()
         {
             if (dgvPublicaciones.SelectedRows.Count != 1)
             {
                 MessageBox.Show("Debe seleccionar solo una entidad (clickeando en la fila correspondiente) para poder seleccionarla");
-                return;
+                return false;
             }
-            try
-            {
-                // Recuperamos la clave primaria que es el primer campo en todas las grillas. Y delegamos la baja.
-                int codigoPublicacionElegida = Convert.ToInt32(dgvPublicaciones.SelectedRows[0].Cells[0].Value);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-
-            }
-            catch (Exception excep)
-            {
-                MessageBox.Show(excep.Message);
-            }
+            return true;
         }
 
         private void gbPreguntar_Click(object sender, EventArgs e)
         {
-            if (dgvPublicaciones.SelectedRows.Count != 1)
-            {
-                MessageBox.Show("Debe seleccionar solo una publicación (clickeando en la fila correspondiente) para poder seleccionarla");
+            if ((!validacionRegistroSeleccionado()) || (!validacionNoElegirseAUnoMismo()))
                 return;
-            }
 
             bool aceptaPreguntas = ((string)dgvPublicaciones.SelectedRows[0].Cells["Acepta_Preguntas"].Value) == "Si";
 
