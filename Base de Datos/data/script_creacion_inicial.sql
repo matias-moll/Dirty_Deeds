@@ -384,6 +384,28 @@ where Item.NumFactura is null
 end
 go
 
+
+-- Listado Estadistico de vendedores con mayor facturacion
+create procedure DIRTYDEEDS.VendedoresConMayorFacturacion(@Anio int, @MesInicio int, @MesFin int)
+as
+begin
+	select top 5 
+	CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
+	Usuario.Id as Id_Usuario, Factura.Total from DIRTYDEEDS.Usuario
+	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
+	join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+	join DIRTYDEEDS.Factura on Factura.Numero = Item.NumFactura
+	where year(Factura.Fecha) = @Anio
+	and MONTH(Factura.Fecha) between @MesInicio and @MesFin
+	group by Usuario.Id, Factura.Total
+	order by Factura.Total desc
+end
+go
+
 -- Indices
 CREATE INDEX IdVisibilidad
 ON DIRTYDEEDS.Publicacion (IdVisibilidad)

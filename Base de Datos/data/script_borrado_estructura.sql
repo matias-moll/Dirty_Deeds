@@ -57,6 +57,13 @@ begin
 end
 go
 
+-- Si existe borramos el sp
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.VendedoresConMayorFacturacion'))
+begin
+   drop procedure DIRTYDEEDS.VendedoresConMayorFacturacion
+end
+go
+
 
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.OfertasGanadoras'))
 begin

@@ -27,6 +27,19 @@ namespace Dominio
         }
         #endregion
 
+
+
+
+        public static DataTable getVendedoresConMayorFacturacion(int anio, int mesInicio, int mesFin)
+        {
+            DataTable dtVendedores = StaticDataAccess.executeSPDeListadoEstadistico
+                                                ("DIRTYDEEDS.VendedoresConMayorFacturacion", anio, mesInicio, mesFin);
+            if (dtVendedores.Rows.Count < 1)
+                throw new Exception("No se encontró ningun vendedor con facturacion que cumpla los parametros especificados.");
+            else
+                return dtVendedores;
+        }
+
         //Metodos publicos
         public void save()
         {

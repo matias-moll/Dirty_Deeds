@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="DatosGlobales.cs" />
     <Compile Include="Calificar Vendedor\Estrella.cs" />
+    <Compile Include="Listado Estadistico\ElementoCombo.cs" />
     <Compile Include="Facturar Publicaciones\DatosParaFactura.cs">
       <SubType>Form</SubType>
     </Compile>
