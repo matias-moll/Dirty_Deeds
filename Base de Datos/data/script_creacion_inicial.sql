@@ -393,6 +393,17 @@ ORDER BY CantidadEstrellas DESC
 END
 GO
 
+CREATE PROCEDURE DIRTYDEEDS.ClientesSinCalificaciones
+AS
+BEGIN
+SELECT vendedores.IdUsuario,vendedores.Vendedor,publicacion.Codigo 
+FROM DIRTYDEEDS.Publicacion as publicacion,DIRTYDEEDS.Vendedores as vendedores,DIRTYDEEDS.Cliente as cliente
+WHERE publicacion.Codigo NOT IN (SELECT calificacion.Codigo FROM DIRTYDEEDS.Calificacion as calificacion)
+AND publicacion.IdUsuario = vendedores.IdUsuario
+AND vendedores.Vendedor = CAST(cliente.Documento as VARCHAR(20))
+END
+GO
+
 -- Indices
 CREATE INDEX IdVisibilidad
 ON DIRTYDEEDS.Publicacion (IdVisibilidad)
