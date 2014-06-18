@@ -203,7 +203,7 @@ namespace FrbaCommerce
 
             if (Estado.esEstadoFinalizada(publicacionEnEdicion.estado))
             {
-                publicacionAGrabar.campoFechaVto = DateTime.Now;
+                publicacionAGrabar.campoFechaVto = Soporte.Now();
                 // Si es una subasta, hay que actualizar la oferta para marcar que fue ganadora.
                 if (publicacionEnEdicion.objeto.campoTipo == "S")
                 {
@@ -243,7 +243,7 @@ namespace FrbaCommerce
             Visibilidad visibilidadElegida = (Visibilidad)cbVisibilidades.SelectedItem;
 
             publicacionAGrabar.campoStockOriginal = publicacionAGrabar.campoStockActual;
-            publicacionAGrabar.campoFecha = DateTime.Now;
+            publicacionAGrabar.campoFecha = Soporte.Now();
             publicacionAGrabar.campoFechaVto = publicacionAGrabar.campoFecha.AddDays(visibilidadElegida.campoDiasActiva);
 
             return publicacionAGrabar;

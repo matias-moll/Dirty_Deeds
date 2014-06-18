@@ -56,7 +56,7 @@ namespace FrbaCommerce
             }
 
             // Creamos la factura con todos los datos menos el monto total que sale de la suma de los items.
-            Factura facturaARendir = new Factura(DateTime.Now, getDatos.idFormaDePago);
+            Factura facturaARendir = new Factura(Soporte.Now(), getDatos.idFormaDePago);
             facturaARendir.campoNumero = Factura.getCodigoSiguienteFactura();
             // Grabamos la factura para que no conflictue la validacion de foreign key de los items.
             facturaARendir.save();

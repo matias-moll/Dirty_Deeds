@@ -14,7 +14,7 @@ namespace Dal
 
         static DBConn()
         {
-            stringDeConexion = "Server=localhost\\SQLSERVER2008;Database=GD1C2014;User Id=gd;Password=gd2014";
+            stringDeConexion = AccesoArchivoConfig.stringConexionBD;
         }
 
         public static SqlConnection getDBConn()

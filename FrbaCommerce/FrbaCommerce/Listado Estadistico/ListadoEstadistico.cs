@@ -60,7 +60,7 @@ namespace FrbaCommerce
 
         private void gbEstadistica_Click(object sender, EventArgs e)
         {
-            if ((neAnio.Numero < 2000) || (neAnio.Numero > DateTime.Now.Year))
+            if ((neAnio.Numero < 2000) || (neAnio.Numero > Soporte.Now().Year))
             {
                 MessageBox.Show("No se pueden pedir consultas con año menor al 2000 o mayor al actual");
                 return;

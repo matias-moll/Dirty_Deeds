@@ -73,7 +73,7 @@ namespace FrbaCommerce
 
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
-            compra.campoFecha = DateTime.Now;
+            compra.campoFecha = Soporte.Now();
             compra.campoDiscriminante = "C";
             compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
             compra.campoMonto = 0;
@@ -142,7 +142,7 @@ namespace FrbaCommerce
 
             OfertaCompra compra = new OfertaCompra();
             compra.campoCodPublicacion = (int)dgvPublicaciones.SelectedRows[0].Cells["Codigo"].Value;
-            compra.campoFecha = DateTime.Now;
+            compra.campoFecha = Soporte.Now();
             compra.campoDiscriminante = "S";
             compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
             compra.campoMonto = ofertar.ofertaRealizada;
