@@ -151,6 +151,7 @@
             this.gbAceptar.TabIndex = 12;
             this.gbAceptar.Text = "Aceptar";
             this.gbAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.gbAceptar.Click += new System.EventHandler(this.gbAceptar_Click);
             // 
             // cbTrimestres
             // 

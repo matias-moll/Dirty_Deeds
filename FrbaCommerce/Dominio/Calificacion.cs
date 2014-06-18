@@ -35,6 +35,17 @@ namespace Dominio
                 return dtCalificaciones;
         }
 
+
+        public static DataTable getVendedoresConMayoresCalificaciones(int anio, int mesInicio, int mesFin)
+        {
+            DataTable dtVendedores = StaticDataAccess.executeSPDeListadoEstadistico(
+                                                    "DIRTYDEEDS.VendedoresCalificaciones", anio, mesInicio, mesFin);
+            if (dtVendedores.Rows.Count < 1)
+                throw new Exception("No se encontraron vendedores con calificaciones para los parametros especficados");
+            else
+                return dtVendedores;
+        }
+
         public static DataTable getComprasYOfertasConCalificacionPendiente(int idUsuario)
         {
             DataTable dtCalificacionesPendientes = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente", idUsuario);

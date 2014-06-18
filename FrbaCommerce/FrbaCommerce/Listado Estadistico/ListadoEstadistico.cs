@@ -79,10 +79,11 @@ namespace FrbaCommerce
                     case 1: break;
 
                     // Vendedores Mayor Facturación
-                    case 2: dgvEstadistica.DataSource = Factura.getVendedoresConMayorFacturacion(anio, mesInicio, mesFin);break;
+                    case 2: dgvEstadistica.DataSource = Factura.getVendedoresConMayorFacturacion(anio, mesInicio, mesFin); break;
 
                     // Vendedores Mayores Calificaciones
-                    case 3: break;
+                    case 3: dgvEstadistica.DataSource = Calificacion.getVendedoresConMayoresCalificaciones(anio, mesInicio, mesFin); break;
+                    
                     // Clientes Mayor Cantidad Sin Calif.
                     case 4: break;
                 }
@@ -94,6 +95,11 @@ namespace FrbaCommerce
             }
             estadoGrillaEstadistica();
 
+        }
+
+        private void gbAceptar_Click(object sender, EventArgs e)
+        {
+            estadoParametros();
         }
     }
 }
