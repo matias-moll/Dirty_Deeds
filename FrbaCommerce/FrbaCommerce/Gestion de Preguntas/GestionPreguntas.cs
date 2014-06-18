@@ -63,7 +63,6 @@ namespace FrbaCommerce
 
         private void gbVerRespuestas_Click(object sender, EventArgs e)
         {
-            estadoGrillaOperacional(false);
             try
             {
                 dgvPreguntas.DataSource = Publicacion_Pregunta.getRespuestas(DatosGlobales.usuarioLoggeado.autoId);
@@ -73,6 +72,7 @@ namespace FrbaCommerce
                 MessageBox.Show(excep.Message);
                 return;
             }
+            estadoGrillaOperacional(false);
         }
 
         private void gbAceptar_Click(object sender, EventArgs e)

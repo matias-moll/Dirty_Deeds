@@ -126,7 +126,10 @@
             this.ClientSize = new System.Drawing.Size(262, 227);
             this.Controls.Add(this.xPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DatosParaFactura";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Datos Para Facturar";
             this.xPanel1.ResumeLayout(false);
             this.xPanel1.PerformLayout();

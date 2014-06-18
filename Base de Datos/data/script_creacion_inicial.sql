@@ -111,6 +111,7 @@ create table Item
 	Descripcion varchar(255) not null,
 	Monto numeric(18, 2) not null,
 	Cantidad int not null,
+	CodigoPublicacion int not null,
 	primary key (NumFactura,NumItem)
 )
 
@@ -136,12 +137,14 @@ create table Publicacion
 (
 	Codigo int primary key,
 	Presentacion nvarchar(255) not null,
-	Stock int not null,
+	StockOriginal int not null,
+	StockActual int not null,
 	Fecha datetime not null,
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	AceptaPreguntas bit not null DEFAULT 1,
+	Vendida char(1) not null Default 'N',
 	IdEstado int foreign key references Estado(Id),
 	IdVisibilidad int foreign key references Visibilidad(Id),
 	IdUsuario int foreign key references Usuario(Id) not null
@@ -178,6 +181,9 @@ create table OfertaCompra
 	Cantidad int not null ,
 	Discriminante char(1) not null 
 )
+
+
+
 
 -- VISTAS
 CREATE VIEW DIRTYDEEDS.Vendedores(IdUsuario,Vendedor)
@@ -223,13 +229,23 @@ begin
 end
 go
 
+create function DIRTYDEEDS.GetSiguienteCodigoCalificacion()
+returns int
+as
+begin
+	declare @ret int
+	select @ret = MAX(DIRTYDEEDS.Calificacion.Codigo) from DIRTYDEEDS.Calificacion
+	return @ret + 1
+end
+go
+
 -- Stored Procedures
 -- Preguntas a ser respndidas dado un usuario
 create procedure DIRTYDEEDS.Preguntas(@IdUsuarioLoggeado int)
 as
 begin  
 	select CodPublicacion as Codigo_Publicacion, NumPregunta as Numero_Pregunta, Pregunta, 
-			Respuesta, Presentacion as Descripcion_Publicacion, Stock, Fecha, Precio 
+			Respuesta, Presentacion as Descripcion_Publicacion, StockActual, Fecha, Precio 
 	from DIRTYDEEDS.Publicacion_Pregunta 
 		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Publicacion_Pregunta.CodPublicacion
 		join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario
@@ -337,6 +353,36 @@ begin
 end
 go
 
+
+-- Items a pagar aun no rendidos. (facturacion)
+create procedure DIRTYDEEDS.ItemsAunNoRendidos(@IdUsuarioLoggeado int)
+as
+begin
+-- Items a pagar por Publicar para todas las publicaciones que no hayan sido rendidas (no esta su item asociado).
+select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, Visibilidad.Precio as Costo, 
+		'Publicación' as Tipo, 1 as Cantidad, Publicacion.Fecha 
+from DIRTYDEEDS.Publicacion 
+left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
+where Item.NumFactura is null
+	and Publicacion.IdEstado = 4
+	and Publicacion.IdUsuario = @IdUsuarioLoggeado
+	
+union
+
+-- Lo unimos con las publicaciones vendidas (join con la tabla temporal precalculada) que no hayan sido rendidas.
+select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, 
+		(Visibilidad.Porcentaje * Publicacion.Precio) as Costo,'Comision Venta' as Tipo, 1 as Cantidad, Publicacion.Fecha 
+from DIRTYDEEDS.Publicacion 
+left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
+where Item.NumFactura is null
+	and Publicacion.IdEstado = 4
+	and Publicacion.Vendida = 'S'
+	and Publicacion.IdUsuario = @IdUsuarioLoggeado
+	
+end
+go
 
 -- Indices
 CREATE INDEX IdVisibilidad

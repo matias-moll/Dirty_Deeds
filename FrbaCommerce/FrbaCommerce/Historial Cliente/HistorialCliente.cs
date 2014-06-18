@@ -47,8 +47,13 @@ namespace FrbaCommerce
                 OfertaCompra oferta = new OfertaCompra();
                 oferta.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
                 oferta.campoDiscriminante = "S";
+                oferta.campoCantidad = 0;
+                DataTable ofertas = oferta.upFullByPrototype();
                 oferta.campoCantidad = 1;
-                dgvHistorial.DataSource = oferta.upFullByPrototype();
+                DataTable ofertasGanadoras = oferta.upFullByPrototype();
+                foreach(DataRow drOferta in ofertasGanadoras.Rows)
+                    ofertas.Rows.Add(drOferta);
+                dgvHistorial.DataSource = ofertas;
             }
             catch (Exception excep)
             {

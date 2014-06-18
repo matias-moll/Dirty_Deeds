@@ -50,32 +50,32 @@ SELECT DISTINCT Publ_Empresa_Cuit,'E',Id from gd_esquema.Maestra, DIRTYDEEDS.Emp
 WHERE Publ_Empresa_Cuit IS NOT NULL
 AND Publ_Empresa_Cuit = Cuit
 
-INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,Stock,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
-SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'C', estado.Id, visibilidad.Id, usuario.Id
+INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,StockOriginal,StockActual,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
+SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'C', estado.Id, visibilidad.Id, usuario.Id
 FROM gd_esquema.Maestra, DIRTYDEEDS.Visibilidad as visibilidad, DIRTYDEEDS.Usuario as usuario, DIRTYDEEDS.Estado as estado
 WHERE Publicacion_Tipo = 'Compra Inmediata'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND CAST(Publ_Cli_Dni as varchar(20)) = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
 
-INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,Stock,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
-SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'S', estado.Id, visibilidad.Id, usuario.Id
+INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,StockOriginal,StockActual,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
+SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'S', estado.Id, visibilidad.Id, usuario.Id
 FROM gd_esquema.Maestra, DIRTYDEEDS.Visibilidad as visibilidad, DIRTYDEEDS.Usuario as usuario, DIRTYDEEDS.Estado as estado
 WHERE Publicacion_Tipo = 'Subasta'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND CAST(Publ_Cli_Dni as varchar(20)) = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
 
-INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,Stock,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
-SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'C', estado.Id, visibilidad.Id, usuario.Id
+INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,StockOriginal,StockActual,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
+SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'C', estado.Id, visibilidad.Id, usuario.Id
 FROM gd_esquema.Maestra, DIRTYDEEDS.Visibilidad as visibilidad, DIRTYDEEDS.Usuario as usuario, DIRTYDEEDS.Estado as estado
 WHERE Publicacion_Tipo = 'Compra Inmediata'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
 AND Publ_Empresa_Cuit = usuario.Usuario
 AND estado.Descripcion = Publicacion_Estado
 
-INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,Stock,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
-SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'S', estado.Id, visibilidad.Id, usuario.Id
+INSERT INTO DIRTYDEEDS.Publicacion(Codigo,Presentacion,StockOriginal,StockActual,Fecha,FechaVto,Precio,Tipo,IdEstado,IdVisibilidad,IdUsuario)
+SELECT DISTINCT Publicacion_Cod, Publicacion_Descripcion,Publicacion_Stock, Publicacion_Stock,Publicacion_Fecha, Publicacion_Fecha_Venc,Publicacion_Precio,'S', estado.Id, visibilidad.Id, usuario.Id
 FROM gd_esquema.Maestra, DIRTYDEEDS.Visibilidad as visibilidad, DIRTYDEEDS.Usuario as usuario, DIRTYDEEDS.Estado as estado
 WHERE Publicacion_Tipo = 'Subasta'
 AND Publicacion_Visibilidad_Cod = visibilidad.Codigo
@@ -120,8 +120,8 @@ WHERE Oferta_Fecha IS NOT NULL
 AND CAST(Cli_Dni as varchar(20)) = usuario.Usuario
 order by Publicacion_Cod,Compra_Fecha
 
-INSERT INTO DIRTYDEEDS.Item(NumItem,Monto,Cantidad,NumFactura,Descripcion)
-SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, Item_Factura_Cantidad, Factura_Nro,'' as Descripcion
+INSERT INTO DIRTYDEEDS.Item(NumItem,Monto,Cantidad,NumFactura,Descripcion, CodigoPublicacion)
+SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, Item_Factura_Cantidad, Factura_Nro,'' as Descripcion, Publicacion_Cod
 FROM gd_esquema.Maestra
 WHERE Item_Factura_Monto IS NOT NULL
 ORDER BY Factura_Nro

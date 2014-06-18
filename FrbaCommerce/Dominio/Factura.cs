@@ -53,7 +53,7 @@ namespace Dominio
 
         public void update()
         {
-            daoFactura.update(this);
+            daoFactura.update(this, "campoNumero", "");
         }
 
         public DataTable upFullByPrototype()

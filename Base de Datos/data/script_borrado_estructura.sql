@@ -50,6 +50,14 @@ begin
 end
 go
 
+-- Si existe borramos el sp
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ItemsAunNoRendidos'))
+begin
+   drop procedure DIRTYDEEDS.ItemsAunNoRendidos
+end
+go
+
+
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.OfertasGanadoras'))
 begin
    drop procedure DIRTYDEEDS.OfertasGanadoras

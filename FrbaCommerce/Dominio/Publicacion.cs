@@ -15,12 +15,14 @@ namespace Dominio
         // Properties con la convencion del DataAccessObject
         public int campoCodigo { get; set; }
         public string campoPresentacion { get; set; }
-        public int campoStock { get; set; }
+        public int campoStockOriginal{ get; set; }
+        public int campoStockActual { get; set; }
         public DateTime campoFecha { get; set; }
         public DateTime campoFechaVto { get; set; }
         public decimal campoPrecio { get; set; }
         public string campoTipo { get; set; }
         public bool campoAceptaPreguntas { get; set; }
+        public string campoVendida { get; set; }
 
         public int foraneaIdEstado { get; set; }
         public int foraneaIdVisibilidad { get; set; }
@@ -33,14 +35,14 @@ namespace Dominio
 
 
         #region Constructores
-        public Publicacion() { daoPublicacion = new DataAccessObject<Publicacion>(); }
+        public Publicacion() { daoPublicacion = new DataAccessObject<Publicacion>(); campoVendida = "N"; }
 
         public Publicacion(int codigo, string descripcion, int stock, DateTime fecha, DateTime fechaVto, decimal precio,
                            char tipo, bool aceptaPreguntas) : this()
         {
             campoCodigo = codigo;
             campoPresentacion = descripcion;
-            campoStock = stock;
+            campoStockActual = stock;
             campoFecha = fecha;
             campoFechaVto = fechaVto;
             campoPrecio = precio;

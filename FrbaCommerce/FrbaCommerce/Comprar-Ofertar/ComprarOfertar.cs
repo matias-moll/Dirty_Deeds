@@ -82,12 +82,18 @@ namespace FrbaCommerce
 
             // Actualizamos el stock de la publicacion vendida.
             Dominio.Publicacion publicacionVendida = Dominio.Publicacion.get(compra.campoCodPublicacion);
-            publicacionVendida.campoStock -= 1;
+            publicacionVendida.campoStockActual -= 1;
+            // Si no queda mas stock, la publicacion se vendio y esta finalizada.
+            if (publicacionVendida.campoStockActual == 0)
+            {
+                publicacionVendida.foraneaIdEstado = 4;
+                publicacionVendida.campoVendida = "S";
+            }
             publicacionVendida.update();
 
             Usuario usuarioVendedor = Usuario.get(compra.campoIdUsuario);
 
-            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse. Deberá volver a ejecutar la busqueda para ver los nuevos datos.");
+            MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse. Deberá volver a ejecutar la busqueda para poder ver los datos actualizados.");
             string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
             ABMs.AltaGenerico vendedor;
             // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
@@ -97,10 +103,6 @@ namespace FrbaCommerce
                 vendedor = new ABMs.AltaGenerico(new ABMs.Clientes(), usuarioVendedor.campoIdReferencia, true);
 
             vendedor.ShowDialog(this);
-
-            dgvPublicaciones.DataSource = null;
-            numeroPagina = 1;
-            cantidadPaginas = 1;
         }
 
         private void gbPreguntar_Click(object sender, EventArgs e)
@@ -152,11 +154,7 @@ namespace FrbaCommerce
             publicacionOfertada.campoPrecio = compra.campoMonto;
             publicacionOfertada.update();
 
-            MessageBox.Show("Su oferta fue realizada exitosamente! Suerte con la subasta!. Deberá volver a ejecutar la busqueda para ver los nuevos datos.");
-
-            dgvPublicaciones.DataSource = null;
-            numeroPagina = 1;
-            cantidadPaginas = 1;
+            MessageBox.Show("Su oferta fue realizada exitosamente! Suerte con la subasta!. Deberá volver a ejecutar la busqueda para poder ver los datos actualizados");
         }
 
         // Eventos para modificacion en grilla paginada

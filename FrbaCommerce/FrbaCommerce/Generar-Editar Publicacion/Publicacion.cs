@@ -221,6 +221,8 @@ namespace FrbaCommerce
                         // La marcamos como ganadora y la actualizamos(todas las demas dicen 0 en cantidad.
                         ofertaAMarcarGanadora.campoCantidad = 1;
                         ofertaAMarcarGanadora.update();
+                        // Si se cerro una subasta que tenia alguna oferta, la publicacion se vendio.
+                        publicacionAGrabar.campoVendida = "S";
                     }
                     catch (Exception excep)
                     {
@@ -240,6 +242,7 @@ namespace FrbaCommerce
 
             Visibilidad visibilidadElegida = (Visibilidad)cbVisibilidades.SelectedItem;
 
+            publicacionAGrabar.campoStockOriginal = publicacionAGrabar.campoStockActual;
             publicacionAGrabar.campoFecha = DateTime.Now;
             publicacionAGrabar.campoFechaVto = publicacionAGrabar.campoFecha.AddDays(visibilidadElegida.campoDiasActiva);
 
@@ -249,7 +252,7 @@ namespace FrbaCommerce
         private void actualizarCamposComunesAAmbosModos(Dominio.Publicacion publicacionAGrabar)
         {
             publicacionAGrabar.campoTipo = cbTipos.SelectedValue.ToString();
-            publicacionAGrabar.campoStock = neStock.Numero;
+            publicacionAGrabar.campoStockActual = neStock.Numero;
             publicacionAGrabar.campoPrecio = dcePrecio.Decimal;
             publicacionAGrabar.campoPresentacion = teDescripcion.Text;
             publicacionAGrabar.campoAceptaPreguntas = rbAceptaPreguntas.Checked;
@@ -261,7 +264,7 @@ namespace FrbaCommerce
 
         private void cargarAPantalla(Dominio.Publicacion publicacionAEditar)
         {
-            neStock.Numero = publicacionAEditar.campoStock;
+            neStock.Numero = publicacionAEditar.campoStockActual;
             dcePrecio.Decimal = publicacionAEditar.campoPrecio;
             rbAceptaPreguntas.Checked = publicacionAEditar.campoAceptaPreguntas;
             cbTipos.SelectedValue = Convert.ToChar(publicacionAEditar.campoTipo);

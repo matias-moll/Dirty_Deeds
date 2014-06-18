@@ -22,7 +22,16 @@ namespace FrbaCommerce
 
         private void gbCargarPublicacionesARendir_Click(object sender, EventArgs e)
         {
-            dgvVentas.DataSource = null;
+            try
+            {
+                dgvVentas.DataSource = Item.getItemsAunNoRendidos(DatosGlobales.usuarioLoggeado.autoId);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                estadoBotonera();
+                return;
+            }
             estadoGrillaOperacional();
         }
 
@@ -34,19 +43,34 @@ namespace FrbaCommerce
             if (getDatos.DialogResult == DialogResult.Cancel)
                 return;
 
+            if (getDatos.cantidadPublicaciones < 1)
+            {
+                MessageBox.Show("No se puede rendir menos de un item");
+                return;
+            }
+
+            if (getDatos.cantidadPublicaciones > dgvVentas.Rows.Count)
+            {
+                MessageBox.Show("No se puede rendir mas items de la cantidad que se muestra en la grilla");
+                return;
+            }
+
             // Creamos la factura con todos los datos menos el monto total que sale de la suma de los items.
             Factura facturaARendir = new Factura(DateTime.Now, getDatos.idFormaDePago);
             facturaARendir.campoNumero = Factura.getCodigoSiguienteFactura();
+            // Grabamos la factura para que no conflictue la validacion de foreign key de los items.
+            facturaARendir.save();
             int cantidadPublicacionesARendir = getDatos.cantidadPublicaciones;
             decimal montoTotal = 0;
 
             Item itemFactura = new Item();
             itemFactura.campoNumFactura = facturaARendir.campoNumero;
-            for (int indicePublicacion = 1; indicePublicacion < cantidadPublicacionesARendir; indicePublicacion++)
+            for (int indicePublicacion = 1; indicePublicacion <= cantidadPublicacionesARendir; indicePublicacion++)
             {
                 // Llenamos los datos de cada publicacion a rendir en un item de la factura y lo mandamos a grabar.
                 itemFactura.campoNumItem = indicePublicacion;
-                itemFactura.campoMonto = (decimal)dgvVentas.Rows[indicePublicacion - 1].Cells["Monto"].Value;
+                itemFactura.campoCodigoPublicacion = (int)dgvVentas.Rows[indicePublicacion - 1].Cells["Codigo"].Value;
+                itemFactura.campoMonto = (decimal)dgvVentas.Rows[indicePublicacion - 1].Cells["Costo"].Value;
                 itemFactura.campoDescripcion = dgvVentas.Rows[indicePublicacion - 1].Cells["Presentacion"].Value.ToString();
                 itemFactura.campoCantidad = (int)dgvVentas.Rows[indicePublicacion - 1].Cells["Cantidad"].Value;
                 montoTotal += itemFactura.campoMonto;
@@ -54,7 +78,7 @@ namespace FrbaCommerce
             }
             // Completamos la factura y la mandamos a grabar.
             facturaARendir.campoTotal = montoTotal;
-            facturaARendir.save();
+            facturaARendir.update();
 
             // Avisamos al usuario y recargamos la grilla.
             MessageBox.Show("Su factura con las publicaciones elegidas fue rendida exitosamente!");

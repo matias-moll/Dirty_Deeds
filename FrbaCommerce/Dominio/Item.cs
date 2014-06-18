@@ -16,12 +16,14 @@ namespace Dominio
         public string campoDescripcion { get; set; }
         public decimal campoMonto { get; set; }
         public int campoCantidad { get; set; }
+        public int campoCodigoPublicacion { get; set; }
 
         #region Constructores
 
         public Item() { daoItem = new DataAccessObject<Item>(); }
 
-        public Item(int numFactura, int numItem, string descripcion, decimal monto, int cantidad) : this()
+        public Item(int numFactura, int numItem, string descripcion, decimal monto, int cantidad)
+            : this()
         {
             campoNumFactura = numFactura;
             campoNumItem = numItem;
@@ -30,6 +32,17 @@ namespace Dominio
             campoCantidad = cantidad;
         }
         #endregion
+
+
+
+        public static DataTable getItemsAunNoRendidos(int idUsuario)
+        {
+            DataTable dtItems = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.ItemsAunNoRendidos", idUsuario);
+            if (dtItems.Rows.Count < 1)
+                throw new Exception("No cuenta con ninguna publicación aun no rendida");
+            else
+                return dtItems.Select(null, "Fecha").CopyToDataTable();
+        }
 
         //Metodos publicos
         public void save()

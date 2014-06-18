@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AltaUsuario));
             this.xPanel1 = new TNGS.NetControls.XPanel();
+            this.cbRoles = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.gbAceptar = new TNGS.NetControls.GlassButton();
             this.gbCancelar = new TNGS.NetControls.GlassButton();
             this.teContrasenia = new TNGS.NetControls.TextEdit();
             this.teUsuario = new TNGS.NetControls.TextEdit();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cbRoles = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.xPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,13 +60,33 @@
             this.xPanel1.SkinFixed = true;
             this.xPanel1.TabIndex = 1;
             // 
+            // cbRoles
+            // 
+            this.cbRoles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRoles.FormattingEnabled = true;
+            this.cbRoles.Location = new System.Drawing.Point(118, 95);
+            this.cbRoles.Name = "cbRoles";
+            this.cbRoles.Size = new System.Drawing.Size(191, 21);
+            this.cbRoles.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(77, 95);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 18);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Rol:";
+            // 
             // gbAceptar
             // 
             this.gbAceptar.FixedImage = TNGS.NetControls.FixedGlassButtons.Accept;
             this.gbAceptar.Location = new System.Drawing.Point(194, 150);
             this.gbAceptar.Name = "gbAceptar";
             this.gbAceptar.Size = new System.Drawing.Size(99, 26);
-            this.gbAceptar.TabIndex = 5;
+            this.gbAceptar.TabIndex = 4;
             this.gbAceptar.Text = "Aceptar";
             this.gbAceptar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gbAceptar.Click += new System.EventHandler(this.gbAceptar_Click);
@@ -77,7 +97,7 @@
             this.gbCancelar.Location = new System.Drawing.Point(40, 150);
             this.gbCancelar.Name = "gbCancelar";
             this.gbCancelar.Size = new System.Drawing.Size(104, 26);
-            this.gbCancelar.TabIndex = 4;
+            this.gbCancelar.TabIndex = 3;
             this.gbCancelar.Text = "Cancelar";
             this.gbCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gbCancelar.Click += new System.EventHandler(this.gbCancelar_Click);
@@ -88,7 +108,7 @@
             this.teContrasenia.Location = new System.Drawing.Point(118, 57);
             this.teContrasenia.Name = "teContrasenia";
             this.teContrasenia.Size = new System.Drawing.Size(162, 20);
-            this.teContrasenia.TabIndex = 3;
+            this.teContrasenia.TabIndex = 1;
             // 
             // teUsuario
             // 
@@ -96,7 +116,7 @@
             this.teUsuario.Location = new System.Drawing.Point(118, 21);
             this.teUsuario.Name = "teUsuario";
             this.teUsuario.Size = new System.Drawing.Size(162, 20);
-            this.teUsuario.TabIndex = 2;
+            this.teUsuario.TabIndex = 0;
             // 
             // label2
             // 
@@ -119,26 +139,6 @@
             this.label1.Size = new System.Drawing.Size(64, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario:";
-            // 
-            // cbRoles
-            // 
-            this.cbRoles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRoles.FormattingEnabled = true;
-            this.cbRoles.Location = new System.Drawing.Point(118, 95);
-            this.cbRoles.Name = "cbRoles";
-            this.cbRoles.Size = new System.Drawing.Size(191, 21);
-            this.cbRoles.TabIndex = 9;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(77, 95);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 18);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Rol:";
             // 
             // AltaUsuario
             // 
