@@ -29,6 +29,15 @@ namespace Dominio
 
 
 
+        public static DataTable getVendedoresConMasProductosNoVendidos(int anio, int mesInicio, int mesFin, int idVisibilidad)
+        {
+            DataTable dtVendedores = StaticDataAccess.executeSPDeListadoEstadistico4Params
+                                                ("DIRTYDEEDS.VendedoresConMasProductosNoVendidos", anio, mesInicio, mesFin, idVisibilidad);
+            if (dtVendedores.Rows.Count < 1)
+                throw new Exception("No se encontró ningun vendedor sin productos vendidos que cumpla los parametros especificados.");
+            else
+                return dtVendedores;
+        }
 
         public static DataTable getVendedoresConMayorFacturacion(int anio, int mesInicio, int mesFin)
         {

@@ -127,6 +127,7 @@ WHERE Item_Factura_Monto IS NOT NULL
 ORDER BY Factura_Nro
 
 
+
 -- Agregado de Configuracion del Sistema
 
 --Estados

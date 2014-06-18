@@ -76,7 +76,17 @@ namespace FrbaCommerce
                 switch ((int)cbTipos.SelectedValue)
                 {
                     // Vendedores Mayor Cantidad No Vendidos
-                    case 1: break;
+                    case 1:
+                        {
+                            GetVisibilidad elegirVisibilidad = new GetVisibilidad();
+                            elegirVisibilidad.ShowDialog(this);
+                            if (elegirVisibilidad.DialogResult == DialogResult.Cancel)
+                                return;
+
+                            dgvEstadistica.DataSource = Factura.getVendedoresConMasProductosNoVendidos(anio, mesInicio,
+                                                                                         mesFin, elegirVisibilidad.idVisibilidad);
+                            break;
+                        }
 
                     // Vendedores Mayor Facturación
                     case 2: dgvEstadistica.DataSource = Factura.getVendedoresConMayorFacturacion(anio, mesInicio, mesFin); break;

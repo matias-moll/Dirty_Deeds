@@ -97,9 +97,15 @@ begin
 end
 go
 
-if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ClientesSinCalificaciones'))
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ClientesMayorCantidadSinCalificaciones'))
 begin
    drop procedure DIRTYDEEDS.ClientesSinCalificaciones
+end
+go
+
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.VendedoresConMasProductosNoVendidos'))
+begin
+   drop procedure DIRTYDEEDS.VendedoresConMasProductosNoVendidos
 end
 go
 

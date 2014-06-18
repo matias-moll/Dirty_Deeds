@@ -35,6 +35,7 @@ namespace Dominio
 
 
 
+
         public static DataTable getItemsAunNoRendidos(int idUsuario)
         {
             DataTable dtItems = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.ItemsAunNoRendidos", idUsuario);

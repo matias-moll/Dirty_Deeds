@@ -93,6 +93,29 @@ namespace Dal
             return table;
         }
 
+        public static DataTable executeSPDeListadoEstadistico4Params(string nameSP, int anio, int mesInicio, int mesFinal, int idVisibilidad)
+        {
+            DataTable table = new DataTable();
+            SqlConnection conexion = DBConn.getDBConn();
+            SqlCommand command = new SqlCommand(nameSP, conexion);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@Anio", SqlDbType.Int).Value = anio;
+            command.Parameters.Add("@MesInicio", SqlDbType.Int).Value = mesInicio;
+            command.Parameters.Add("@MesFin", SqlDbType.Int).Value = mesFinal;
+            command.Parameters.Add("@IdVisibilidad", SqlDbType.Int).Value = idVisibilidad;
+            conexion.Open();
+
+            SqlDataAdapter da = new SqlDataAdapter(command);
+
+            // El fill ejecuta el query y llena la data table.
+            da.Fill(table);
+
+            conexion.Close();
+            da.Dispose();
+
+            return table;
+        }
+
 
         public static int executeInsert(string stringInsert)
         {

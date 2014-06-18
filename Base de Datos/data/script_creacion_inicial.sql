@@ -405,25 +405,87 @@ begin
 end
 go
 
+create procedure DIRTYDEEDS.VendedoresConMasProductosNoVendidos(@Anio int, @MesInicio int, @MesFin int, @IdVisibilidad int)
+as
+begin
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#OfertasMaximas')) BEGIN DROP TABLE #OfertasMaximas END
+	-- Obtenemos las ofertas maximas de todas las subastas
+	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #OfertasMaximas FROM DIRTYDEEDS.OfertaCompra  WHERE Monto != 0 GROUP By CodPublicacion
+
+	select top 5 
+	CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
+	 COUNT(*) as No_Vendidos from DIRTYDEEDS.Usuario
+	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
+	join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id
+	where Publicacion.Codigo not in -- El codigo de publicacion no tiene que estar en las ventas.
+	(
+		-- Obtenemos las Ofertas ganadoras de las subastas
+		SELECT OfertaCompra.CodPublicacion as Codigo_Publicacion FROM DIRTYDEEDS.OfertaCompra
+			join  #OfertasMaximas on OfertaCompra.CodPublicacion = #OfertasMaximas.CodPublicacion
+									AND OfertaCompra.Fecha = #OfertasMaximas.FechaMaxima
+									AND OfertaCompra.Monto = #OfertasMaximas.MontoMaximo
+			join DIRTYDEEDS.Publicacion on 	Publicacion.Codigo = OfertaCompra.CodPublicacion
+			WHERE OfertaCompra.Monto != 0 and publicacion.IdEstado = 4 
+			group by OfertaCompra.CodPublicacion
+			
+		union
+
+		-- Y lo unimos con las compras que aun no tengan calificaciones
+		select OfertaCompra.CodPublicacion as Codigo_Publicacion from DIRTYDEEDS.OfertaCompra 
+			join DIRTYDEEDS.Publicacion on Publicacion.Codigo = OfertaCompra.CodPublicacion
+		where OfertaCompra.Discriminante = 'C' and OfertaCompra.Cantidad = Publicacion.StockOriginal
+		group by OfertaCompra.CodPublicacion
+	
+	)
+	and year(Publicacion.Fecha) = @Anio
+	and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
+	and Visibilidad.Id = @IdVisibilidad
+	group by  IdUsuario
+	order by COUNT(*) desc
+end
+go
 
 
-CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones
+CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones(@Anio int, @MesInicio int, @MesFin int)
 AS
 BEGIN
-SELECT * FROM DIRTYDEEDS.Vendedores as vendedores, DIRTYDEEDS.Calificacion as calificacion
-WHERE calificacion.IdCalificado = vendedores.IdUsuario
-ORDER BY CantidadEstrellas DESC
+	select top 5
+		CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
+		CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
+		CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
+		sum(Calificacion.CantidadEstrellas) as Sumatoria_Estrellas, max(Usuario.Id) as Id_Usuario
+	FROM DIRTYDEEDS.Vendedores as vendedores
+	join DIRTYDEEDS.Calificacion on Calificacion.IdCalificado = vendedores.IdUsuario
+	join DIRTYDEEDS.Usuario on vendedores.IdUsuario = Usuario.Id
+	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
+	where year(Publicacion.Fecha) = @Anio
+		and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
+	group by Usuario.Id
+	ORDER BY sum(CantidadEstrellas) desc
 END
 GO
 
-CREATE PROCEDURE DIRTYDEEDS.ClientesSinCalificaciones
+CREATE PROCEDURE DIRTYDEEDS.ClientesMayorCantidadSinCalificaciones(@Anio int, @MesInicio int, @MesFin int)
 AS
 BEGIN
-SELECT vendedores.IdUsuario,vendedores.Vendedor,publicacion.Codigo 
-FROM DIRTYDEEDS.Publicacion as publicacion,DIRTYDEEDS.Vendedores as vendedores,DIRTYDEEDS.Cliente as cliente
-WHERE publicacion.Codigo NOT IN (SELECT calificacion.Codigo FROM DIRTYDEEDS.Calificacion as calificacion)
-AND publicacion.IdUsuario = vendedores.IdUsuario
-AND vendedores.Vendedor = CAST(cliente.Documento as VARCHAR(20))
+	select top 5
+		 Cliente.Apellido, MAX(Cliente.Nombre) as Nombre, max(Cliente.Documento) as Documento,
+		COUNT(*) as Cantidad_Sin_Calificar,
+		max(Usuario.Id) as Id_Usuario
+	FROM DIRTYDEEDS.Cliente
+	join DIRTYDEEDS.Usuario on Cliente.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
+	left outer join DIRTYDEEDS.Calificacion on Calificacion.CodigoPublicacion = Publicacion.Codigo
+	where year(Publicacion.Fecha) = @Anio
+		and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
+	group by Cliente.Apellido
+	ORDER BY COUNT(*) desc
 END
 GO
 

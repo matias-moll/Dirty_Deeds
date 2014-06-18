@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="DatosGlobales.cs" />
     <Compile Include="Calificar Vendedor\Estrella.cs" />
+    <Compile Include="Listado Estadistico\GetVisibilidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\GetVisibilidad.Designer.cs">
+      <DependentUpon>GetVisibilidad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Listado Estadistico\ElementoCombo.cs" />
     <Compile Include="Facturar Publicaciones\DatosParaFactura.cs">
       <SubType>Form</SubType>
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gestion de Preguntas\GestionPreguntas.resx">
       <DependentUpon>GestionPreguntas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\GetVisibilidad.resx">
+      <DependentUpon>GetVisibilidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Historial Cliente\HistorialCliente.resx">
       <DependentUpon>HistorialCliente.cs</DependentUpon>
