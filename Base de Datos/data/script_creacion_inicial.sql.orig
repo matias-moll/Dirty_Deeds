@@ -41,7 +41,8 @@ create table Calificacion
 	IdCalificador int foreign key references Usuario(Id),
 	IdCalificado int foreign key references Usuario(Id),
 	Descripcion nvarchar(255) not null,
-	CantidadEstrellas int not null
+	CantidadEstrellas int not null,
+	IdCompra int foreign key references OfertaCompra(Id)
 )
 
 create table Localidad
@@ -110,6 +111,7 @@ create table Item
 	Descripcion varchar(255) not null,
 	Monto numeric(18, 2) not null,
 	Cantidad int not null,
+	CodigoPublicacion int not null,
 	primary key (NumFactura,NumItem)
 )
 
@@ -135,12 +137,14 @@ create table Publicacion
 (
 	Codigo int primary key,
 	Presentacion nvarchar(255) not null,
-	Stock int not null,
+	StockOriginal int not null,
+	StockActual int not null,
 	Fecha datetime not null,
 	FechaVto datetime not null,
 	Precio numeric(18, 2) not null,
 	Tipo char(1) not null,
 	AceptaPreguntas bit not null DEFAULT 1,
+	Vendida char(1) not null Default 'N',
 	IdEstado int foreign key references Estado(Id),
 	IdVisibilidad int foreign key references Visibilidad(Id),
 	IdUsuario int foreign key references Usuario(Id) not null
@@ -177,6 +181,9 @@ create table OfertaCompra
 	Cantidad int not null ,
 	Discriminante char(1) not null 
 )
+
+
+
 
 -- VISTAS
 CREATE VIEW DIRTYDEEDS.Vendedores(IdUsuario,Vendedor)
@@ -222,13 +229,23 @@ begin
 end
 go
 
+create function DIRTYDEEDS.GetSiguienteCodigoCalificacion()
+returns int
+as
+begin
+	declare @ret int
+	select @ret = MAX(DIRTYDEEDS.Calificacion.Codigo) from DIRTYDEEDS.Calificacion
+	return @ret + 1
+end
+go
+
 -- Stored Procedures
 -- Preguntas a ser respndidas dado un usuario
 create procedure DIRTYDEEDS.Preguntas(@IdUsuarioLoggeado int)
 as
 begin  
 	select CodPublicacion as Codigo_Publicacion, NumPregunta as Numero_Pregunta, Pregunta, 
-			Respuesta, Presentacion as Descripcion_Publicacion, Stock, Fecha, Precio 
+			Respuesta, Presentacion as Descripcion_Publicacion, StockActual, Fecha, Precio 
 	from DIRTYDEEDS.Publicacion_Pregunta 
 		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Publicacion_Pregunta.CodPublicacion
 		join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario
@@ -236,23 +253,6 @@ begin
 end
 go
 
-<<<<<<< HEAD
--- Historial de Calificaciones otorgadas y recibidas
-create procedure DIRTYDEEDS.Calificaciones(@IdUsuarioLoggeado int)
-as
-begin  
-	select CASE WHEN Calificacion.IdCalificado = @IdUsuarioLoggeado THEN 'Fuiste Calificado' 
-																	else 'Calificaste' end as Tipo , 
-	Calificacion.CantidadEstrellas as Cantidad_Estrellas, Calificacion.Descripcion as Comentario_Calificacion, 
-	Calificacion.CodigoPublicacion as Codigo_Publicacion, Publicacion.Presentacion
-	from DIRTYDEEDS.Calificacion
-	join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Calificacion.CodigoPublicacion
-	where IdCalificado = @IdUsuarioLoggeado or IdCalificador = @IdUsuarioLoggeado
-	order by CodigoPublicacion desc 
-end
-go
-
-=======
 CREATE Procedure DIRTYDEEDS.OfertasGanadoras
 AS
 BEGIN
@@ -291,7 +291,142 @@ BEGIN
 	ORDER BY oferta.CodPublicacion,oferta.Monto DESC
 END
 GO
->>>>>>> 766f09b9841bb66b92a9d5d9fed5391141425c96
+
+
+
+
+
+-- Historial de Calificaciones otorgadas y recibidas
+create procedure DIRTYDEEDS.Calificaciones(@IdUsuarioLoggeado int)
+as
+begin  
+	select CASE WHEN Calificacion.IdCalificado = @IdUsuarioLoggeado THEN 'Fuiste Calificado' 
+									else 'Calificaste' end as Tipo , 
+	Calificacion.CantidadEstrellas as Cantidad_Estrellas, Calificacion.Descripcion as Comentario_Calificacion, 
+	Calificacion.CodigoPublicacion as Codigo_Publicacion, Publicacion.Presentacion
+	from DIRTYDEEDS.Calificacion
+	join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Calificacion.CodigoPublicacion
+	where IdCalificado = @IdUsuarioLoggeado or IdCalificador = @IdUsuarioLoggeado
+	order by CodigoPublicacion desc 
+end
+go
+
+-- Compras y Ofertas ganadoras con calificacion pendiente
+create procedure DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente(@IdUsuarioLoggeado int)
+as
+begin
+
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#OfertasMaximas')) BEGIN DROP TABLE #OfertasMaximas END
+
+	-- Obtenemos las ofertas maximas de todas las subastas
+	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #OfertasMaximas
+	FROM DIRTYDEEDS.OfertaCompra 
+	WHERE Monto != 0 
+	GROUP By CodPublicacion
+
+	-- Obtenemos las Ofertas ganadoras de las subastas que aun no tengan Calificaciones.
+	SELECT publicacion.Presentacion, publicacion.Precio, OfertaCompra.Fecha, OfertaCompra.Cantidad, 'Subasta' as Tipo,
+			OfertaCompra.CodPublicacion as Codigo_Publicacion, publicacion.IdUsuario as Id_Vendedor, 
+			OfertaCompra.Id as Id_Compra
+		FROM DIRTYDEEDS.OfertaCompra
+		join  #OfertasMaximas on OfertaCompra.CodPublicacion = #OfertasMaximas.CodPublicacion
+								AND OfertaCompra.Fecha = #OfertasMaximas.FechaMaxima
+								AND OfertaCompra.Monto = #OfertasMaximas.MontoMaximo
+		join DIRTYDEEDS.Publicacion on 	Publicacion.Codigo = OfertaCompra.CodPublicacion
+		left outer join DIRTYDEEDS.Calificacion on OfertaCompra.Id = Calificacion.IdCompra
+		WHERE OfertaCompra.Monto != 0 and publicacion.IdEstado = 4 
+		and Calificacion.Codigo is null 
+		and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
+
+		
+	union
+
+	-- Y lo unimos con las compras que aun no tengan calificaciones
+	select Publicacion.Presentacion, Publicacion.Precio,OfertaCompra.Fecha, OfertaCompra.Cantidad, 'Compra' as Tipo, 
+	OfertaCompra.CodPublicacion as Codigo_Publicacion, Publicacion.IdUsuario as Id_Vendedor, OfertaCompra.Id as Id_Compra
+	 from DIRTYDEEDS.OfertaCompra 
+		left outer join DIRTYDEEDS.Calificacion on OfertaCompra.Id = Calificacion.IdCompra
+		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = OfertaCompra.CodPublicacion
+	where OfertaCompra.Discriminante = 'C' 
+		and Calificacion.Codigo is null
+		and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
+end
+go
+
+
+-- Items a pagar aun no rendidos. (facturacion)
+create procedure DIRTYDEEDS.ItemsAunNoRendidos(@IdUsuarioLoggeado int)
+as
+begin
+-- Items a pagar por Publicar para todas las publicaciones que no hayan sido rendidas (no esta su item asociado).
+select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, Visibilidad.Precio as Costo, 
+		'Publicación' as Tipo, 1 as Cantidad, Publicacion.Fecha 
+from DIRTYDEEDS.Publicacion 
+left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
+where Item.NumFactura is null
+	and Publicacion.IdEstado = 4
+	and Publicacion.IdUsuario = @IdUsuarioLoggeado
+	
+union
+
+-- Lo unimos con las publicaciones vendidas (join con la tabla temporal precalculada) que no hayan sido rendidas.
+select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, 
+		(Visibilidad.Porcentaje * Publicacion.Precio) as Costo,'Comision Venta' as Tipo, 1 as Cantidad, Publicacion.Fecha 
+from DIRTYDEEDS.Publicacion 
+left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
+where Item.NumFactura is null
+	and Publicacion.IdEstado = 4
+	and Publicacion.Vendida = 'S'
+	and Publicacion.IdUsuario = @IdUsuarioLoggeado
+	
+end
+go
+
+<<<<<<< HEAD
+
+-- Listado Estadistico de vendedores con mayor facturacion
+create procedure DIRTYDEEDS.VendedoresConMayorFacturacion(@Anio int, @MesInicio int, @MesFin int)
+as
+begin
+	select top 5 
+	CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
+	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
+	Usuario.Id as Id_Usuario, Factura.Total from DIRTYDEEDS.Usuario
+	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
+	join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
+	join DIRTYDEEDS.Factura on Factura.Numero = Item.NumFactura
+	where year(Factura.Fecha) = @Anio
+	and MONTH(Factura.Fecha) between @MesInicio and @MesFin
+	group by Usuario.Id, Factura.Total
+	order by Factura.Total desc
+end
+go
+=======
+CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones
+AS
+BEGIN
+SELECT * FROM DIRTYDEEDS.Vendedores as vendedores, DIRTYDEEDS.Calificacion as calificacion
+WHERE calificacion.IdCalificado = vendedores.IdUsuario
+ORDER BY CantidadEstrellas DESC
+END
+GO
+
+CREATE PROCEDURE DIRTYDEEDS.ClientesSinCalificaciones
+AS
+BEGIN
+SELECT vendedores.IdUsuario,vendedores.Vendedor,publicacion.Codigo 
+FROM DIRTYDEEDS.Publicacion as publicacion,DIRTYDEEDS.Vendedores as vendedores,DIRTYDEEDS.Cliente as cliente
+WHERE publicacion.Codigo NOT IN (SELECT calificacion.Codigo FROM DIRTYDEEDS.Calificacion as calificacion)
+AND publicacion.IdUsuario = vendedores.IdUsuario
+AND vendedores.Vendedor = CAST(cliente.Documento as VARCHAR(20))
+END
+GO
+>>>>>>> b77282186e57d63e0e701195b80add9e4c788d74
 
 -- Indices
 CREATE INDEX IdVisibilidad

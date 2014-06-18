@@ -384,7 +384,6 @@ where Item.NumFactura is null
 end
 go
 
-
 -- Listado Estadistico de vendedores con mayor facturacion
 create procedure DIRTYDEEDS.VendedoresConMayorFacturacion(@Anio int, @MesInicio int, @MesFin int)
 as
@@ -405,6 +404,31 @@ begin
 	order by Factura.Total desc
 end
 go
+
+
+
+CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones
+AS
+BEGIN
+SELECT * FROM DIRTYDEEDS.Vendedores as vendedores, DIRTYDEEDS.Calificacion as calificacion
+WHERE calificacion.IdCalificado = vendedores.IdUsuario
+ORDER BY CantidadEstrellas DESC
+END
+GO
+
+CREATE PROCEDURE DIRTYDEEDS.ClientesSinCalificaciones
+AS
+BEGIN
+SELECT vendedores.IdUsuario,vendedores.Vendedor,publicacion.Codigo 
+FROM DIRTYDEEDS.Publicacion as publicacion,DIRTYDEEDS.Vendedores as vendedores,DIRTYDEEDS.Cliente as cliente
+WHERE publicacion.Codigo NOT IN (SELECT calificacion.Codigo FROM DIRTYDEEDS.Calificacion as calificacion)
+AND publicacion.IdUsuario = vendedores.IdUsuario
+AND vendedores.Vendedor = CAST(cliente.Documento as VARCHAR(20))
+END
+GO
+
+
+
 
 -- Indices
 CREATE INDEX IdVisibilidad
