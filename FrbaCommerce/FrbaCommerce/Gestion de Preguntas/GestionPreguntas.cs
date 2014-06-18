@@ -49,7 +49,6 @@ namespace FrbaCommerce
         private void gbResponderPreguntas_Click(object sender, EventArgs e)
         {
             // Cambiamos el estado del form y mostramos las preguntas correspondientes.
-            estadoGrillaOperacional(true);
             try
             {
                 dgvPreguntas.DataSource = Publicacion_Pregunta.getPreguntasAResponder(DatosGlobales.usuarioLoggeado.autoId);
@@ -59,6 +58,7 @@ namespace FrbaCommerce
                 MessageBox.Show(excep.Message);
                 return;
             }
+            estadoGrillaOperacional(false);
         }
 
         private void gbVerRespuestas_Click(object sender, EventArgs e)

@@ -13,7 +13,7 @@ namespace Dal
         static AccesoArchivoConfig()
         {
             string pathBase = AppDomain.CurrentDomain.BaseDirectory;
-            pathBase = pathBase.Substring(0, pathBase.LastIndexOf("\\bin"));
+            pathBase = pathBase.Substring(0, pathBase.IndexOf("\\FrbaCommerce") + "\\FrbaCommerce".Length);
             string pathToConfig = pathBase  + "\\Configuracion.txt";
             string[] lines = System.IO.File.ReadAllLines(pathToConfig);
             stringConexionBD = lines[0];
