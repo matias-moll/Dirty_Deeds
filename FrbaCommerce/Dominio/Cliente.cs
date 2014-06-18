@@ -50,6 +50,18 @@ namespace Dominio
         #endregion
 
 
+
+
+        public static DataTable getClientesMayorCantidadSinCalificaciones(int anio, int mesInicio, int mesFin)
+        {
+            DataTable dtClientes = StaticDataAccess.executeSPDeListadoEstadistico(
+                                                    "DIRTYDEEDS.ClientesMayorCantidadSinCalificaciones", anio, mesInicio, mesFin);
+            if (dtClientes.Rows.Count < 1)
+                throw new Exception("No se encontraron cliente con publicaciones sin calificaciones para los parametros especficados");
+            else
+                return dtClientes;
+        }
+
         //Metodos publicos
         public static Cliente get(int idClavePrimaria)
         {

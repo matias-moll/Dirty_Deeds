@@ -96,7 +96,7 @@
             // gbEstadistica
             // 
             this.gbEstadistica.FixedImage = TNGS.NetControls.FixedGlassButtons.Chart1;
-            this.gbEstadistica.Location = new System.Drawing.Point(259, 114);
+            this.gbEstadistica.Location = new System.Drawing.Point(306, 105);
             this.gbEstadistica.Name = "gbEstadistica";
             this.gbEstadistica.Size = new System.Drawing.Size(104, 26);
             this.gbEstadistica.TabIndex = 15;
@@ -156,7 +156,7 @@
             // cbTrimestres
             // 
             this.cbTrimestres.FormattingEnabled = true;
-            this.cbTrimestres.Location = new System.Drawing.Point(226, 66);
+            this.cbTrimestres.Location = new System.Drawing.Point(280, 66);
             this.cbTrimestres.Name = "cbTrimestres";
             this.cbTrimestres.Size = new System.Drawing.Size(162, 21);
             this.cbTrimestres.TabIndex = 17;
@@ -164,16 +164,16 @@
             // cbTipos
             // 
             this.cbTipos.FormattingEnabled = true;
-            this.cbTipos.Location = new System.Drawing.Point(444, 67);
+            this.cbTipos.Location = new System.Drawing.Point(492, 67);
             this.cbTipos.Name = "cbTipos";
-            this.cbTipos.Size = new System.Drawing.Size(286, 21);
+            this.cbTipos.Size = new System.Drawing.Size(238, 21);
             this.cbTipos.TabIndex = 18;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(96, 41);
+            this.label1.Location = new System.Drawing.Point(144, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 18);
             this.label1.TabIndex = 19;
@@ -183,7 +183,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(270, 40);
+            this.label2.Location = new System.Drawing.Point(324, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 18);
             this.label2.TabIndex = 20;
@@ -193,7 +193,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(554, 41);
+            this.label3.Location = new System.Drawing.Point(587, 41);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 18);
             this.label3.TabIndex = 21;
@@ -202,7 +202,7 @@
             // neAnio
             // 
             this.neAnio.BackColor = System.Drawing.SystemColors.Window;
-            this.neAnio.Location = new System.Drawing.Point(66, 67);
+            this.neAnio.Location = new System.Drawing.Point(114, 67);
             this.neAnio.Name = "neAnio";
             this.neAnio.Size = new System.Drawing.Size(100, 20);
             this.neAnio.TabIndex = 22;

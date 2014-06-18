@@ -85,7 +85,7 @@ namespace FrbaCommerce
                     case 3: dgvEstadistica.DataSource = Calificacion.getVendedoresConMayoresCalificaciones(anio, mesInicio, mesFin); break;
                     
                     // Clientes Mayor Cantidad Sin Calif.
-                    case 4: break;
+                    case 4: dgvEstadistica.DataSource = Cliente.getClientesMayorCantidadSinCalificaciones(anio, mesInicio, mesFin); break;
                 }
             }
             catch (Exception excep)
