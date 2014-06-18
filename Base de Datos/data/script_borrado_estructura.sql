@@ -84,6 +84,12 @@ begin
 end
 go
 
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.VendedoresCalificaciones'))
+begin
+   drop procedure DIRTYDEEDS.VendedoresCalificaciones
+end
+go
+
 
 DROP SCHEMA DIRTYDEEDS
 

@@ -384,6 +384,15 @@ where Item.NumFactura is null
 end
 go
 
+CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones
+AS
+BEGIN
+SELECT * FROM DIRTYDEEDS.Vendedores as vendedores, DIRTYDEEDS.Calificacion as calificacion
+WHERE calificacion.IdCalificado = vendedores.IdUsuario
+ORDER BY CantidadEstrellas DESC
+END
+GO
+
 -- Indices
 CREATE INDEX IdVisibilidad
 ON DIRTYDEEDS.Publicacion (IdVisibilidad)
