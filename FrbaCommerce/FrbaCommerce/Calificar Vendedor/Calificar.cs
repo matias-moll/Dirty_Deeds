@@ -19,16 +19,16 @@ namespace FrbaCommerce
             InitializeComponent();
 
             // Armamos el diccionario con las estrellas posibles para llenar la combo.
-            Dictionary<int, string> estrellas = new Dictionary<int, string>();
-            estrellas.Add(1, "Una (1)");
-            estrellas.Add(2, "Dos (2)");
-            estrellas.Add(3, "Tres (3)");
-            estrellas.Add(4, "Cuatro (4)");
-            estrellas.Add(5, "Cinco (5)");
+            List<Estrella> estrellas = new List<Estrella>();
+            estrellas.Add(new Estrella(1, "Una (1)"));
+            estrellas.Add(new Estrella(2, "Dos (2)"));
+            estrellas.Add(new Estrella(3, "Tres (3)"));
+            estrellas.Add(new Estrella(4, "Cuatro (4)"));
+            estrellas.Add(new Estrella(5, "Cinco (5)"));
 
             cbEstrellas.DataSource = estrellas;
-            cbEstrellas.DisplayMember = "Value";
-            cbEstrellas.ValueMember = "Key";
+            cbEstrellas.DisplayMember = "descripcion";
+            cbEstrellas.ValueMember = "valor";
         }
 
         private void gbAceptar_Click(object sender, EventArgs e)

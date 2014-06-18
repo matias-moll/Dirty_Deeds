@@ -295,6 +295,48 @@ begin
 end
 go
 
+-- Compras y Ofertas ganadoras con calificacion pendiente
+create procedure DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente(@IdUsuarioLoggeado int)
+as
+begin
+
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#OfertasMaximas')) BEGIN DROP TABLE #OfertasMaximas END
+
+	-- Obtenemos las ofertas maximas de todas las subastas
+	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #OfertasMaximas
+	FROM DIRTYDEEDS.OfertaCompra 
+	WHERE Monto != 0 
+	GROUP By CodPublicacion
+
+	-- Obtenemos las Ofertas ganadoras de las subastas que aun no tengan Calificaciones.
+	SELECT publicacion.Presentacion, publicacion.Precio, OfertaCompra.Fecha, OfertaCompra.Cantidad, 'Subasta' as Tipo,
+			OfertaCompra.CodPublicacion as Codigo_Publicacion, publicacion.IdUsuario as Id_Vendedor, 
+			OfertaCompra.Id as Id_Compra
+		FROM DIRTYDEEDS.OfertaCompra
+		join  #OfertasMaximas on OfertaCompra.CodPublicacion = #OfertasMaximas.CodPublicacion
+								AND OfertaCompra.Fecha = #OfertasMaximas.FechaMaxima
+								AND OfertaCompra.Monto = #OfertasMaximas.MontoMaximo
+		join DIRTYDEEDS.Publicacion on 	Publicacion.Codigo = OfertaCompra.CodPublicacion
+		left outer join DIRTYDEEDS.Calificacion on OfertaCompra.Id = Calificacion.IdCompra
+		WHERE OfertaCompra.Monto != 0 and publicacion.IdEstado = 4 
+		and Calificacion.Codigo is null 
+		and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
+
+		
+	union
+
+	-- Y lo unimos con las compras que aun no tengan calificaciones
+	select Publicacion.Presentacion, Publicacion.Precio,OfertaCompra.Fecha, OfertaCompra.Cantidad, 'Compra' as Tipo, 
+	OfertaCompra.CodPublicacion as Codigo_Publicacion, Publicacion.IdUsuario as Id_Vendedor, OfertaCompra.Id as Id_Compra
+	 from DIRTYDEEDS.OfertaCompra 
+		left outer join DIRTYDEEDS.Calificacion on OfertaCompra.Id = Calificacion.IdCompra
+		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = OfertaCompra.CodPublicacion
+	where OfertaCompra.Discriminante = 'C' 
+		and Calificacion.Codigo is null
+		and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
+end
+go
+
 
 -- Indices
 CREATE INDEX IdVisibilidad

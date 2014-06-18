@@ -17,6 +17,7 @@ namespace Dominio
         public int campoIdCalificado { get; set; }
         public string campoDescripcion { get; set; }
         public int campoCantidadEstrellas { get; set; }
+        public int campoIdCompra { get; set; }
 
         #region Constructores
 
@@ -34,10 +35,23 @@ namespace Dominio
                 return dtCalificaciones;
         }
 
+        public static DataTable getComprasYOfertasConCalificacionPendiente(int idUsuario)
+        {
+            DataTable dtCalificacionesPendientes = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente", idUsuario);
+            if (dtCalificacionesPendientes.Rows.Count < 1)
+                throw new Exception("No cuenta con ninguna compra / oferta ganadora pendiente de calificación");
+            else
+                return dtCalificacionesPendientes;
+        }
+
 
         //Metodos publicos
         public void save()
         {
+            // Obtenemos la clave que nos corresponde y grabamos.
+            this.campoCodigo = StaticDataAccess.executeIntFunction("GetSiguienteCodigoCalificacion");
+            if (this.campoCodigo == 0)
+                throw new Exception("Error al intentar obtener el siguiente código de calificacion");
             daoCalificacion.insert(this);
         }
 

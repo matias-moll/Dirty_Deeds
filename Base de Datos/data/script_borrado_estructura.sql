@@ -36,6 +36,13 @@ begin
 end
 go
 
+-- Si ya existe borramos la funcion.
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.GetSiguienteCodigoCalificacion'))
+begin
+   drop function DIRTYDEEDS.GetSiguienteCodigoCalificacion
+end
+go
+
 -- Si existe borramos el sp
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.Preguntas'))
 begin
@@ -59,6 +66,13 @@ go
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.Calificaciones'))
 begin
    drop procedure DIRTYDEEDS.Calificaciones
+end
+go
+
+-- Si existe borramos el sp
+if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente'))
+begin
+   drop procedure DIRTYDEEDS.ComprasYOfertasConCalificacionPendiente
 end
 go
 

@@ -33,8 +33,12 @@ namespace FrbaCommerce
             if (calificar.DialogResult == DialogResult.Cancel)
                 return;
 
+            // Creamos la nueva calificacion y le cargamos todos los datos, los codigos de pantalla y los ingresados por el user.
             Calificacion calificacionObtenida = new Calificacion();
-            // TODO: aca tengo que obtener los datos de la grilla para completar la calificacion.
+            calificacionObtenida.campoCodigoPublicacion = (int)dgvCompras.SelectedRows[0].Cells["Codigo_Publicacion"].Value;
+            calificacionObtenida.campoIdCompra = (int)dgvCompras.SelectedRows[0].Cells["Id_Compra"].Value;
+            calificacionObtenida.campoIdCalificado = (int)dgvCompras.SelectedRows[0].Cells["Id_Vendedor"].Value;
+            calificacionObtenida.campoIdCalificador = DatosGlobales.usuarioLoggeado.autoId;
             calificacionObtenida.campoCantidadEstrellas = calificar.estrellasObtenidas;
             calificacionObtenida.campoDescripcion = calificar.comentarioObtenido;
             calificacionObtenida.save();
@@ -47,7 +51,16 @@ namespace FrbaCommerce
 
         private void gbCargarCompras_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                dgvCompras.DataSource = Calificacion.getComprasYOfertasConCalificacionPendiente(DatosGlobales.usuarioLoggeado.campoIdReferencia);
+            }
+            catch (Exception excep)
+            {
+                MessageBox.Show(excep.Message);
+                return;
+            }
+            estadoGrillaOperacional();
         }
 
         private void gbAceptar_Click(object sender, EventArgs e)
