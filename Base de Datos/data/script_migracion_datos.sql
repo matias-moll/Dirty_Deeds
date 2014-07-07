@@ -128,6 +128,15 @@ FROM gd_esquema.Maestra
 WHERE Item_Factura_Monto IS NOT NULL
 ORDER BY Factura_Nro
 
+-- Rubros
+INSERT INTO DIRTYDEEDS.Rubro(Descripcion)
+SELECT DISTINCT Publicacion_Rubro_Descripcion from gd_esquema.Maestra
+
+INSERT INTO DIRTYDEEDS.Publicacion_Rubro(CodPublicacion,IdRubro)
+SELECT DISTINCT publicaciones.codigo, rubros.Id 
+FROM DIRTYDEEDS.Publicacion as publicaciones, DIRTYDEEDS.Rubro as rubros, gd_esquema.Maestra as maestra
+WHERE maestra.Publicacion_Cod = publicaciones.Codigo
+AND rubros.Descripcion = maestra.Publicacion_Rubro_Descripcion
 
 
 -- Agregado de Configuracion del Sistema
