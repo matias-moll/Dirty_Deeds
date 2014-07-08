@@ -99,7 +99,7 @@ go
 
 if exists (select * from sysobjects where id = object_id('DIRTYDEEDS.ClientesMayorCantidadSinCalificaciones'))
 begin
-   drop procedure DIRTYDEEDS.ClientesSinCalificaciones
+   drop procedure DIRTYDEEDS.ClientesMayorCantidadSinCalificaciones
 end
 go
 

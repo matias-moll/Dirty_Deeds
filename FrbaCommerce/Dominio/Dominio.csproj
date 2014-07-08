@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Cliente.cs" />
     <Compile Include="Calificacion.cs" />
+    <Compile Include="Excepciones\EjecutarLoginDeNuevoException.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Factura.cs" />
     <Compile Include="FormaPago.cs" />

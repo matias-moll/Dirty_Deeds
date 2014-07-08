@@ -19,6 +19,7 @@ namespace Dominio
             funcionalidades.Add("Facturacion", 3);
             funcionalidades.Add("HistorialCliente", 4);
             funcionalidades.Add("Estadisticas", 5);
+            funcionalidades.Add("ABMs", 6);
         }
 
 

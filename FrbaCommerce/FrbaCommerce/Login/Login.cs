@@ -61,7 +61,18 @@ namespace FrbaCommerce
                 throw new ContraseniaIncorrectaException();
             }
 
+            // Validamos que no deba cambiar la contrasenia
+            if (unUsuario.campoIntentosFallidos == -1)
+            {
+                MessageBox.Show("Usted tiene una contraseña asignada automaticamente, debe cambiarla para luego poder loggearse correctamente");
+                NuevaContrasenia formNuevaContrasenia = new NuevaContrasenia(unUsuario);
+                formNuevaContrasenia.ShowDialog(this);
+                throw new EjecutarLoginDeNuevoException();
+            }
+
             usuarioLoggeado = unUsuario;
+            usuarioLoggeado.campoIntentosFallidos = 0;
+            usuarioLoggeado.update();
 
             // Paso la validacion exitosamente.
             finalizarLoginExitosamente(rol.autoId);
@@ -85,11 +96,11 @@ namespace FrbaCommerce
 
         private void gbPrimerIngreso_Click(object sender, EventArgs e)
         {
-            Identificacion identificarse = new Identificacion(new Usuario(teUsuario.Text, teContrasenia.Text));
+            Identificacion identificarse = new Identificacion();
             identificarse.ShowDialog(this);
 
             if (identificarse.DialogResult == DialogResult.OK)
-                finalizarLoginExitosamente(identificarse.idRolUsuario);
+                throw new EjecutarLoginDeNuevoException();
 
         }
 

@@ -39,6 +39,8 @@ namespace FrbaCommerce
             // En este punto el usuario ya esta loggeado.
             DatosGlobales.seLoggeoElUsuario(usuarioLoggeado);
 
+            MessageBox.Show("Se ha loggeado exitosamente! Confirme y espere un momento mientras carga la aplicación");
+
             abrirDockeablesSegunFuncionalidadesHabilitadas();
         }
 
@@ -59,6 +61,10 @@ namespace FrbaCommerce
                 else
                     debeCerrarse = true;
 
+            }
+            catch (EjecutarLoginDeNuevoException excep)
+            {
+                iniciarLogin();
             }
             catch (Exception excep)
             {
@@ -122,6 +128,7 @@ namespace FrbaCommerce
                 case 3: new Facturacion().Show(dockManager); break;
                 case 4: new HistorialCliente().Show(dockManager); break;
                 case 5: new ListadoEstadistico().Show(dockManager); break;
+                case 6: new PanelOperacional().Show(dockManager); break;
             }
         }
 

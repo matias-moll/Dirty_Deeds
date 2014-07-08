@@ -53,9 +53,9 @@ namespace Dominio
             return DataAccessObject<Empresa>.get(idClavePrimaria);
         }
 
-        public void save()
+        public int save()
         {
-            daoEmpresa.insert(this);
+            return daoEmpresa.insert(this);
         }
 
         public void update()

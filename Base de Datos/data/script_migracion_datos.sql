@@ -10,8 +10,6 @@ WHERE Forma_Pago_Desc = Descripcion AND Factura_Nro IS NOT NULL;
 
 INSERT INTO DIRTYDEEDS.Localidad(Nombre,Deleted) VALUES ('Buenos Aires', 0)
 
-INSERT INTO DIRTYDEEDS.Rubro(Descripcion) VALUES('General')
-
 INSERT INTO DIRTYDEEDS.Estado
 SELECT DISTINCT Publicacion_Estado from gd_esquema.Maestra
 
@@ -35,8 +33,10 @@ WHERE Cli_Dni IS NOT NULL
 AND Cli_Dom_Calle = Domicilio 
 AND Cli_Nro_Calle = NumeroCalle
 
-INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante, IdReferencia)
-SELECT DISTINCT Cli_DNI,'C',Id from gd_esquema.Maestra, DIRTYDEEDS.Cliente
+INSERT INTO DIRTYDEEDS.Usuario values ('admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 0, 0, 'C', 0)
+
+INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante, IdReferencia, IntentosFallidos)
+SELECT DISTINCT Cli_DNI,'C',Id, -1 from gd_esquema.Maestra, DIRTYDEEDS.Cliente
 WHERE Cli_Dni IS NOT NULL
 AND Cli_Dni = Documento
 
@@ -47,8 +47,8 @@ WHERE Publ_Empresa_Razon_Social IS NOT NULL
 AND Publ_Empresa_Dom_Calle = Domicilio
 AND Publ_Empresa_Nro_Calle = NumeroCalle
 
-INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante,IdReferencia)
-SELECT DISTINCT Publ_Empresa_Cuit,'E',Id from gd_esquema.Maestra, DIRTYDEEDS.Empresa
+INSERT INTO DIRTYDEEDS.Usuario(Usuario,Discriminante,IdReferencia, IntentosFallidos)
+SELECT DISTINCT Publ_Empresa_Cuit,'E',Id, -1 from gd_esquema.Maestra, DIRTYDEEDS.Empresa
 WHERE Publ_Empresa_Cuit IS NOT NULL
 AND Publ_Empresa_Cuit = Cuit
 
@@ -157,8 +157,22 @@ INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,3)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(1,4)
 -- Admin
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(2,5)
+INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(2,6)
 -- Cliente
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,1)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,2)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,3)
 INSERT INTO DIRTYDEEDS.Rol_Funcionalidad(IdRol,IdFuncionalidad) VALUES(3,4)
+
+-- Permiso de Administrativo para el usuario Admin
+insert into DIRTYDEEDS.Usuario_Rol values (1, 2)
+
+-- Todas las empresas migradas tienen permisos de empresa.
+insert into DIRTYDEEDS.Usuario_Rol (IdUsuario, IdRol)
+select DIRTYDEEDS.Usuario.Id, 1 from DIRTYDEEDS.Usuario where DIRTYDEEDS.Usuario.Discriminante = 'E'and DIRTYDEEDS.Usuario.Id <> 1
+
+-- Todos los clientes migrados tienen permisos de cliente.
+insert into DIRTYDEEDS.Usuario_Rol (IdUsuario, IdRol)
+select DIRTYDEEDS.Usuario.Id, 3 from DIRTYDEEDS.Usuario where DIRTYDEEDS.Usuario.Discriminante = 'C' and DIRTYDEEDS.Usuario.Id <> 1
+
+

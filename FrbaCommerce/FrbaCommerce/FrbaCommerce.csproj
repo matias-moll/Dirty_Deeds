@@ -57,6 +57,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABMs\ABMGenerico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABMs\ABMGenerico.Designer.cs">
+      <DependentUpon>ABMGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABMs\ABMs Especificos\ABMEspecifico.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Clientes.cs" />
+    <Compile Include="ABMs\ABMs Especificos\UsuariosEmpresas.cs" />
+    <Compile Include="ABMs\ABMs Especificos\UsuariosClientes.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Direcciones.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Empresas.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Localidades.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Roles.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Rubros.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Usuarios.cs" />
+    <Compile Include="ABMs\ABMs Especificos\Visibilidades.cs" />
+    <Compile Include="ABMs\AltaGenerico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABMs\AltaGenerico.Designer.cs">
+      <DependentUpon>AltaGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABMs\PanelOperacional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABMs\PanelOperacional.Designer.cs">
+      <DependentUpon>PanelOperacional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calificar Vendedor\CalificarVendedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +139,12 @@
     <Compile Include="Gestion de Preguntas\ResponderPregunta.Designer.cs">
       <DependentUpon>ResponderPregunta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\NuevaContrasenia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\NuevaContrasenia.Designer.cs">
+      <DependentUpon>NuevaContrasenia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Soporte\Cifrado.cs" />
     <Compile Include="Comprar-Ofertar\ComprarOfertar.cs">
       <SubType>Form</SubType>
@@ -141,12 +176,6 @@
     <Compile Include="Listado Estadistico\ListadoEstadistico.Designer.cs">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
-    <Compile Include="Registro de Usuario\AltaUsuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Registro de Usuario\AltaUsuario.Designer.cs">
-      <DependentUpon>AltaUsuario.cs</DependentUpon>
-    </Compile>
     <Compile Include="Registro de Usuario\Identificacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +202,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ABMs\ABMGenerico.resx">
+      <DependentUpon>ABMGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABMs\AltaGenerico.resx">
+      <DependentUpon>AltaGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABMs\PanelOperacional.resx">
+      <DependentUpon>PanelOperacional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Calificar Vendedor\CalificarVendedor.resx">
       <DependentUpon>CalificarVendedor.cs</DependentUpon>
     </EmbeddedResource>
@@ -209,8 +247,8 @@
     <EmbeddedResource Include="Comprar-Ofertar\RealizarOferta.resx">
       <DependentUpon>RealizarOferta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Registro de Usuario\AltaUsuario.resx">
-      <DependentUpon>AltaUsuario.cs</DependentUpon>
+    <EmbeddedResource Include="Login\NuevaContrasenia.resx">
+      <DependentUpon>NuevaContrasenia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de Usuario\Identificacion.resx">
       <DependentUpon>Identificacion.cs</DependentUpon>
@@ -252,12 +290,12 @@
       <DependentUpon>Publicacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar-Editar Publicacion\TipoPublicacion.cs" />
+    <Compile Include="Soporte\Construccion Panel\Alignment.cs" />
+    <Compile Include="Soporte\Construccion Panel\HorizontalAlign.cs" />
+    <Compile Include="Soporte\Construccion Panel\PanelBuilder.cs" />
+    <Compile Include="Soporte\Construccion Panel\VerticalAlign.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ABMs\Tablas Generales.csproj">
-      <Project>{609E553C-6F43-4C32-86E1-5063DDBE5013}</Project>
-      <Name>Tablas Generales</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}</Project>
       <Name>Dal</Name>

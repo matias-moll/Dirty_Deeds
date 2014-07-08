@@ -95,12 +95,12 @@ namespace FrbaCommerce
 
             MessageBox.Show("Su compra fue realizada exitosamente! Ahora dispondra de los datos del vendedor para poder contactarse. Deberá volver a ejecutar la busqueda para poder ver los datos actualizados.");
             string discriminante = dgvPublicaciones.SelectedRows[0].Cells["Vendedor"].Value.ToString();
-            ABMs.AltaGenerico vendedor;
+            AltaGenerico vendedor;
             // Obtenemos el form a mostrar correspondiente para el tipo de usuario vendedor y lo mostramos.
             if (discriminante == "Empresa")
-                vendedor = new ABMs.AltaGenerico(new ABMs.Empresas(), usuarioVendedor.campoIdReferencia, true);
+                vendedor = new AltaGenerico(new Empresas(), usuarioVendedor.campoIdReferencia, true);
             else
-                vendedor = new ABMs.AltaGenerico(new ABMs.Clientes(), usuarioVendedor.campoIdReferencia, true);
+                vendedor = new AltaGenerico(new Clientes(), usuarioVendedor.campoIdReferencia, true);
 
             vendedor.ShowDialog(this);
         }

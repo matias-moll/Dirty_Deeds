@@ -68,9 +68,9 @@ namespace Dominio
             return DataAccessObject<Cliente>.get(idClavePrimaria);
         }
 
-        public void save()
+        public int save()
         {
-            daoCliente.insert(this);
+            return daoCliente.insert(this);
         }
 
         public void update()
