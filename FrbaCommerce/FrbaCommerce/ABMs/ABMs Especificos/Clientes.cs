@@ -12,7 +12,6 @@ namespace FrbaCommerce
 {
     public class Clientes : ABMEspecifico
     {
-        bool altaConUsuario;
         // Campos para el Cliente
         TextEdit teApellido = new TextEdit();
         TextEdit teNombre = new TextEdit();
@@ -67,6 +66,16 @@ namespace FrbaCommerce
             unUsuario.autoId = unUsuario.save();
             Usuario_Rol unaRelacionUsuarioRol = crearUsuarioRol(unUsuario);
             unaRelacionUsuarioRol.save();
+        }
+
+        public override bool pasaValidacion()
+        {
+            return (Valid.noEsVacio(teApellido) && (Valid.noEsVacio(neDocumento)));
+        }
+
+        public override string mensajeErrorValidacion()
+        {
+            return "Debe ingresar obligatoriamente los siguiente campos: Apellido y Nro. Documento";
         }
 
         private Usuario_Rol crearUsuarioRol(Usuario unUsuario)

@@ -30,6 +30,16 @@ namespace FrbaCommerce
             return new Visibilidad(teCodigo.Text, teDescripcion.Text, dcePrecio.Decimal, dcePorcentaje.Decimal, neDiasActiva.Numero);
         }
 
+        public override bool pasaValidacion()
+        {
+            return (Valid.noEsVacio(teDescripcion));
+        }
+
+        public override string mensajeErrorValidacion()
+        {
+            return "Debe ingresar obligatoriamente la descripción";
+        }
+
         public override void cargarTusDatos(int idClavePrimaria)
         {
             Visibilidad unaVisibilidad = Visibilidad.get(idClavePrimaria);

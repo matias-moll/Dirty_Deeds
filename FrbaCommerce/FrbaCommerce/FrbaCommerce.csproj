@@ -294,6 +294,7 @@
     <Compile Include="Soporte\Construccion Panel\HorizontalAlign.cs" />
     <Compile Include="Soporte\Construccion Panel\PanelBuilder.cs" />
     <Compile Include="Soporte\Construccion Panel\VerticalAlign.cs" />
+    <Compile Include="Soporte\ValidacionesGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dal\Dal.csproj">

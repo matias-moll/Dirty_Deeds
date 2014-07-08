@@ -56,24 +56,15 @@ namespace FrbaCommerce
 
         public override bool pasaValidacion()
         {
-            return (noEsVacio(teUsuario) && noEsVacio(teContrasenia) && noEsVacio(teApellido) && 
-                    (noEsVacio(neDocumento)));
+            return (Valid.noEsVacio(teUsuario) && Valid.noEsVacio(teContrasenia) && Valid.noEsVacio(teApellido) && 
+                    (Valid.noEsVacio(neDocumento)));
         }
 
         public override string mensajeErrorValidacion()
         {
             return "Debe ingresar obligatoriamente los siguiente campos: Usuario, Contraseña, Apellido y Nro. Documento";
         }
-
-        private bool noEsVacio(NumberEdit numberEdit)
-        {
-            return numberEdit.Numero != 0;
-        }
-
-        private bool noEsVacio(TextEdit textEdit)
-        {
-            return textEdit.Text.Trim() != "";
-        }
+        
 
         private void grabarUsuarioRol(int idUsuarioGrabado)
         {

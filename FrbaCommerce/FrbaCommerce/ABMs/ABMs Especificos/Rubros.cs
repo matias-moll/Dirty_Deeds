@@ -27,6 +27,16 @@ namespace FrbaCommerce
             teDescripcion.Text = unRubro.campoDescripcion;
         }
 
+        public override bool pasaValidacion()
+        {
+            return (Valid.noEsVacio(teDescripcion));
+        }
+
+        public override string mensajeErrorValidacion()
+        {
+            return "Debe ingresar obligatoriamente la descripción";
+        }
+
         protected override void grabarAlta()
         {
             // Creamos el rol y lo mandamos a grabar.

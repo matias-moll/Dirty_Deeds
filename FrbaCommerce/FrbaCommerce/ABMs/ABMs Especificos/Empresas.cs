@@ -64,6 +64,16 @@ namespace FrbaCommerce
             unaRelacionUsuarioRol.save();
         }
 
+        public override bool pasaValidacion()
+        {
+            return (Valid.noEsVacio(teRazonSocial) && (Valid.noEsVacio(ceCuit)));
+        }
+
+        public override string mensajeErrorValidacion()
+        {
+            return "Debe ingresar obligatoriamente los siguiente campos: Razon Social y Cuit";
+        }
+
         private Usuario_Rol crearUsuarioRol(Usuario unUsuario)
         {
             return new Usuario_Rol(unUsuario.autoId, 1);

@@ -89,23 +89,13 @@ namespace FrbaCommerce
 
         public override bool pasaValidacion()
         {
-            return (noEsVacio(teUsuario) && noEsVacio(teContrasenia) && noEsVacio(teRazonSocial) &&
-                    (noEsVacio(ceCuit)));
+            return (Valid.noEsVacio(teUsuario) && Valid.noEsVacio(teContrasenia) && Valid.noEsVacio(teRazonSocial) &&
+                    (Valid.noEsVacio(ceCuit)));
         }
 
         public override string mensajeErrorValidacion()
         {
             return "Debe ingresar obligatoriamente los siguiente campos: Usuario, Contraseña, Razon Social y Cuit";
-        }
-
-        private bool noEsVacio(CuitEdit cuitEdit)
-        {
-            return cuitEdit.Text.Trim() != "";
-        }
-
-        private bool noEsVacio(TextEdit textEdit)
-        {
-            return textEdit.Text.Trim() != "";
         }
 
         private Empresa crearEmpresaFromCamposGUI()
