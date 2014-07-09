@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TNGS.NetRoutines;
 
 namespace Dal
 {
@@ -10,8 +11,7 @@ namespace Dal
         override internal string formatToSql(object unValor)
         {
             DateTime unaFechaHora = (DateTime)unValor;
-            string fechaFormateada = unaFechaHora.ToString("MM/dd/yyyy HH:mm:ss");
-            return String.Format("'{0}'", fechaFormateada);
+            return Ruts.Fh(unaFechaHora);
         }
 
         override internal string makeCondition(string nombreCampo, object valorCampo)
