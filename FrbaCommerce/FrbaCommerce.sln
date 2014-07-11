@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCommerce", "FrbaCommerce\FrbaCommerce.csproj", "{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tablas Generales", "ABMs\Tablas Generales.csproj", "{609E553C-6F43-4C32-86E1-5063DDBE5013}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal", "Dal\Dal.csproj", "{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{9730C120-1F19-44C1-A71D-41B432775C6D}"
@@ -19,10 +17,6 @@ Global
 		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{609E553C-6F43-4C32-86E1-5063DDBE5013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{609E553C-6F43-4C32-86E1-5063DDBE5013}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{609E553C-6F43-4C32-86E1-5063DDBE5013}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{609E553C-6F43-4C32-86E1-5063DDBE5013}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A1FF9AA-BAE5-4BF0-A661-88123530E4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
