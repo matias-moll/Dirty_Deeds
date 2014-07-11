@@ -16,7 +16,12 @@ namespace Dal
             armaTablaTemporal = getTablaTemporalRubros(whereRubros, armaTablaTemporal);
             string select = "select COUNT(*) FROM DIRTYDEEDS.Publicacion ";
             string joins = " join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id join DIRTYDEEDS.Estado on Publicacion.IdEstado = Estado.Id ";
-            string where = " where Publicacion.IdEstado = 1 and Publicacion.StockActual > 0 and EXISTS (SELECT 1 FROM   #matTemp01 WHERE  #matTemp01.CodPublicacion = Publicacion.Codigo) ";
+            string where = " where Publicacion.IdEstado = 1 and Publicacion.StockActual > 0 "; 
+
+            // Si hay condicion de rubros agregamos la condicion de la tabla temporal.
+            if (whereRubros.Trim() !="")
+                where += " and EXISTS (SELECT 1 FROM   #matTemp01 WHERE  #matTemp01.CodPublicacion = Publicacion.Codigo) ";
+
             where = addWhereDescripcion(whereDescripcion, where);
             DataTable dtConteo = StaticDataAccess.executeQuery(String.Format("{0}{1}{2}{3}", armaTablaTemporal, select, joins, where));
 
@@ -36,7 +41,10 @@ namespace Dal
 
             string camposFinales = "SELECT  subquery.Codigo, subquery.Presentacion, subquery.StockActual, subquery.Fecha, subquery.FechaVto, subquery.Precio, CASE WHEN subquery.Tipo =  'C' THEN 'Compra Inmediata' else 'Subasta' end as Tipo, CASE WHEN subquery.AceptaPreguntas =  1 THEN 'Si' else 'No' end as Acepta_Preguntas, subquery.Visibilidad , CASE WHEN subquery.Discriminante  =  'E' THEN 'Empresa' else 'Cliente' end as Vendedor, subquery.Id_Usuario";
             string fromYSubquery = " FROM ( SELECT  top 60000 Publicacion.Codigo, Publicacion.Presentacion, Publicacion.StockActual,  Publicacion.Precio,Publicacion.Fecha,DIRTYDEEDS.Visibilidad.Descripcion as Visibilidad, Publicacion.FechaVto, Publicacion.Tipo, Publicacion.AceptaPreguntas, ROW_NUMBER() OVER (ORDER BY Visibilidad.Id) AS numero_row, Usuario.Id as Id_Usuario, Usuario.Discriminante, Visibilidad.Id as visId FROM  DIRTYDEEDS.Publicacion join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id join DIRTYDEEDS.Estado on Publicacion.IdEstado = Estado.Id join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario ";
-            string whereSubQuery = " where Publicacion.IdEstado = 1 and Publicacion.StockActual > 0  and EXISTS (SELECT 1 FROM   #matTemp01 WHERE  #matTemp01.CodPublicacion = Publicacion.Codigo)";
+            string whereSubQuery = " where Publicacion.IdEstado = 1 and Publicacion.StockActual > 0 ";
+            if (whereRubros.Trim() != "")
+                whereSubQuery += " and EXISTS (SELECT 1 FROM   #matTemp01 WHERE  #matTemp01.CodPublicacion = Publicacion.Codigo) ";
+            
             whereSubQuery = addWhereDescripcion(whereDescripcion, whereSubQuery);
             string finSubquery = " ORDER BY visId ) subquery ";
             string where = String.Format(" where numero_row between {0} and {1}", nroFilaInicio, nroFilaFin);

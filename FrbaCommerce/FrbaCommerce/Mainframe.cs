@@ -39,8 +39,6 @@ namespace FrbaCommerce
             // En este punto el usuario ya esta loggeado.
             DatosGlobales.seLoggeoElUsuario(usuarioLoggeado);
 
-            MessageBox.Show("Se ha loggeado exitosamente! Confirme y espere un momento mientras carga la aplicación");
-
             abrirDockeablesSegunFuncionalidadesHabilitadas();
         }
 

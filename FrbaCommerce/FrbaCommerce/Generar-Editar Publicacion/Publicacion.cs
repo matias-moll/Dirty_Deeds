@@ -79,16 +79,17 @@ namespace FrbaCommerce
                 MessageBox.Show("No se puede grabar una Publicación con estado Nueva, elija si quiere activarla o guardarla como borrador.");
                 return;
             }
-            if (comboSinSeleccionar(cbTipos))
+            if ((neStock.Numero < 1))
             {
-                MessageBox.Show("No se puede grabar una Publicación sin elegirle un tipo.");
+                MessageBox.Show("No se puede grabar una Publicación con Stock en 0 o negativo.");
                 return;
             }
-            if(comboSinSeleccionar(cbVisibilidades))
+            if (teDescripcion.Text.Trim() == "")
             {
-                MessageBox.Show("No se puede grabar una Publicación sin elegirle una visibilidad.");
+                MessageBox.Show("No se puede grabar una Publicación sin descripción.");
                 return;
             }
+
 
             // Pasadas las validaciones grabamos y volvemos a estado de seleccion de operacion.
             try
@@ -121,6 +122,27 @@ namespace FrbaCommerce
 
         private void gbActiva_Click(object sender, EventArgs e)
         {
+            if (comboSinSeleccionar(cbVisibilidades))
+            {
+                MessageBox.Show("No se puede activar una Publicación sin elegirle una visibilidad.");
+                return;
+            }
+            if (comboSinSeleccionar(cbTipos))
+            {
+                MessageBox.Show("No se puede grabar una Publicación sin elegirle un tipo.");
+                return;
+            }
+            if ((neStock.Numero < 1))
+            {
+                MessageBox.Show("No se puede activar una Publicación con Stock en 0 o negativo.");
+                return;
+            }
+            if (teDescripcion.Text.Trim() == "")
+            {
+                MessageBox.Show("No se puede activar una Publicación sin descripción.");
+                return;
+            }
+
             publicacionEnEdicion.estado = Estado.estados["Activa"];
             publicacionEnEdicion.estado.habilitaControlesCorrespondientes(this);
             lblEstado.Text = "Activa";

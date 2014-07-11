@@ -413,6 +413,7 @@
             this.dcePrecio.Location = new System.Drawing.Point(370, 55);
             this.dcePrecio.MaxLength = 13;
             this.dcePrecio.Name = "dcePrecio";
+            this.dcePrecio.NegativeValid = false;
             this.dcePrecio.Size = new System.Drawing.Size(100, 20);
             this.dcePrecio.TabIndex = 1;
             this.dcePrecio.Text = "0.00";

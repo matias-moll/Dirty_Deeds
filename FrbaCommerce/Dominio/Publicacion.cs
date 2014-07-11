@@ -85,7 +85,7 @@ namespace Dominio
         {
             int cantidad = ConsultasDinamicas.getCantidadPublicacionesSegunFiltro(whereRubros, whereDescripcion);
             if (cantidad == 0)
-                throw new Exception("No se pudo obtener el conteo de las publicaciones segun su filtro");
+                throw new Exception("No se encontró ninguna publicacion segun el filtro especificado");
 
             return cantidad;
         }
