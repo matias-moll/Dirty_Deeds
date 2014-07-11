@@ -202,7 +202,8 @@ GO
 -- Vendedores con calificacion Promedio
 CREATE VIEW DIRTYDEEDS.Calificacion_Vendedores(IdUsuario,Vendedor,CalificacionPromedio)
 AS
-SELECT IdCalificado, vendedores.vendedor, SUM(CantidadEstrellas) / COUNT(IdCalificado) as promedio FROM DIRTYDEEDS.Calificacion, DIRTYDEEDS.Vendedores as vendedores
+SELECT IdCalificado, vendedores.vendedor, SUM(CantidadEstrellas) / COUNT(IdCalificado) as promedio 
+FROM DIRTYDEEDS.Calificacion, DIRTYDEEDS.Vendedores as vendedores
 WHERE IdCalificado = vendedores.IdUsuario
 GROUP BY IdCalificado, vendedores.vendedor
 GO
@@ -386,12 +387,13 @@ create procedure DIRTYDEEDS.VendedoresConMayorFacturacion(@Anio int, @MesInicio 
 as
 begin
 	select top 5 
-	CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
-	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
-	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
-	Usuario.Id as Id_Usuario, Factura.Total from DIRTYDEEDS.Usuario
-	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
-	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	max(CASE WHEN Cliente.Id is Null THEN 'Empresa' else 'Cliente' end) as Tipo_Vendedor, 
+	max(CASE WHEN Cliente.Id is Null THEN Empresa.RazonSocial else Cliente.Apellido end) as Identificacion,
+	Usuario.Id as Id_Usuario, 
+	Factura.Total 
+	from DIRTYDEEDS.Usuario
+	left outer join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	left outer join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
 	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
 	join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
 	join DIRTYDEEDS.Factura on Factura.Numero = Item.NumFactura
@@ -410,12 +412,13 @@ begin
 	SELECT CodPublicacion, MAX(Fecha) as FechaMaxima, MAX(Monto) as MontoMaximo INTO #OfertasMaximas FROM DIRTYDEEDS.OfertaCompra  WHERE Monto != 0 GROUP By CodPublicacion
 
 	select top 5 
-	CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
-	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
-	CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
-	 COUNT(*) as No_Vendidos from DIRTYDEEDS.Usuario
-	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
-	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+	max(CASE WHEN Cliente.Id is Null THEN 'Empresa' else 'Cliente' end) as Tipo_Vendedor, 
+	max(CASE WHEN Cliente.Id is Null THEN Empresa.RazonSocial else Cliente.Apellido end) as Identificacion,
+	COUNT(*) as No_Vendidos,
+	Usuario.Id as Id_Usuario 
+	from DIRTYDEEDS.Usuario
+	left outer join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
+	left outer join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
 	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
 	join DIRTYDEEDS.Visibilidad on Publicacion.IdVisibilidad = Visibilidad.Id
 	where Publicacion.Codigo not in -- El codigo de publicacion no tiene que estar en las ventas.
@@ -441,8 +444,8 @@ begin
 	and year(Publicacion.Fecha) = @Anio
 	and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
 	and Visibilidad.Id = @IdVisibilidad
-	group by  IdUsuario
-	order by COUNT(*) desc
+	group by  Usuario.Id
+	order by No_Vendidos desc
 end
 go
 
@@ -450,21 +453,27 @@ go
 CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones(@Anio int, @MesInicio int, @MesFin int)
 AS
 BEGIN
+	IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE ID = OBJECT_ID(N'tempdb..#tempPromedioEstrellas')) BEGIN DROP TABLE #tempPromedioEstrellas END
 	select top 5
-		CASE WHEN max(Cliente.Id) is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
-		CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.RazonSocial) else max(Cliente.Apellido) end as Identificacion,
-		CASE WHEN max(Cliente.Id) is Null THEN max(Empresa.Cuit) else  max(Cliente.Documento) end as Dni_O_Cuit,
-		sum(Calificacion.CantidadEstrellas) as Sumatoria_Estrellas, max(Usuario.Id) as Id_Usuario
-	FROM DIRTYDEEDS.Vendedores as vendedores
-	join DIRTYDEEDS.Calificacion on Calificacion.IdCalificado = vendedores.IdUsuario
-	join DIRTYDEEDS.Usuario on vendedores.IdUsuario = Usuario.Id
-	join DIRTYDEEDS.Cliente on Cliente.Id = Usuario.IdReferencia
-	join DIRTYDEEDS.Empresa on Empresa.Id = Usuario.IdReferencia
+		avg(Calificacion.CantidadEstrellas) as Promedio_Estrellas, 
+		Usuario.Id as Id_Usuario,
+		MAX(Usuario.IdReferencia) as Id_Referencia
+		into #tempPromedioEstrellas
+	FROM DIRTYDEEDS.Usuario 
+	join DIRTYDEEDS.Calificacion on Calificacion.IdCalificado = Usuario.Id
 	join DIRTYDEEDS.Publicacion on Publicacion.IdUsuario = Usuario.Id
-	where year(Publicacion.Fecha) = @Anio
-		and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
+	where year(Publicacion.Fecha) = @Anio and MONTH(Publicacion.Fecha) between @MesInicio and @MesFin
 	group by Usuario.Id
-	ORDER BY sum(CantidadEstrellas) desc
+	ORDER BY Promedio_Estrellas desc
+	
+	
+	select CASE WHEN Cliente.Id is Null THEN 'Empresa' else 'Cliente' end as Tipo_Vendedor, 
+		CASE WHEN Cliente.Id is Null THEN Empresa.RazonSocial else Cliente.Apellido end as Identificacion,
+		#tempPromedioEstrellas.Promedio_Estrellas as Promedio_Estrellas,
+		#tempPromedioEstrellas.Id_Usuario as Id_usuario
+	from #tempPromedioEstrellas
+	left outer join DIRTYDEEDS.Cliente on Cliente.Id = #tempPromedioEstrellas.Id_Referencia
+	left outer join DIRTYDEEDS.Empresa on Empresa.Id = #tempPromedioEstrellas.Id_Referencia
 END
 GO
 
@@ -490,6 +499,12 @@ GO
 -- Indices
 CREATE INDEX IdVisibilidad
 ON DIRTYDEEDS.Publicacion (IdVisibilidad)
+
+CREATE INDEX IdCalificado
+ON DIRTYDEEDS.Calificacion (IdCalificado)
+
+CREATE INDEX IdReferencia
+ON DIRTYDEEDS.Usuario (IdReferencia)
 
 
 

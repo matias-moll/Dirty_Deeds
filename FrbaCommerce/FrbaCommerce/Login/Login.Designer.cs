@@ -85,6 +85,8 @@
             this.teContrasenia.Name = "teContrasenia";
             this.teContrasenia.Size = new System.Drawing.Size(143, 20);
             this.teContrasenia.TabIndex = 3;
+            this.teContrasenia.UseSystemPasswordChar = true;
+            this.teContrasenia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.teContrasenia_KeyPress);
             // 
             // teUsuario
             // 

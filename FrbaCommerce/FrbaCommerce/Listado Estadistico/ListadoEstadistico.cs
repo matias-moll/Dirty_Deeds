@@ -35,6 +35,7 @@ namespace FrbaCommerce
             cbTipos.DataSource = tipos;
             cbTipos.DisplayMember = "descripcion";
             cbTipos.ValueMember = "valor";
+            cbTipos.SelectedIndex = 1;
 
         }
 

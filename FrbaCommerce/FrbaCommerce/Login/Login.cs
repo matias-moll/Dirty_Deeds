@@ -111,5 +111,12 @@ namespace FrbaCommerce
             this.Close();
         }
 
+        private void teContrasenia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Si es el enter, disparamos la busqueda.
+            if (e.KeyChar == '\r')
+                gbAceptar_Click(sender, new EventArgs());
+        }
+
     }
 }
