@@ -18,7 +18,7 @@ namespace FrbaCommerce
         {
             InitializeComponent();
             // Inicializamos la pregunta.
-            pregunta = new Publicacion_Pregunta(codPublicacion);
+            pregunta = new Publicacion_Pregunta(codPublicacion, DatosGlobales.usuarioLoggeado.autoId);
             pregunta.campoNumPregunta = pregunta.getSiguienteNroPreguntaFromPrototype();
         }
 

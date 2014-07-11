@@ -49,7 +49,7 @@ namespace FrbaCommerce
                 return;
             }
 
-            if (getDatos.cantidadPublicaciones > dgvVentas.Rows.Count)
+            if (getDatos.cantidadPublicaciones >= dgvVentas.Rows.Count)
             {
                 MessageBox.Show("No se puede rendir mas items de la cantidad que se muestra en la grilla");
                 return;

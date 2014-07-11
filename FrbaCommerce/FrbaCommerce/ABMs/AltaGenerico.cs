@@ -44,10 +44,14 @@ namespace FrbaCommerce
         {
             idObtenido = resolver.getIdParaDevolver();
 
-            if (!resolver.pasaValidacion())
+            // Si no es solo lectura, validamos el alta. Si es solo lectura no se debe validar nada.
+            if (!controlesSoloLectura)
             {
-                MessageBox.Show(resolver.mensajeErrorValidacion());
-                return;
+                if (!resolver.pasaValidacion())
+                {
+                    MessageBox.Show(resolver.mensajeErrorValidacion());
+                    return;
+                }
             }
 
             this.DialogResult = DialogResult.OK;

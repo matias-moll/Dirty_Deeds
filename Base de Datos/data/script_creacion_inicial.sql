@@ -166,6 +166,7 @@ create table Publicacion_Pregunta
 (
 	CodPublicacion int foreign key references Publicacion(Codigo),
 	NumPregunta int,
+	IdUsuarioPreguntador int foreign key references Usuario(Id),
 	Pregunta nvarchar(255) not null default '',
 	Respuesta nvarchar(255)not null default '',
 	primary key (CodPublicacion, NumPregunta)
@@ -245,12 +246,25 @@ go
 create procedure DIRTYDEEDS.Preguntas(@IdUsuarioLoggeado int)
 as
 begin  
+	select CodPublicacion as Codigo_Publicacion, NumPregunta as Numero_Pregunta, Pregunta, Respuesta,
+			IdUsuarioPreguntador as Id_Preguntador, Presentacion as Descripcion_Publicacion, StockActual, Fecha, Precio 
+	from DIRTYDEEDS.Publicacion_Pregunta 
+		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Publicacion_Pregunta.CodPublicacion
+		join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario
+	where IdUsuario = @IdUsuarioLoggeado 
+end
+go
+
+-- Preguntas respondidas dado un usuario
+create procedure DIRTYDEEDS.PreguntasRespondidas(@IdUsuarioLoggeado int)
+as
+begin  
 	select CodPublicacion as Codigo_Publicacion, NumPregunta as Numero_Pregunta, Pregunta, 
 			Respuesta, Presentacion as Descripcion_Publicacion, StockActual, Fecha, Precio 
 	from DIRTYDEEDS.Publicacion_Pregunta 
 		join DIRTYDEEDS.Publicacion on Publicacion.Codigo = Publicacion_Pregunta.CodPublicacion
 		join DIRTYDEEDS.Usuario on Usuario.Id = Publicacion.IdUsuario
-	where IdUsuario = @IdUsuarioLoggeado 
+	where Publicacion_Pregunta.IdUsuarioPreguntador = @IdUsuarioLoggeado and Publicacion_Pregunta.Respuesta != ''
 end
 go
 
@@ -360,25 +374,22 @@ begin
 select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, Visibilidad.Precio as Costo, 
 		'Publicación' as Tipo, 1 as Cantidad, Publicacion.Fecha 
 from DIRTYDEEDS.Publicacion 
-left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
 join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
-where Item.NumFactura is null
-	and Publicacion.IdEstado = 4
-	and Publicacion.IdUsuario = @IdUsuarioLoggeado
+join DIRTYDEEDS.OfertaCompra on OfertaCompra.CodPublicacion = Publicacion.Codigo
+where Publicacion.StockOriginal > (select count(*) from DIRTYDEEDS.Item where Item.CodigoPublicacion = Publicacion.Codigo)
+	and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
 	
 union
 
 -- Lo unimos con las publicaciones vendidas (join con la tabla temporal precalculada) que no hayan sido rendidas.
 select Publicacion.Codigo, Publicacion.Presentacion, Visibilidad.Descripcion, 
-		(Visibilidad.Porcentaje * Publicacion.Precio) as Costo,'Comision Venta' as Tipo, 1 as Cantidad, Publicacion.Fecha 
+		(Visibilidad.Porcentaje * Publicacion.Precio) as Costo,'Comision Venta' as Tipo, 1 as Cantidad, 
+		Publicacion.Fecha 
 from DIRTYDEEDS.Publicacion 
-left outer join DIRTYDEEDS.Item on Item.CodigoPublicacion = Publicacion.Codigo
 join DIRTYDEEDS.Visibilidad on Visibilidad.Id = Publicacion.IdVisibilidad
-where Item.NumFactura is null
-	and Publicacion.IdEstado = 4
-	and Publicacion.Vendida = 'S'
-	and Publicacion.IdUsuario = @IdUsuarioLoggeado
-	
+join DIRTYDEEDS.OfertaCompra on OfertaCompra.CodPublicacion = Publicacion.Codigo
+where Publicacion.StockOriginal > (select count(*) from DIRTYDEEDS.Item where Item.CodigoPublicacion = Publicacion.Codigo)
+	and OfertaCompra.IdUsuario = @IdUsuarioLoggeado
 end
 go
 
@@ -448,7 +459,6 @@ begin
 	order by No_Vendidos desc
 end
 go
-
 
 CREATE PROCEDURE DIRTYDEEDS.VendedoresCalificaciones(@Anio int, @MesInicio int, @MesFin int)
 AS
@@ -637,6 +647,14 @@ SELECT ROW_NUMBER() OVER(ORDER BY (SELECT NULL)) as NumItem,Item_Factura_Monto, 
 FROM gd_esquema.Maestra
 WHERE Item_Factura_Monto IS NOT NULL
 ORDER BY Factura_Nro
+
+update DIRTYDEEDS.Publicacion 
+set StockActual = StockActual - (select MAX(Item.cantidad) from DIRTYDEEDS.Item where Item.CodigoPublicacion = Publicacion.Codigo)
+
+update DIRTYDEEDS.Item
+set Descripcion = 'Venta' where Item.Cantidad > 1
+update DIRTYDEEDS.Item
+set Descripcion = 'Comision' where Item.Cantidad = 1
 
 -- Rubros
 INSERT INTO DIRTYDEEDS.Rubro(Descripcion)

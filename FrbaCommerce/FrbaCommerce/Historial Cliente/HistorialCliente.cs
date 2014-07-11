@@ -28,7 +28,10 @@ namespace FrbaCommerce
                 OfertaCompra compra = new OfertaCompra();
                 compra.campoIdUsuario = DatosGlobales.usuarioLoggeado.autoId;
                 compra.campoDiscriminante = "C";
-                dgvHistorial.DataSource = compra.upFullByPrototype();
+                DataTable compras = compra.upFullByPrototype();
+                if (compras.Rows.Count < 1)
+                    throw new Exception("No cuenta con ninguna compra");
+                dgvHistorial.DataSource = compras;
             }
             catch (Exception excep)
             {
@@ -51,6 +54,8 @@ namespace FrbaCommerce
                 DataTable ofertas = oferta.upFullByPrototype();
                 oferta.campoCantidad = 1;
                 DataTable ofertasGanadoras = oferta.upFullByPrototype();
+                if (ofertasGanadoras.Rows.Count < 1)
+                    throw new Exception("No cuenta con ninguna oferta");
                 foreach(DataRow drOferta in ofertasGanadoras.Rows)
                     ofertas.Rows.Add(drOferta);
                 dgvHistorial.DataSource = ofertas;
@@ -68,7 +73,7 @@ namespace FrbaCommerce
         {
             try
             {
-                dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.campoIdReferencia);
+                dgvHistorial.DataSource = Calificacion.getCalificacionesDadasYRecibidas(DatosGlobales.usuarioLoggeado.autoId);
             }
             catch (Exception excep)
             {

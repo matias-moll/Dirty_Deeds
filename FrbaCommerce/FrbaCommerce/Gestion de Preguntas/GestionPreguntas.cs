@@ -37,6 +37,7 @@ namespace FrbaCommerce
             preguntaRespondida.campoCodPublicacion = (int)dgvPreguntas.SelectedRows[0].Cells["Codigo_Publicacion"].Value;
             preguntaRespondida.campoNumPregunta = (int)dgvPreguntas.SelectedRows[0].Cells["Numero_Pregunta"].Value;
             preguntaRespondida.campoPregunta = dgvPreguntas.SelectedRows[0].Cells["Pregunta"].Value.ToString();
+            preguntaRespondida.campoIdUsuarioPreguntador = (int)dgvPreguntas.SelectedRows[0].Cells["Id_Preguntador"].Value;
             preguntaRespondida.campoRespuesta = responder.respuestaObtenida;
             preguntaRespondida.update();
 
@@ -56,9 +57,10 @@ namespace FrbaCommerce
             catch (Exception excep)
             {
                 MessageBox.Show(excep.Message);
+                estadoBotonera();
                 return;
             }
-            estadoGrillaOperacional(false);
+            estadoGrillaOperacional(true);
         }
 
         private void gbVerRespuestas_Click(object sender, EventArgs e)
@@ -70,6 +72,7 @@ namespace FrbaCommerce
             catch (Exception excep)
             {
                 MessageBox.Show(excep.Message);
+                estadoBotonera();
                 return;
             }
             estadoGrillaOperacional(false);

@@ -13,6 +13,7 @@ namespace Dominio
 
         public int campoCodPublicacion { get; set; }
         public int campoNumPregunta { get; set; }
+        public int campoIdUsuarioPreguntador { get; set; }
         public string campoPregunta { get; set; }
         public string campoRespuesta { get; set; }
 
@@ -20,9 +21,10 @@ namespace Dominio
 
         public Publicacion_Pregunta() { daoPublicacion_Pregunta = new DataAccessObject<Publicacion_Pregunta>(); }
 
-        public Publicacion_Pregunta( int codPublicacion) : this()
+        public Publicacion_Pregunta( int codPublicacion, int idUsuarioPreguntador) : this()
         {
             campoCodPublicacion = codPublicacion;
+            campoIdUsuarioPreguntador = idUsuarioPreguntador;
             campoPregunta = "";
             campoRespuesta = "";
         }
@@ -42,7 +44,7 @@ namespace Dominio
 
         public static DataTable getRespuestas(int idUsuario)
         {
-            DataTable dtRespuestas = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.Preguntas", idUsuario);
+            DataTable dtRespuestas = StaticDataAccess.executeSPConParametroUsuarioLoggeado("DIRTYDEEDS.PreguntasRespondidas", idUsuario);
             DataRow[] drsRespuestas = dtRespuestas.Select("Respuesta <> ''");
             if (drsRespuestas.Count() < 1)
                 throw new Exception("No cuenta con ninguna pregunta respondida");

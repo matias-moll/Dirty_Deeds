@@ -53,11 +53,12 @@ namespace FrbaCommerce
         {
             try
             {
-                dgvCompras.DataSource = Calificacion.getComprasYOfertasConCalificacionPendiente(DatosGlobales.usuarioLoggeado.campoIdReferencia);
+                dgvCompras.DataSource = Calificacion.getComprasYOfertasConCalificacionPendiente(DatosGlobales.usuarioLoggeado.autoId);
             }
             catch (Exception excep)
             {
                 MessageBox.Show(excep.Message);
+                estadoBotonera();
                 return;
             }
             estadoGrillaOperacional();
